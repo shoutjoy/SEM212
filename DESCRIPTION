@@ -15,7 +15,9 @@ Imports:
   knitr (>= 1.45),
   ggplot2 (>= 3.4.4),
   magrittr (>= 2.0.3),
-  lavaan (>= 0.6-16)
+  lavaan (>= 0.6-16),
+  emmeans (>=1.9.0)
+  
 Suggests:
   broom (>= 1.0.5),
   httpuv (>= 1.6.13),

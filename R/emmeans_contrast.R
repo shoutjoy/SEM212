@@ -68,12 +68,12 @@ emmeans_contrast = function(aov_data, var="", ...,
       str_split("~") %>% unlist()
     DV_name = aov_formula[3]
 
-    n_data <- aov_data %>% tidy()
+    n_data <- aov_data %>% broom::tidy()
     var1 = n_data[1,1] %>% unlist()
     var2 = n_data[2,1]%>% unlist()
 
     EM = aov_data %>%
-      emmeans(specs = c(var1, var2)) %>%
+      emmeans::emmeans(specs = c(var1, var2)) %>%
       data.frame()
 
     EM <- EM%>%
@@ -83,7 +83,7 @@ emmeans_contrast = function(aov_data, var="", ...,
 
     if(nrow(EM)==4){ #2*2 anova
       Contrast = aov_data %>%
-        emmeans(specs = c(var1, var2)) %>%
+        emmeans::emmeans(specs = c(var1, var2)) %>%
         contrast(list(
           "m1-m2: sme of Var1(1st)" = c(1,-1,0,0),
           "m3-m4: sme of Var1(2nd)" = c(0,0,1,-1),
@@ -94,8 +94,8 @@ emmeans_contrast = function(aov_data, var="", ...,
 
     }else if(nrow(EM)==6){  # 2*3 anova
       Contrast = aov_data %>%
-        emmeans(specs = c(var1, var2)) %>%
-        contrast(list(
+        emmeans::emmeans(specs = c(var1, var2)) %>%
+        emmeans::contrast(list(
           "m1-m2-m3+m4: Interaction 1" = c(1,-1,-1,1,0,0),
           "m1-m2-m5+m6: Interaction 2" = c(1,-1,0,0,-1,1),
           "m3-m4-m5+m6: Interaction 3" = c(0,0, 1,-1,-1,1),
@@ -137,7 +137,7 @@ emmeans_contrast = function(aov_data, var="", ...,
                  show.legend = T, size= 4)+
       geom_line(aes(group = v1, linetype= v1),
                 linewidth=0.8, show.legend = F)+
-      geom_text_repel(aes(label= round(emmean,2)),
+      ggrepel::geom_text_repel(aes(label= round(emmean,2)),
                       vjust = vjust, hjust = hjust, size=5)+
       labs(x = variable2,
            color = variable1,
@@ -172,11 +172,11 @@ emmeans_contrast = function(aov_data, var="", ...,
 
 
     EM = aov_data %>%
-      emmeans(specs = specs0) %>%
+      emmeans::emmeans(specs = specs0) %>%
       data.frame()
 
     EM <- EM%>%
-      mutate(mu =c(paste0("m", 1:(nrow(EM)) ))) %>%
+      dplyr::mutate(mu =c(paste0("m", 1:(nrow(EM)) ))) %>%
       dplyr::select(8,1:7) %>% tibble()
 
 
