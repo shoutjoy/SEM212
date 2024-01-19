@@ -4,27 +4,10 @@
 \alias{Freq_table}
 \title{Freq_table  Frequency output function------------}
 \usage{
-Freq_table(
-  data,
-  format = "markdown",
-  title = "Frequency output function",
-  sort = FALSE,
-  prop = TRUE,
-  arrange = ""
-)
+Freq_table(data)
 }
 \arguments{
 \item{data}{data.frame}
-
-\item{format}{markdown}
-
-\item{title}{Frequency output function}
-
-\item{sort}{data sort}
-
-\item{prop}{add proportion}
-
-\item{arrange}{desc}
 }
 \description{
 Freq_table  Frequency output function------------
