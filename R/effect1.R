@@ -46,9 +46,6 @@
 #' }
 #'
 #'
-#'
-#'
-#'
 effect1 <-function(x,format="markdown",op1="~",op2=":=",
                    what="std",
                    digits=3, layout = "tree2", curve=1,
