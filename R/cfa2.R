@@ -14,6 +14,8 @@
 #' @param var_name new text name default NULL
 #' @param digits value rounding
 #' @param res result type
+#'
+#'
 #' @examples
 #' # example code
 #' \dontrun{

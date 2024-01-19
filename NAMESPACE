@@ -2,5 +2,6 @@
 
 export(AVE)
 export(CompareFit_diff)
+export(HTMT)
 export(cfa2)
 export(markdown_table)
