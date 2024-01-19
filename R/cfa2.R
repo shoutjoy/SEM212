@@ -14,6 +14,52 @@
 #' @param var_name new text name default NULL
 #' @param digits value rounding
 #' @param res result type
+#' @examples
+#' # example code
+#' \dontrun{
+#'
+#' library(lavaan)
+#'  model1 <- '
+#'  # measurement model
+#'    ind60 =~ x1 + x2 + x3
+#'    dem60 =~ y1 + y2 + y3 + y4
+#'    dem65 =~ y5 + y6 + y7 + y8
+#'  # regressions
+#'    dem60 ~ ind60
+#'    dem65 ~ ind60 + dem60
+#'  # residual correlations
+#'    y1 ~~ y5
+#'    y2 ~~ y4 + y6
+#'    y3 ~~ y7
+#'    y4 ~~ y8
+#'    y6 ~~ y8
+#'    '
+#'
+#' fit1 <- sem(model1, data = PoliticalDemocracy)
+#' # summary(fit2, standardized = TRUE)
+#' model2 <- '
+#'  # measurement model
+#'    ind60 =~ x1 + x2 + x3
+#'    dem60 =~ y1 + y2 + y3 + y4
+#'    dem65 =~ y5 + y6 + y7 + y8
+#'  # regressions
+#'    dem60 ~ ind60
+#'    dem65 ~ ind60 + dem60
+#'    '
+#'
+#' fit2 <- sem(model2, data = PoliticalDemocracy)
+#' # summary(fit2, standardized = TRUE)
+#'
+#' # if you wnat HTMT value, input model and dataset
+#' cfa2(fit, dataset = PoliticalDemocracy, model = model )
+#' #compare model fit and different values
+#' CompareFit_diff(fit1, fit2)
+#'
+#' # AVE calculatin by hand
+#' AVE(fit)
+
+#' }
+#'
 
 #cfa2 CFA분석함수----
 cfa2 <- function(x, format="markdown",

@@ -71,3 +71,10 @@ markdown_table(
 \description{
 A tool that outputs data to the viewer
 }
+\examples{
+# example code
+
+  \dontrun{
+  markdown_table(mtcars[1:5,], table="minimal")
+  }
+}

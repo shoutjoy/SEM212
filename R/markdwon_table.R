@@ -20,7 +20,12 @@
 #' @param valign valign
 #' @param position position
 #' @param centering Align cener in Table
-#' @example markdown_table(mtcars[1:5,], table="minimal")
+#' @examples
+#' # example code
+#'
+#'   \dontrun{
+#'   markdown_table(mtcars[1:5,], table="minimal")
+#'   }
 
 
 
