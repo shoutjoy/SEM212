@@ -10,11 +10,11 @@
 #'
 Freq_table <- function(data){
   res <-  data%>% table() %>% as.data.frame() %>%
-             mutate("Proportion(%)" = paste(round(Freq/length(data)*100,2),"%"))%>%
-             arrange(desc(Freq)) %>%
-             `colnames<-`(c("Variable","Freq","Prop"))
+    mutate("Proportion(%)" = paste(round(Freq/length(data)*100,2),"%"))%>%
+    arrange(desc(Freq))%>%`colnames<-`(c("Variable","Freq","Prop"))
   res
 }
+
 
 
 # Freq_table <- function(data,
