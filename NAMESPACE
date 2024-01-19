@@ -3,6 +3,8 @@
 export(AVE)
 export(CompareFit_diff)
 export(Compare_Fit)
+export(Compare_grp_effect)
+export(Freq_table)
 export(HTMT)
 export(MeasurementInvariance)
 export(Modindices)
