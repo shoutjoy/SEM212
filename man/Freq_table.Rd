@@ -2,7 +2,7 @@
 % Please edit documentation in R/Freq_table.R
 \name{Freq_table}
 \alias{Freq_table}
-\title{Freq_table  Frequency output function------------}
+\title{Title}
 \usage{
 Freq_table(
   data,
@@ -15,7 +15,27 @@ Freq_table(
 }
 \arguments{
 \item{data}{data.frame}
+
+\item{format}{markdown, html}
+
+\item{title}{your name}
+
+\item{sort}{sorting default FALSE}
+
+\item{prop}{default TRUE}
+
+\item{arrange}{input 'desc' . default none ""}
+}
+\value{
+table
 }
 \description{
-Freq_table  Frequency output function------------
+Title
+}
+\examples{
+\dontrun{
+mtcars$am\%>\% SEM212::Freq_table()
+}
+
+
 }
