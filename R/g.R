@@ -1,5 +1,3 @@
-
-
 #' Googole Translate korean to english
 #'
 #' @param text input your text
