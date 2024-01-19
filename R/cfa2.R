@@ -55,8 +55,44 @@
 #' #compare model fit and different values
 #' CompareFit_diff(fit1, fit2)
 #'
+#' # model fit
+#' cfa2(fit, dataset = PoliticalDemocracy, model = model,
+#'      res =  "modelfit")
+#'
+#' # item validattiy
+#' cfa2(fit, dataset = PoliticalDemocracy, model = model,
+#'      res =  "loadings")
+#'
+#' # Internal consistency
+#' cfa2(fit, dataset = PoliticalDemocracy, model = model,
+#'      res =  "alpha")
+#'
+# Convergent validity
+#' cfa2(fit, dataset = PoliticalDemocracy, model = model,
+#'      res =  "CR_AVE")
+#'
+#' # Discriminant
+#' cfa2(fit, dataset = PoliticalDemocracy, model = model,
+#'      res =  "Discriminant")
+#'
+#' # HTMT
+#'
+#' cfa2(fit, dataset = PoliticalDemocracy, model = model,
+#'      format="markdown",
+#'      res =  "htmt")
+#'
+#' cfa2(fit, dataset = PoliticalDemocracy, model = model,
+#'      format="html",
+#'      res =  "htmt")%>%
+#'   kable_minimal(full_width =F)
+#'
+#' # structure correlation
+#' cfa2(fit, dataset = PoliticalDemocracy, model = model,
+#'      res =  "str_cor")
+
 #' # AVE calculatin by hand
 #' AVE(fit)
+#'
 
 #' }
 #'
