@@ -1,28 +1,18 @@
 #' The heterotrait-monotrait ratio of correlations (HTMT).
-
-
-
-# The heterotrait-monotrait ratio of correlations (HTMT).
-# 이종특성 -단일 특성 상관 관계 비율(HTMT)
-#' Title
-#'
-#' @param model lavaan model syntax
-#' @param dataset data.frame dataset
-#' @param format "markdown' and 'html' and %>% kableExtra::kable_classic()
+#' @param model 	lavaan model.syntax of a confirmatory factor analysis model where at least two factors are required for indicators measuring the same construct.
+#' @param dataset A data.frame or data matrix
+#' @param format 'markdown' and 'html' and kableExtra::kable_classic()
 #' @param digits round default 3 digits
-#' @param sample.cov  cov matrix
-#' @param missing fill listwise
-#' @param ordered default NULL
-#' @param absolute default NULL
-#' @param htmt2 default NULL
+#' @param sample.cov  A covariance or correlation matrix can be used, instead of data, to estimate the HTMT values.
+#' @param missing If "listwise", cases with missing values are removed listwise from the data frame. If "direct" or "ml" or "fiml" and the estimator is maximum likelihood, an EM algorithm is used to estimate the unrestricted covariance matrix (and mean vector). If "pairwise", pairwise deletion is used. If "default", the value is set depending on the estimator and the mimic option (see details in lavCor).
+#' @param ordered Character vector. Only used if object is a data.frame. Treat these variables as ordered (ordinal) variables. Importantly, all other variables will be treated as numeric (unless is.ordered in data). (see also lavCor)
+#' @param absolute logical indicating whether HTMT values should be estimated based on absolute correlations (default is TRUE). This is recommended for HTMT but required for HTMT2 (so silently ignored).
+#' @param htmt2 logical indicating whether to use the geometric mean (default, appropriate for congeneric indicators) or arithmetic mean (which assumes tau-equivalence).
 #'
-#' @return
-#' @export
 #'
 #' @examples
+#' # example code
 #' \dontrun{
-#'
-#'
 #' library(lavaan)
 #' model1 <- '
 #'   # measurement model
@@ -44,13 +34,22 @@
 #' # summary(fit2, standardized = TRUE)
 
 #' HTMT(model = model1, dataset = PoliticalDemocracy)
+#' ## covariance
+#' HS.cov <- cov(HolzingerSwineford1939[, paste0("x", 1:9)])
+#' ## HTMT using arithmetic mean
+#' htmt(HS.model, sample.cov = HS.cov, htmt2 = FALSE)
 #' }
 #'
+#' @export
+
 HTMT <- function(model= NA,
                  dataset=NA,
-                 format="markdown", digits= 3,
-                 sample.cov = NULL, missing = "listwise",
-                 ordered = NULL, absolute = TRUE,
+                 format="markdown",
+                 digits= 3,
+                 sample.cov = NULL,
+                 missing = "listwise",
+                 ordered = NULL,
+                 absolute = TRUE,
                  htmt2 = TRUE
 ){
   library(semTools)
@@ -60,24 +59,25 @@ HTMT <- function(model= NA,
   if( is.character(model)==TRUE |
       is.data.frame(dataset)==TRUE){
 
-    options(knitr.kable.NA = '') #NA감추기
+    options(knitr.kable.NA = '') # hide NA
 
-    #dataframe생성
-    htmt0 <- semTools::htmt(model, dataset) %>%
+    # generate data.frame
+    htmt0 <- semTools::htmt(model, dataset,sample.cov = NULL, missing = "listwise",
+                            ordered = NULL, absolute = TRUE, htmt2 = TRUE) %>%
       as.data.frame()
 
-    htmt0[lower.tri(htmt0)==FALSE] <- 0 #대각성분을 0으로 만들기
-    htmt0NA  <- htmt0 #NA데이터 처리
-    htmt0NA[lower.tri(htmt0)==FALSE] <- NA   #상위성분 NA로 변경
-    htmt1 <- htmt0 %>%   #유의성값 만들기
-      mutate(Max = apply(htmt0, 1, max, na.rm=T),  #최댓값
-             dis = ifelse(0.9 - Max== 0.9, 0, 0.9 - Max),  #판별
-             sig = ifelse(0.9- Max >= 0,"*","ns")) #유의성
+    htmt0[lower.tri(htmt0)==FALSE] <- 0 # diag to 0
+    htmt0NA  <- htmt0 #NA data
+    htmt0NA[lower.tri(htmt0)==FALSE] <- NA   # upper
+    htmt1 <- htmt0 %>%
+      dplyr::mutate(Max = apply(htmt0, 1, max, na.rm=T),  #max value
+             dis = ifelse(0.9 - Max== 0.9, 0, 0.9 - Max),  #discriminant
+             sig = ifelse(0.9- Max >= 0,"*","ns")) #sig
 
     htmt <- htmt1  %>%
-      kable(format=format, digits=digits,
+      knitr::kable(format = format,
+            digits = digits,
             caption="The heterotrait-monotrait ratio of correlations (HTMT).
-          이종 특성 -단일 특성 상관 관계 비율(HTMT)
           All correalation < 0.9 --> discriminant Accept(robusrst)
           general accept: < 1
           (Henseler, Ringlet & Sarstedt, 2015)
@@ -90,9 +90,9 @@ HTMT <- function(model= NA,
 
   }
 
-  res = list(htmt,    #판별값
+  res = list(htmt,
              semTools::htmt(model = model, data=dataset) %>%
-               as.data.frame()   )#오리지널값
+               as.data.frame()   )#
   res
 }
 

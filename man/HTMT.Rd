@@ -2,8 +2,7 @@
 % Please edit documentation in R/HTMT.R
 \name{HTMT}
 \alias{HTMT}
-\title{The heterotrait-monotrait ratio of correlations (HTMT).
-Title}
+\title{The heterotrait-monotrait ratio of correlations (HTMT).}
 \usage{
 HTMT(
   model = NA,
@@ -18,32 +17,30 @@ HTMT(
 )
 }
 \arguments{
-\item{model}{lavaan model syntax}
+\item{model}{lavaan model.syntax of a confirmatory factor analysis model where at least two factors are required for indicators measuring the same construct.}
 
-\item{dataset}{data.frame dataset}
+\item{dataset}{A data.frame or data matrix}
 
-\item{format}{"markdown' and 'html' and %>% kableExtra::kable_classic()}
+\item{format}{'markdown' and 'html' and kableExtra::kable_classic()}
 
 \item{digits}{round default 3 digits}
 
-\item{sample.cov}{cov matrix}
+\item{sample.cov}{A covariance or correlation matrix can be used, instead of data, to estimate the HTMT values.}
 
-\item{missing}{fill listwise}
+\item{missing}{If "listwise", cases with missing values are removed listwise from the data frame. If "direct" or "ml" or "fiml" and the estimator is maximum likelihood, an EM algorithm is used to estimate the unrestricted covariance matrix (and mean vector). If "pairwise", pairwise deletion is used. If "default", the value is set depending on the estimator and the mimic option (see details in lavCor).}
 
-\item{ordered}{default NULL}
+\item{ordered}{Character vector. Only used if object is a data.frame. Treat these variables as ordered (ordinal) variables. Importantly, all other variables will be treated as numeric (unless is.ordered in data). (see also lavCor)}
 
-\item{absolute}{default NULL}
+\item{absolute}{logical indicating whether HTMT values should be estimated based on absolute correlations (default is TRUE). This is recommended for HTMT but required for HTMT2 (so silently ignored).}
 
-\item{htmt2}{default NULL}
+\item{htmt2}{logical indicating whether to use the geometric mean (default, appropriate for congeneric indicators) or arithmetic mean (which assumes tau-equivalence).}
 }
 \description{
 The heterotrait-monotrait ratio of correlations (HTMT).
-Title
 }
 \examples{
+# example code
 \dontrun{
-
-
 library(lavaan)
 model1 <- '
   # measurement model
@@ -64,6 +61,10 @@ model1 <- '
 fit1 <- sem(model1, data = PoliticalDemocracy)
 # summary(fit2, standardized = TRUE)
 HTMT(model = model1, dataset = PoliticalDemocracy)
+## covariance
+HS.cov <- cov(HolzingerSwineford1939[, paste0("x", 1:9)])
+## HTMT using arithmetic mean
+htmt(HS.model, sample.cov = HS.cov, htmt2 = FALSE)
 }
 
 }

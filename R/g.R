@@ -10,23 +10,23 @@
 #' # example code
 #' \dontrun{
 #' #korean to english : default
-#' g("안녕하세요 번역을 시작합니다!(by 박중희).", slang="ko", elang= "en")
+#' g("안녕하세요 번역을 시작합니다!(by 박중희).", slang ="ko", elang = "en")
 #' g("안녕하세요 번역을 시작합니다!(by 박중희).", "ko", "en")
 #' # english to korean
-#' g("Hello, let’s start translating! (by Park Joong-hee", slang="ko", elang= "en")
+#' g("Hello, let’s start translating! (by Park Joong-hee", slang ="ko", elang = "en")
 #' g("Hello, let’s start translating! (by Park Joong-hee","ko","en")
 #' #japan to korean
-#' g("こんにちは翻訳を始めます！（byパク・ジュンヒ", slang="ja", elang= "ko")
+#' g("こんにちは翻訳を始めます！（byパク・ジュンヒ", slang ="ja", elang = "ko")
 #'
 #' # ko: korean , en: English , ja: Japan, china : zh
 #' # https://cloud.google.com/translate/docs/languages?hl=ko
 #' }
 #'
 #'
-g = function (text="안녕하세요 번역을 시작합니다!(by 박중희).",
-              slang="ko",
-              elang="en",
-              show="translate") {
+g = function (text = "hi.",
+              slang = "ko",
+              elang = "en",
+              show = "translate") {
   library(tidyverse)
   library(rvest)
   library(httpuv)

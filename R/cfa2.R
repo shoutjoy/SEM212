@@ -1,4 +1,4 @@
-#' Create CFA result summary by lavaan sem estimated result
+#' Create CFA result summary by lavaan sem estimated result By Park Joonghee Ph.D
 #' @export
 #' @param x lavaan result
 #' @param format knitr markdown decision
@@ -15,7 +15,7 @@
 #' @param digits value rounding
 #' @param res result type
 #'
-#'
+#' @importFrom magrittr %>%
 #' @examples
 #' # example code
 #' \dontrun{
@@ -94,12 +94,10 @@
 
 #' # AVE calculatin by hand
 #' AVE(fit)
-#'
-
 #' }
 #'
 
-#cfa2 CFA분석함수----
+#cfa2 CFA lavaan SEM----
 cfa2 <- function(x, format="markdown",
                  dataset=NA, #dataset input htmt
                  model=NA, # lavaan Model htmt(<0.9)
@@ -302,7 +300,7 @@ cfa2 <- function(x, format="markdown",
 
 
 
-  ### factpr loadings 새로운 변수가 들어왔을 때 ------
+  ### factpr loadings Input New variable  ------
   if(rename == TRUE){
 
     factorloading <- factorloading_0 %>% mutate(Indicator= var_name)%>%
@@ -353,19 +351,6 @@ cfa2 <- function(x, format="markdown",
 
   varnames_check = dataplot0[,"Item"]
   #02 -2 loadings -ggplot------
-  #
-  # gg <-ggplot(dataplot,aes(x=Item, y=std, fill=Latent))+
-  #   geom_bar(stat="identity", position='dodge')+
-  #   geom_hline(yintercept = cut, color= "red")+ #cut: 기준 0.7
-  #   geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: 기준 0.7
-  #   ggtitle("factor loadings")+
-  #   geom_text(aes(label=round(std,2)),vjust=-.3, size=val.size)+
-  #   theme(axis.text.x = element_text(
-  #     angle=angle,
-  #     size = cex, hjust = hjust,
-  #     face="bold")) #angle, cex
-  # dataplot3 <- dataplot
-  # dataplot3$Item <- var_name
 
   if(rename == TRUE ){
     #02 -2 loadings -ggplot------
@@ -374,8 +359,8 @@ cfa2 <- function(x, format="markdown",
     gg <-ggplot(dataplot, aes(x=Item, y=std,
                               fill=Latent))+
       geom_bar(stat="identity", position='dodge')+
-      geom_hline(yintercept = cut , color= "red")+ #cut: 기준 0.7
-      geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: 기준 0.7
+      geom_hline(yintercept = cut , color= "darkred", lintype=2)+ #cut: critera >0.7
+      geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: critera >0.7
       ggtitle("Factor loadings")+
       theme_bw()+
       geom_text(aes(label=round(std,2)),
@@ -387,12 +372,12 @@ cfa2 <- function(x, format="markdown",
         face="bold")) #angle, cex
 
   }else if(rename == FALSE){
-    # print("변수명을 바꾼어 정렬을 하고자 하면, rename=TRUE로 하신 후에 var_name=c(변수명, ...)을 입력하세요. 입력순서는 lavaan model순서대로입니다.")
+
     gg <-ggplot(dataplot, aes(x=Item, y=std,
                               fill=Latent))+
       geom_bar(stat="identity", position='dodge')+
-      geom_hline(yintercept = cut , color= "red")+ #cut: 기준 0.7
-      geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: 기준 0.7
+      geom_hline(yintercept = cut ,  color= "darkred", lintype=2)+ #cut: critera >0.7
+      geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: critera >0.7
       ggtitle("Factor loadings")+
       theme_bw()+
       geom_text(aes(label=round(std,2)),
@@ -406,8 +391,8 @@ cfa2 <- function(x, format="markdown",
     gg <-ggplot(dataplot,aes(x=Item, y=std,
                              fill=Latent))+
       geom_bar(stat="identity", position='dodge')+
-      geom_hline(yintercept = cut, color= "red")+ #cut: 기준 0.7
-      geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: 기준 0.7
+      geom_hline(yintercept = cut,  color= "darkred", lintype=2)+ #cut: critera >0.7
+      geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: critera >0.7
       ggtitle("Factor loadings")+
       theme_bw()+
       geom_text(aes(label=round(std,2)),
@@ -431,20 +416,18 @@ cfa2 <- function(x, format="markdown",
     mutate(CR_Check=ifelse(CR>0.7,"Accept(>0.7) *","Reject")) %>%
     dplyr::select(Cronbach,alpha_Check,CR,CR_Check )
 
-  #," average variance extracted(AVE)"=avevar)
+  #' average variance extracted(AVE)"=avevar)
 
   #05 Reprort cronbach, AVE, C.R
   FL.1 <- cbind(alpha.1)
   FL <- FL.1%>%kable(digits=3, format=format,
                     caption="03-1. Internal consistency
-          (Cronbach's Alpha, 1951) and Composite Relibility
-   Cronbach’s α (values ≥ .7 or .8 indicate good reliability; Kline (1999))
-                   ")
+          (Cronbach's Alpha, 1951) and Composite Relibility")
 
 
 
 
-  ## 03 CR,AVE-------
+  ## 03 CR,AVE-----
   # ?semTools::reliability
   AVE <-  semTools::reliability(x, return.total = F) %>%
     t() %>%
@@ -455,7 +438,7 @@ cfa2 <- function(x, format="markdown",
   colnames(sqrt.AVE)="sqrt.AVE"
 
   #correlations Matrix
-  rho <- lavInspect(x,"std")$beta
+  rho <- lavaan::lavInspect(x,"std")$beta
 
 
 
@@ -479,27 +462,17 @@ cfa2 <- function(x, format="markdown",
 
 
 
-
-  #check data
-  # lv.cor <-lavInspect(x, what="cor.lv")
-  # lv.cor1<-lv.cor
-  # diag(lv.cor1)<-0
-  # lv.cor_df<-lv.cor1 %>% as.data.frame()
-  # lv.cor_df[lower.tri(lv.cor_df)==FALSE]<-0
-  # lv.cor_df
-
-
   #05-1 discriminant validity=====
-  betaa <- lavInspect(x, "std")$beta
+  betaa <- lavaan::lavInspect(x, "std")$beta
 
   if(is.null(betaa)){
 
-    psi <-lavInspect(x, "std")$psi
+    psi <-lavaan::lavInspect(x, "std")$psi
     psi[lower.tri(psi)==FALSE]<-0
 
     rho1<- psi %>% as.data.frame()
     rho1$max<- apply(rho1,1,max)
-    # diff<- cbind(rho1$max, sqrt.AVE) #행이 다르면 계산안됨
+    # diff<- cbind(rho1$max, sqrt.AVE) # not rwow match(need calculate )
     # diff$delta<-diff[,2]- diff[,1]
     # diff$sig<-ifelse(diff$delta >= 0,"*","ns")
     #
@@ -507,7 +480,7 @@ cfa2 <- function(x, format="markdown",
     #                       sqrt.AVE,  # row 396
     #                       sig=diff[,4]) %>% as.data.frame()
 
-    #데이터 결합(새롭게 수정 )
+    #New revise
     rho1 <- rho1 %>% mutate(max = apply(rho1,1, max),
                             lv = rownames(rho1))
     sqrt.AVE$lv <- rownames(sqrt.AVE)
@@ -543,7 +516,7 @@ cfa2 <- function(x, format="markdown",
            By Fornell & Lacker(1981)")
 
   }else{
-    lv.cor <- lavInspect(x, what="cor.lv")
+    lv.cor <- lavaan::lavInspect(x, what="cor.lv")
     lv.cor1 <- lv.cor
     diag(lv.cor1)<-0
 
@@ -551,7 +524,7 @@ cfa2 <- function(x, format="markdown",
     rho1[lower.tri(rho1)==FALSE]<-0
     rho1$max <- apply(rho1,1, max)
 
-    #데이터 결합
+    # bind data
     rho1 <- rho1 %>% mutate(max=apply(rho1,1, max),
                             lv =rownames(rho1))
     sqrt.AVE$lv <- rownames(sqrt.AVE)
@@ -590,18 +563,18 @@ cfa2 <- function(x, format="markdown",
   if( is.character(model)==TRUE |
       is.data.frame(dataset)==TRUE){
 
-    options(knitr.kable.NA = '') #NA감추기
-    #dataframe생성
+    options(knitr.kable.NA = '') # hide NA
+    # generate dataframe
     htmt0 <- semTools::htmt(model, dataset) %>%
       as.data.frame()
 
-    htmt0[lower.tri(htmt0)==FALSE]<-0 #대각성분을 0으로 만들기
-    htmt0NA <- htmt0 #NA데이터 처리
-    htmt0NA[lower.tri(htmt0)==FALSE]<-NA   #상위성분 NA로 변경
-    htmt1 <- htmt0 %>%   #유의성값 만들기
-      mutate(Max = apply(htmt0, 1, max, na.rm=T),  #최댓값
-             dis = ifelse(0.9 - Max== 0.9, 0, 0.9 - Max),  #판별
-             sig = ifelse(0.9- Max >= 0,"*","ns")) #유의성
+    htmt0[lower.tri(htmt0)==FALSE]<-0 # diag =0
+    htmt0NA <- htmt0 # NA remove
+    htmt0NA[lower.tri(htmt0)==FALSE]<-NA   # upper to NA
+    htmt1 <- htmt0 %>%   #make sig
+      mutate(Max = apply(htmt0, 1, max, na.rm=T),  # max
+             dis = ifelse(0.9 - Max== 0.9, 0, 0.9 - Max),  #discriminant
+             sig = ifelse(0.9- Max >= 0,"*","ns")) #significant
     htmt2 <-cbind(htmt0NA,
                   htmt1[,c(ncol(htmt1)-2, #max
                            ncol(htmt1)-1, #dis
@@ -611,7 +584,6 @@ cfa2 <- function(x, format="markdown",
     htmt <- htmt2  %>%
       kable(format=format, digits = digits,
             caption="The heterotrait-monotrait ratio of correlations (HTMT).
-          이종 특성 -단일 특성 상관 관계 비율(HTMT)
           All correalation < 0.9 --> discriminant Accept(robusrst)
           general accept: < 1
           (Henseler, Ringlet & Sarstedt, 2015)
@@ -640,7 +612,7 @@ cfa2 <- function(x, format="markdown",
 
 
 
-  ##최종결과물 출력 --------------
+  ## final result  --------------
   all.reuslt <-list(model= model,
                     fit_criterian=fit,
                     model_fit=fitMeasures_s1,
@@ -655,7 +627,7 @@ cfa2 <- function(x, format="markdown",
                     variable_order= varnames_check
   )
   # all.reuslt
-  ## cfa2()출력 옵션---------------
+  ## cfa2() output option ---------------
   # switch(res,
   #        all = all.reuslt,
   #        model = model,
@@ -692,7 +664,7 @@ cfa2 <- function(x, format="markdown",
 }
 
 
-#cfa2함수의 각각을 표로 그리는 함수
+#cfa2
 #
 # #quick markdown_table , kable(format="html) using cfa2()-----------
 # markdown_table_s <- function(data,
@@ -728,7 +700,7 @@ cfa2 <- function(x, format="markdown",
 
 
 
-#cfa3 다른 분석처리용 함수=============
+#cfa3 using data treament =============
 cfa3 <- function(x, graph=F){
 
   library(dplyr)
@@ -892,8 +864,8 @@ cfa3 <- function(x, graph=F){
 
     gg <-ggplot(dataplot,aes(x=Item, y=std, fill=Latent))+
       geom_bar(stat="identity", position='dodge')+
-      geom_hline(yintercept = cut, color= "red")+ #cut: 기준 0.7
-      geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: 기준 0.7
+      geom_hline(yintercept = cut, color= "red")+ #cut:  0.7
+      geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: 0.7
       ggtitle("factor loadings")+
       geom_text(aes(label=round(std,2)),vjust=-.3, size=val.size)+
       theme(axis.text.x = element_text(
@@ -937,7 +909,7 @@ cfa3 <- function(x, graph=F){
   colnames(sqrt.AVE)="sqrt.AVE"
 
   #correlations Matrix
-  rho <- lavInspect(x,"std")$beta
+  rho <- lavaan::lavInspect(x,"std")$beta
 
 
 
@@ -959,11 +931,11 @@ cfa3 <- function(x, graph=F){
 
 
   #06 discriminant validity
-  betaa <-lavInspect(x, "std")$beta
+  betaa <-lavaan::lavInspect(x, "std")$beta
 
   if(is.null(betaa)){
 
-    psi <-lavInspect(x, "std")$psi
+    psi <-lavaan::lavInspect(x, "std")$psi
     psi[lower.tri(psi)==FALSE]<-0
 
     rho1<- psi %>% as.data.frame()
@@ -983,7 +955,7 @@ cfa3 <- function(x, graph=F){
     #      By Fornell & Lacker(1981)")
 
   }else{
-    lv.cor <- lavInspect(x, what="cor.lv")
+    lv.cor <- lavaan::lavInspect(x, what="cor.lv")
     lv.cor1 <- lv.cor
     diag(lv.cor1)<-0
 
@@ -991,7 +963,7 @@ cfa3 <- function(x, graph=F){
     rho1[lower.tri(rho1)==FALSE]<-0
     rho1$max <- apply(rho1,1, max)
 
-    #데이터 결합
+    #
     rho1 <- rho1 %>% mutate(max=apply(rho1,1, max), lv =rownames(rho1))
     sqrt.AVE$lv <- rownames(sqrt.AVE)
 

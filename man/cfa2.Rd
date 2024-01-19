@@ -2,7 +2,7 @@
 % Please edit documentation in R/cfa2.R
 \name{cfa2}
 \alias{cfa2}
-\title{Create CFA result summary by lavaan sem estimated result}
+\title{Create CFA result summary by lavaan sem estimated result By Park Joonghee Ph.D}
 \usage{
 cfa2(
   x,
@@ -51,85 +51,5 @@ cfa2(
 \item{res}{result type}
 }
 \description{
-Create CFA result summary by lavaan sem estimated result
-}
-\examples{
-# example code
-\dontrun{
-
-library(lavaan)
- model1 <- '
- # measurement model
-   ind60 =~ x1 + x2 + x3
-   dem60 =~ y1 + y2 + y3 + y4
-   dem65 =~ y5 + y6 + y7 + y8
- # regressions
-   dem60 ~ ind60
-   dem65 ~ ind60 + dem60
- # residual correlations
-   y1 ~~ y5
-   y2 ~~ y4 + y6
-   y3 ~~ y7
-   y4 ~~ y8
-   y6 ~~ y8
-   '
-
-fit1 <- sem(model1, data = PoliticalDemocracy)
-# summary(fit2, standardized = TRUE)
-model2 <- '
- # measurement model
-   ind60 =~ x1 + x2 + x3
-   dem60 =~ y1 + y2 + y3 + y4
-   dem65 =~ y5 + y6 + y7 + y8
- # regressions
-   dem60 ~ ind60
-   dem65 ~ ind60 + dem60
-   '
-
-fit2 <- sem(model2, data = PoliticalDemocracy)
-# summary(fit2, standardized = TRUE)
-
-# if you wnat HTMT value, input model and dataset
-cfa2(fit, dataset = PoliticalDemocracy, model = model )
-#compare model fit and different values
-CompareFit_diff(fit1, fit2)
-
-# model fit
-cfa2(fit, dataset = PoliticalDemocracy, model = model,
-     res =  "modelfit")
-
-# item validattiy
-cfa2(fit, dataset = PoliticalDemocracy, model = model,
-     res =  "loadings")
-
-# Internal consistency
-cfa2(fit, dataset = PoliticalDemocracy, model = model,
-     res =  "alpha")
-
-cfa2(fit, dataset = PoliticalDemocracy, model = model,
-     res =  "CR_AVE")
-
-# Discriminant
-cfa2(fit, dataset = PoliticalDemocracy, model = model,
-     res =  "Discriminant")
-
-# HTMT
-
-cfa2(fit, dataset = PoliticalDemocracy, model = model,
-     format="markdown",
-     res =  "htmt")
-
-cfa2(fit, dataset = PoliticalDemocracy, model = model,
-     format="html",
-     res =  "htmt")\%>\%
-  kable_minimal(full_width =F)
-
-# structure correlation
-cfa2(fit, dataset = PoliticalDemocracy, model = model,
-     res =  "str_cor")
-# AVE calculatin by hand
-AVE(fit)
-
-}
-
+Create CFA result summary by lavaan sem estimated result By Park Joonghee Ph.D
 }

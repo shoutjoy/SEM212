@@ -1,25 +1,26 @@
 
 #'  Comparison of Model Fit Indices of two or more structural equation models
-#' @export
+
 #' @param ... lavaan result and input fit1, fit2, ...
 
 
-#모형적합도 비교 ----
+#' @export
 CompareFit_diff<- function(...) {
   library(magrittr)
   # library(stargazer)
   library(tibble)
   library(knitr)
   library(dplyr)
+  librar(lavaan)
 
 
   m <- list(...)
 
-  result <-sapply(m, fitMeasures) %>%
-    set_colnames(paste0("Model_", 1:length(m))) %>%
+  result <- sapply(m, fitMeasures) %>%
+    magrittr::set_colnames(paste0("Model_", 1:length(m))) %>%
     as.data.frame() %>%
-    rownames_to_column("Fit_Measures") %>%
-    slice(match(c("chisq",
+    tibble::rownames_to_column("Fit_Measures") %>%
+    dplyr::slice(match(c("chisq",
                   "df",
                   "pvalue",
                   "rmsea",
@@ -32,7 +33,7 @@ CompareFit_diff<- function(...) {
                   "aic",
                   "bic"),
                 Fit_Measures)) %>%
-    mutate(Fit_Measures=c("Chi-square",
+    dplyr::mutate(Fit_Measures=c("Chi-square",
                           "df",
                           "p-value",
                           "RMSEA(<0.05)",
@@ -46,12 +47,12 @@ CompareFit_diff<- function(...) {
                           "BIC"))
 
   tryCatch({
-    result%>% mutate("diff(M2-M1)"=`Model_2`-`Model_1`) %>%
-      mutate(check=ifelse(`diff(M2-M1)`>0,"증가(+)",
-                          ifelse(`diff(M2-M1)`<0,"감소(-)",""))) %>%
-      kable("markdown",3)
+    result%>% dplyr::mutate("diff(M2-M1)"=`Model_2`-`Model_1`) %>%
+      dplyr::mutate(check=ifelse(`diff(M2-M1)`>0,"Increase(+)",
+                          ifelse(`diff(M2-M1)`<0,"Decrese(-)",""))) %>%
+      knitr::kable("markdown",3)
 
-  },error=function(e)return("비교할 2개의 sem분석데이터를 입력하세요 ") )
+  },error=function(e)return("Enter two SEM analysis data to compare!!") )
 
 
 
