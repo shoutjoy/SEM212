@@ -1,4 +1,4 @@
-#' Title
+#' Frequency Table output function
 #'
 #' @param data data.frame
 #' @param format markdown, html
@@ -6,7 +6,6 @@
 #' @param sort sorting default FALSE
 #' @param prop default TRUE
 #' @param arrange input 'desc' . default none ""
-#'
 #' @return table
 #' @export
 #'

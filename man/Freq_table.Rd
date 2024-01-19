@@ -2,7 +2,7 @@
 % Please edit documentation in R/Freq_table.R
 \name{Freq_table}
 \alias{Freq_table}
-\title{Title}
+\title{Frequency Table output function}
 \usage{
 Freq_table(
   data,
@@ -30,7 +30,7 @@ Freq_table(
 table
 }
 \description{
-Title
+Frequency Table output function
 }
 \examples{
 \dontrun{
