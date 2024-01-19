@@ -5,7 +5,9 @@ def main(argv):
     commit_name = input("커밋할 이름을 입력하세요: ")
   else:
     commit_name = argv[1]
-  os.system(f"""git add .; git commit -am "{commit_name}"; git push origin main""")
+  os.system("""git add .""")
+  os.system(f"""git commit -m "{commit_name}" """)
+  os.system("git push origin main")
   
 if __name__ == "__main__":
   main(sys.argv)
