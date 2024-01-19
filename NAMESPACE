@@ -3,6 +3,7 @@
 export(AVE)
 export(CompareFit_diff)
 export(HTMT)
+export(Modindices)
 export(Summarise)
 export(cfa2)
 export(confint_mark_sig)
