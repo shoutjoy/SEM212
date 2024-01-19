@@ -74,12 +74,3 @@ create_path <- function(row_names = c("r1","r2","r3"),
 }
 
 
-
-#' path create
-#' @param from var1
-#' @param to var2
-#' @export
-path <- function(from, to) {
-  return(list(from = from,
-              to = to))
-}
