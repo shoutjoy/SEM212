@@ -28,6 +28,8 @@ markdown_table(
 )
 }
 \arguments{
+\item{lm_data}{data.frame or etc data}
+
 \item{caption}{table title}
 
 \item{digits}{table values roundings}
@@ -46,23 +48,25 @@ markdown_table(
 
 \item{col.names}{column names in table (Set if necessary)}
 
-\item{format.args}{description}
+\item{align}{Table value align}
 
-\item{escape}{description}
+\item{label}{Table label}
 
-\item{table.attr}{description}
+\item{format.args}{format.args}
 
-\item{booktabs}{description}
+\item{escape}{escape}
 
-\item{longtable}{description}
+\item{table.attr}{table.attr}
 
-\item{valign}{description}
+\item{booktabs}{booktabs}
 
-\item{position}{description}
+\item{longtable}{longtable}
+
+\item{valign}{valign}
+
+\item{position}{position}
 
 \item{centering}{Align cener in Table}
-
-\item{data}{data.frame or etc data}
 }
 \description{
 A tool that outputs data to the viewer

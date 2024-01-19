@@ -37,6 +37,7 @@ cfa2 <- function(x, format="markdown",
   library(semPlot)
   library(ggplot2)
   library(kableExtra)
+  library(tidyverse)
 
   # tryCatch({
 

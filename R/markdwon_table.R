@@ -1,6 +1,6 @@
 #' A tool that outputs data to the viewer
 #' @export
-#' @param data data.frame or etc data
+#' @param lm_data data.frame or etc data
 #' @param caption table title
 #' @param digits table values roundings
 #' @param font_size table font size
@@ -10,15 +10,15 @@
 #' @param format 'markdown' and 'html'. default 'html'.
 #' @param row.names row names in table(Set if necessary)
 #' @param col.names column names in table (Set if necessary)
-#' @param align
-#' @param label
-#' @param format.args description
-#' @param escape description
-#' @param table.attr description
-#' @param booktabs description
-#' @param longtable description
-#' @param valign description
-#' @param position description
+#' @param align Table value align
+#' @param label Table label
+#' @param format.args format.args
+#' @param escape escape
+#' @param table.attr table.attr
+#' @param booktabs booktabs
+#' @param longtable longtable
+#' @param valign valign
+#' @param position position
 #' @param centering Align cener in Table
 #' @example markdown_table(mtcars[1:5,], table="minimal")
 
