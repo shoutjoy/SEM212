@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_path.R
 \name{path}
 \alias{path}
-\title{Function to create path plspm}
+\title{path create}
 \usage{
 path(from, to)
 }
@@ -10,36 +10,7 @@ path(from, to)
 \item{from}{var1}
 
 \item{to}{var2}
-
-\item{row_names}{row names c("r1","r2","r3")}
-
-\item{col_names}{col names}
-
-\item{relationship}{form var1, to var2}
-}
-\value{
-matrix
 }
 \description{
-Function to create path plspm
-}
-\examples{
-
-\dontrun{
-edu_path <- create_path(
-  row_names = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
-  col_names = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
-  relationship = list(
-    list(from = "Value",
-         to = c("Support", "Advising", "Tutoring")),
-    path(from = "Satisfaction",
-         to = c("Support", "Advising", "Tutoring","Value")),
-    path(from = "Loyalty",
-         to =c("Satisfaction"))
-  )
-)
-edu_path
-
-}
-
+path create
 }

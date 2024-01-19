@@ -3,8 +3,7 @@
 #' @param row_names row names c("r1","r2","r3")
 #' @param col_names col names
 #' @param relationship form var1, to var2
-#' @param from  var1
-#' @param to  var2
+
 #' @return matrix
 #' @export
 #'
@@ -17,9 +16,24 @@
 #'   relationship = list(
 #'     list(from = "Value",
 #'          to = c("Support", "Advising", "Tutoring")),
+#'     list(from = "Satisfaction",
+#'          to = c("Support", "Advising", "Tutoring","Value")),
+#'     list(from = "Loyalty",
+#'          to =c("Satisfaction"))
+#'   )
+#' )
+#' edu_path
+#'
+#'
+#' edu_path <- create_path(
+#'   row_names = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
+#'   col_names = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
+#'   relationship = list(
+#'     path(from = "Value",
+#'          to = c("Support", "Advising", "Tutoring")),
 #'     path(from = "Satisfaction",
 #'          to = c("Support", "Advising", "Tutoring","Value")),
-#'     path(from = "Loyalty",
+#'     path (from = "Loyalty",
 #'          to =c("Satisfaction"))
 #'   )
 #' )
@@ -27,11 +41,6 @@
 #'
 #' }
 #'
-path <- function(from, to) {
-  return(list(from = from,
-              to = to))
-}
-
 #'
 #'
 create_path <- function(row_names = c("r1","r2","r3"),
@@ -62,4 +71,15 @@ create_path <- function(row_names = c("r1","r2","r3"),
   }
 
   return(path_matrix)
+}
+
+
+
+#' path create
+#' @param from var1
+#' @param to var2
+#' @export
+path <- function(from, to) {
+  return(list(from = from,
+              to = to))
 }
