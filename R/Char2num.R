@@ -6,8 +6,7 @@
 #'
 #' @return char to numeric
 #' @export
-#'
-#' @examples
+
 Char2num <- function(data, colnumber ="auto", iter=NULL){
   if(colnumber =="auto"){
     iter=1:ncol(data)
