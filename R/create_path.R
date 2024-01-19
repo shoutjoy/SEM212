@@ -1,9 +1,10 @@
-#' Function to create path plspm
-#'
-#' @param row_names row names c("r1","r2","r3")
-#' @param col_names col names
-#' @param relationship form var1, to var2
 
+#' plspm path create
+#'
+#' @param row_names rowname
+#' @param col_names colname
+#' @param relationship input path
+#'
 #' @return matrix
 #' @export
 #'
@@ -40,9 +41,6 @@
 #' edu_path
 #'
 #' }
-#'
-#'
-#'
 create_path <- function(row_names = c("r1","r2","r3"),
                         col_names = NULL,
                         relationship = NULL) {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_path.R
 \name{create_path}
 \alias{create_path}
-\title{Function to create path plspm}
+\title{plspm path create}
 \usage{
 create_path(
   row_names = c("r1", "r2", "r3"),
@@ -11,17 +11,17 @@ create_path(
 )
 }
 \arguments{
-\item{row_names}{row names c("r1","r2","r3")}
+\item{row_names}{rowname}
 
-\item{col_names}{col names}
+\item{col_names}{colname}
 
-\item{relationship}{form var1, to var2}
+\item{relationship}{input path}
 }
 \value{
 matrix
 }
 \description{
-Function to create path plspm
+plspm path create
 }
 \examples{
 
@@ -56,7 +56,4 @@ edu_path <- create_path(
 edu_path
 
 }
-
-
-
 }
