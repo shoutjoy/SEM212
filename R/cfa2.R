@@ -371,7 +371,7 @@ cfa2 <- function(x, format="markdown",
     gg <-ggplot(dataplot, aes(x=Item, y=std,
                               fill=Latent))+
       geom_bar(stat="identity", position='dodge')+
-      geom_hline(yintercept = cut , color= "darkred", lintype=2)+ #cut: critera >0.7
+      geom_hline(yintercept = cut , color= "darkred", linetype = 2)+ #cut: critera >0.7
       geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: critera >0.7
       ggtitle("Factor loadings")+
       theme_bw()+
@@ -388,7 +388,7 @@ cfa2 <- function(x, format="markdown",
     gg <-ggplot(dataplot, aes(x=Item, y=std,
                               fill=Latent))+
       geom_bar(stat="identity", position='dodge')+
-      geom_hline(yintercept = cut ,  color= "darkred", lintype=2)+ #cut: critera >0.7
+      geom_hline(yintercept = cut ,  color= "darkred", linetype=2)+ #cut: critera >0.7
       geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: critera >0.7
       ggtitle("Factor loadings")+
       theme_bw()+
@@ -403,7 +403,7 @@ cfa2 <- function(x, format="markdown",
     gg <-ggplot(dataplot,aes(x=Item, y=std,
                              fill=Latent))+
       geom_bar(stat="identity", position='dodge')+
-      geom_hline(yintercept = cut,  color= "darkred", lintype=2)+ #cut: critera >0.7
+      geom_hline(yintercept = cut,  color= "darkred", linetype=2)+ #cut: critera >0.7
       geom_hline(yintercept = cut-0.2, color= "gray40")+ #cut: critera >0.7
       ggtitle("Factor loadings")+
       theme_bw()+
