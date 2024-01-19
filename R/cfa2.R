@@ -588,33 +588,40 @@ cfa2 <- function(x, format="markdown",
 
 
 #cfa2함수의 각각을 표로 그리는 함수
-#quick markdown_table , kable(format="html) using cfa2()-----------
-markdown_table_s <- function(data,
-                             caption="html to markdown",
-                             full_width=FALSE,
-                             font_size=20,
-                             row.names = NA,
-                             col.names = NA,
-                             centering = TRUE,
-                             digits=3,
-                             show="markdown"
-){
+#
+# #quick markdown_table , kable(format="html) using cfa2()-----------
+# markdown_table_s <- function(data,
+#                              caption="html to markdown",
+#                              full_width=FALSE,
+#                              font_size=20,
+#                              row.names = NA,
+#                              col.names = NA,
+#                              centering = TRUE,
+#                              digits=3,
+#                              show="markdown"
+# ){
+#
+#   library(kableExtra)
+#
+#   if(show=="kbl"){
+#     data %>%as.data.frame() %>%
+#       kbl(digits = digits,
+#           caption =  caption,
+#           row.names=row.names,col.names=col.names,
+#           centering=centering
+#       ) %>%
+#       kable_classic(full_width=full_width,font_size= font_size)
+#   }else if(show=="markdown"){
+#     data %>%
+#       kable_classic(full_width=full_width,font_size= font_size)
+#   }
+# }
 
-  library(kableExtra)
 
-  if(show=="kbl"){
-    data %>%as.data.frame() %>%
-      kbl(digits = digits,
-          caption =  caption,
-          row.names=row.names,col.names=col.names,
-          centering=centering
-      ) %>%
-      kable_classic(full_width=full_width,font_size= font_size)
-  }else if(show=="markdown"){
-    data %>%
-      kable_classic(full_width=full_width,font_size= font_size)
-  }
-}
+
+
+
+
 
 #cfa3 다른 분석처리용 함수=============
 cfa3 <- function(x, graph=F){

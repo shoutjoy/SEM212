@@ -26,9 +26,9 @@ cfa2(
 
 \item{format}{knitr markdown decision}
 
-\item{dataset}{this is import name that dataset column name for HTMT}
+\item{dataset}{this is import name that dataset column name}
 
-\item{model}{lavaan model need indices validation name for HTMT}
+\item{model}{lavaan model need indices validation name}
 
 \item{cut}{loading criteran}
 
