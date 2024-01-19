@@ -25,23 +25,27 @@ Freq_table <- function(data,
         res <-  data%>% table() %>% as.data.frame() %>%
           mutate("Proportion(%)" = paste(round(Freq/length(data)*100,2),"%"))%>%
           arrange(desc(Freq))
+        colnmaes(res)=c("Variable","Freq","Prop")
 
       }else if(arrange==""){
         res <-   data%>% table() %>% as.data.frame() %>%
           mutate("Proportion(%)" = paste(round(Freq/length(data)*100,2),"%"))%>%
           arrange(Freq)
+        colnmaes(res)=c("Variable","Freq","Prop")
       }
 
     }else if(sort==FALSE){
       res <-     data%>% table() %>% as.data.frame() %>%
         mutate("Proportion(%)" = paste(round(Freq/length(data)*100,2),"%"))
+      colnmaes(res)=c("Variable","Freq","Prop")
     }
   }else if(prop==FALSE){
     res <-  data%>% table() %>% as.data.frame()
   }
 
 
-  colnmaes(res)=c("Variable","Freq","Prop")
+
+
   #result summary
   if(format=="markdown"){
     res %>%
