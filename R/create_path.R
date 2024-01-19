@@ -30,6 +30,9 @@
 #'   row_names = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
 #'   col_names = c("Support", "Advising", "Tutoring", "Value", "Satisfaction", "Loyalty"),
 #'   relationship = list(
+#'
+#'     path(form = "Support", to ="Advising"),
+#'     path(form = "Tutoring", to ="Advising"),
 #'     path(from = "Value",
 #'          to = c("Support", "Advising", "Tutoring")),
 #'     path(from = "Satisfaction",
