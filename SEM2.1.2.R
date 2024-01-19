@@ -1374,32 +1374,32 @@ cfa2 <- function(x, format="markdown",
 
 #cfa2함수의 각각을 표로 그리는 함수 
 #quick markdown_table , kable(format="html) using cfa2()-----------
-markdown_table_s <- function(data,
-                             caption="html to markdown",
-                             full_width=FALSE,
-                             font_size=20,
-                             row.names = NA,
-                             col.names = NA,
-                             centering = TRUE,
-                             digits=3,
-                             show="markdown"
-){
-  
-  library(kableExtra)
-  
-  if(show=="kbl"){
-    data %>%as.data.frame() %>% 
-      kbl(digits = digits, 
-          caption =  caption,
-          row.names=row.names,col.names=col.names,
-          centering=centering
-      ) %>%
-      kable_classic(full_width=full_width,font_size= font_size)
-  }else if(show=="markdown"){
-    data %>% 
-      kable_classic(full_width=full_width,font_size= font_size)
-  }
-}
+#markdown_table_s <- function(data,
+#                             caption="html to markdown",
+#                             full_width=FALSE,
+#                             font_size=20,
+#                             row.names = NA,
+#                             col.names = NA,
+#                             centering = TRUE,
+#                             digits=3,
+#                             show="markdown"
+#){
+#  
+#  library(kableExtra)
+#  
+#  if(show=="kbl"){
+#    data %>%as.data.frame() %>% 
+#      kbl(digits = digits, 
+#          caption =  caption,
+#          row.names=row.names,col.names=col.names,
+#          centering=centering
+#      ) %>%
+#      kable_classic(full_width=full_width,font_size= font_size)
+#  }else if(show=="markdown"){
+#    data %>% 
+#      kable_classic(full_width=full_width,font_size= font_size)
+#  }
+#}
 
 #cfa3 다른 분석처리용 함수=============
 cfa3 <- function(x, graph=F){
@@ -15482,238 +15482,33 @@ deepl = function (text="안녕하세요 번역을 시작합니다!(by 박중희)
 
 # jtl 박재형 -----------------------------------------------------------------
 
-
-jtl = function(text="", slang='ko', 
-               elang='en', 
-               translator='papago',
-               translator_2='itranslate',
-               show="one"){
+jtl2 <-  (function() {
+  library("curl")
+  host = nslookup("jaehyung101.synology.me");
+  host = sprintf("http://%s:10147", host);
   
-  library(httr)
-  library(httpuv)
-  
-  host = "http://121.129.167.192:10147"
-  url = sprintf("%s/%s/%s/%s?text=%s",
-                host, 
-                translator, 
-                slang, 
-                elang,
-                encodeURIComponent(text))
-  response <- GET(url)
-  # print(url)
-  
-  url_2 = sprintf("%s/%s/%s/%s?text=%s",
-                  host, 
-                  translator_2, 
-                  slang, 
-                  elang,
-                  encodeURIComponent(text))
-  response_2 <- GET(url_2)
-  
-  
-  if(show == "all"){
-    res = list(source= cat("source \n\n", text, "\n\n"),
-               target= cat("translate ===>",translator,
-                           " \n\n", content(response, "text",
-                                            encoding = "UTF-8"),"\n\n"),
-               taget_2= cat("translate(2nd recommandation) ==>",
-                            translator_2," \n\n", 
-                            content(response_2, "text",
-                                    encoding = "UTF-8"),"\n\n"))
-    
-  }else if(show == "normal"){
-    res = list(source= cat("source \n\n", text, "\n\n"),
-               target= cat("translate ===>",translator,
-                           " \n\n", content(response, "text",
-                                            encoding = "UTF-8"),"\n\n"))
-  }else if(show == "one"){
-    res = content(response, "text", encoding = "UTF-8") %>% cat()
+  #' 사용할 수 있는 translator 목록
+  #' 
+  #' [ 
+  #'   "alibaba", "apertium", "argos", "baidu", "bing", 
+  #'   "caiyun", "cloudTranslation", "deepl", "elia", "google", 
+  #'   "iciba", "iflytek", "iflyrec", "itranslate", "judic", "languageWire", 
+  #'   "lingvanex", "niutrans", "mglip", "mirai", "modernMt", "myMemory", "papago", 
+  #'   "qqFanyi", "qqTranSmart", "reverso", "sogou", "sysTran", "tilde", "translateCom", 
+  #'   "translateMe", "utibet", "volcEngine", "yandex", "yeekit", "youdao" 
+  #' ]
+  #'
+  #' @param text text to translate
+  #' @param slang starting language
+  #' @param elang ending language
+  #' @param translator translator type. lists are above.
+  #' @param print_url Debugging Setting
+  function(text="", slang='ko', elang='en', translator='deepl', print_url=F) {
+    library("httr");
+    library("httpuv");
+    url = sprintf("%s/%s/%s/%s?text=%s", host, translator, slang, elang, encodeURIComponent(text))
+    response <- GET(url)
+    if(print_url) print(url);
+    content(response, "text", encoding="UTF-8")
   }
-  res
-  
-}
-
-
-#여러가지 옵션을 제공하는 경우 
-jtl_all = function(text="", slang='ko', 
-                   elang='en', 
-                   translator='papago',
-                   translator_2='itranslate',
-                   show="all"){
-  '
-  사용할 수 있는 translator 목록
-  
-  [ 
-    "qqTranSmart" <--- 빙과 비슷 
-    "argos", <--- 내용을 간단하게 해서 생략함. 
-    "bing", <---글자수 제한이짧음 
-    "papago", "google", 
-     "itranslate",   <---- Good:너에게 이야기 하듯이.. you
-     ,"reverso",
-    "cloudTranslation",   <-------- fair
-    iciba"  <-- summary style 그들이...
-    "sysTran", "modernMt",    <-- not simple , long ...lazy
-    "sogou",   <---번역을 잘 못함, 놓치는 부분...
-    "lingvanex"  <-- kr_KR 옵션이 다름 itrans와 비슷 
-    "baidu"<--- kor이 옵션
-    
-    
-    "deepl", "caiyun",<--------------- not supprot 
-    "alibaba",   "baidu", "apertium", "tilde", 
-    "elia",    "caiyun", "niutrans",
-    , "iflytek", "translateCom", "qqFanyi",
-    "languageWire", "judic", "myMemory", "mglip",
-    "mirai","translateMe",     "utibet","volcEngine""yeekit",
-        "yandex",  "youdao" 
-  ]
-  
-  '
-  
-  library(httr)
-  library(httpuv)
-  
-  
-  host = "http://121.129.167.192:10147"
-  url = sprintf("%s/%s/%s/%s?text=%s",
-                host, 
-                translator, 
-                slang, 
-                elang,
-                encodeURIComponent(text))
-  response <- GET(url)
-  # print(url)
-  
-  url_2 = sprintf("%s/%s/%s/%s?text=%s",
-                  host, 
-                  translator_2, 
-                  slang, 
-                  elang,
-                  encodeURIComponent(text))
-  response_2 <- GET(url_2)
-  
-  
-  if(show == "all"){
-    cat("source \n\n", text, "\n\n")
-    cat("(1)translate ===>",translator,"------------------",
-        " \n\n", content(response, "text",
-                         encoding = "UTF-8"),"\n\n")
-    cat("(2)translate(2nd recommandation) ==>",
-        translator_2,"------------------"," \n\n", 
-        content(response_2, "text",
-                encoding = "UTF-8"),"\n\n")
-    
-  }else if(show == "normal"){
-    res = list(source= cat("source \n\n", text, "\n\n"),
-               target= cat("translate ===>",translator,
-                           " \n\n", content(response, "text",
-                                            encoding = "UTF-8"),"\n\n"))
-  }else if(show == "one"){
-    res=content(response, "text", encoding = "UTF-8")
-  }
-  
-  
-}
-
-
-jtl2 = function(text="", 
-                slang='ko', 
-                elang='en', 
-                translator='google',
-                translator_2='papago'){
-  '
-  사용할 수 있는 translator 목록
-  
-  [ 
-    "qqTranSmart" <--- 빙과 비슷 
-    "argos", <--- 내용을 간단하게 해서 생략함. 
-    "bing", <---글자수 제한이짧음 
-    "papago", "google", 
-     "itranslate",   <---- Good:너에게 이야기 하듯이.. you
-     ,"reverso",
-    "cloudTranslation",   <-------- fair
-    iciba"  <-- summary style 그들이...
-    "sysTran", "modernMt",    <-- not simple , long ...lazy
-    "sogou",   <---번역을 잘 못함, 놓치는 부분...
-    "lingvanex"  <-- kr_KR 옵션이 다름 itrans와 비슷 
-    "baidu"<--- kor이 옵션
-    
-    
-    "deepl", "caiyun",<--------------- not supprot 
-    "alibaba",   "baidu", "apertium", "tilde", 
-    "elia",    "caiyun", "niutrans",
-    , "iflytek", "translateCom", "qqFanyi",
-    "languageWire", "judic", "myMemory", "mglip",
-    "mirai","translateMe",     "utibet","volcEngine""yeekit",
-        "yandex",  "youdao" 
-  ]
-  
-  '
-  library("httr")
-  library("httpuv")
-  
-  
-  host = "http://121.129.167.192:10147"
-  url = sprintf("%s/%s/%s/%s?text=%s",
-                host, 
-                translator, 
-                slang, 
-                elang,
-                encodeURIComponent(text))
-  response <- GET(url)
-  # print(url)
-  
-  url_2 = sprintf("%s/%s/%s/%s?text=%s",
-                  host, 
-                  translator_2, 
-                  slang, 
-                  elang,
-                  encodeURIComponent(text))
-  response_2 <- GET(url_2)
-  
-  
-  
-  cat("(1) source  ===> input:  \n\n", text, "\n\n\n")
-  
-  cat("(2) translate(first) ===> [",translator,"]",
-      " \n\n", content(response, "text",
-                       encoding = "UTF-8"),"\n\n\n")
-  
-  cat("(3) translate(2nd recommandation) ==> [",
-      translator_2,"]"," \n\n", 
-      content(response_2, "text",
-              encoding = "UTF-8"),"\n\n")
-  
-  cat("(4) translate(cross check) ==> [","kakaoi","]"," \n\n")
-  ktl(text,slang,elang) #kakao function
-}
-
-
-# jtl("미국식 사고가 어렵다.")
-# #
-# # jtl(translator = "cloudTranslation",
-
-
-jtl3 = function(text="", 
-                slang='ko', 
-                elang='en'){
-  
-  
-  # input=text
-  cat("입력된 내용:\n\n ", text,"\n\n\n")
-  cat("(1) google------------- \n\n", 
-      gtl(text,slang, elang),"\n\n")
-  #     "(2) kakakoi------------- \n\n")
-  # cat(ktl(text,slang, elang),"\n\n")
-  # cat("kakaoi \n\n", kakaoi(text,slang, elang),"\n\n\n")
-  cat("(2)kakaoi_sentence------------- \n\n")
-  ktl3(text,slang, elang)
-  
-}
-
-
-# 
-# 
-# jtl(
-#     "Epistemic Network Analysis (ENA)는 사용자들의 인식 데이터 요소 사이의 관계를 통해 만들어지는 연결에 대하여 식별을 하거나 정량화하여 동적인 네트워크 모델을 통해 관계를 표현해 내는 연구방법이다. 보통 여러 영역에서 발생하는 뇌의 상호작용을 fMRI 데이터를 이용하여분석하거나, 사회적으로 연결되는 사회망 관계를 분석하거나, 여러 가지 기술의 연결 관계를 그래프를 통하여 보여주는 기법이다. 연구자들은 시각적으로 연결된 데이터를 생성할 수 있으며, 이때 연결의 가중치가 반영된 요약통계를 사용하여 구성한다.이 방법을 통하여 동시에 출현하는 행동패턴이나 속성패턴을 분석할 수 있으며, 다양한 문제해결 방법에 대한 키포인트를 찾아낼 수 있다는 점에서 유리한 분석이다( Myeong-Hwa Jin et al., 2022).
-# [그림 39]는 주로 사용되는 ZOOM과 Youtube, Naver band 등과 연결되는 각 학습앱의 속성(attributes)들고 관계를 맺는 정도를 타나낸 것이다. 연결이 된 노드간에는 관계가 있으며, 선의 두께가 두꺼울 수록 더 강한 관계를 맺고 있다는 것을 보여준다.줌의 경우에는 토론에 적합하거나 발표를 하기에 적합하거나 리모트 접속을 부분에서 특징으로 나타났고, 유튜브는 모바일 사용에서 적합하고, 복습하기에 강의를 보는데 매우 적합한 것으로 나타났다.
-# 공통의 특징으로는 사용하기 쉬운 인터페이스와 실시간으로 접속하기에 편리하고, 학습시 접속에 편리한 부분에서 공통점이 나타났다. 또한 두 앱은 기능에 따라서 추가적인 결제를 요구하는 것들이 공통이었다. 네이버밴드는 줌과 유튜브와 공통적인 속성(attributes)부분을 공유하고 있었다.  기술적으로 보완이 필요하다고 느끼는 부분은 줌과 관계가 있고, 복습하기 편리한 것이라는 부분은 유튜브와 관련이 있었다.  ")
+})();
