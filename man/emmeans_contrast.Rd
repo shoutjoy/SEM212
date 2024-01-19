@@ -2,7 +2,7 @@
 % Please edit documentation in R/emmeans_contrast.R
 \name{emmeans_contrast}
 \alias{emmeans_contrast}
-\title{Two Way ANOVA emmeans_contrast}
+\title{emmeans_contrast is Two Way ANOVA and Post Hoc}
 \usage{
 emmeans_contrast(
   aov_data,
@@ -17,9 +17,9 @@ emmeans_contrast(
 \arguments{
 \item{aov_data}{aov data , example aov(len ~ supp*dose, data = ToothGrowth)}
 
-\item{var}{contaast}
+\item{var}{contaast variable}
 
-\item{...}{contrast}
+\item{...}{contrast add}
 
 \item{auto}{contrast auto}
 
@@ -30,7 +30,7 @@ emmeans_contrast(
 \item{vjust}{text positin vertical}
 }
 \description{
-Two Way ANOVA emmeans_contrast
+emmeans_contrast is Two Way ANOVA and Post Hoc
 }
 \examples{
 
@@ -51,6 +51,19 @@ aov(len ~ dose*supp, data = ToothGrowth) \%>\%
   emmeans_contrast(type = "emmeans")
 aov(len ~ supp*dose, data = ToothGrowth) \%>\%
   emmeans_contrast()
+
+aov(AveragePleasantness ~ Gender*Condition, data = epl) \%>\%
+  emmeans_contrast()
+
+aov(AveragePleasantness ~ Gender*Condition, data = epl) \%>\%
+  emmeans_contrast(type="emmeans")
+
+aov(AveragePleasantness ~ Gender*Condition, data = epl) \%>\%
+  emmeans_contrast(type="contrast")
+
+aov(AveragePleasantness ~ Gender*Condition, data = epl) \%>\%
+  emmeans_contrast("Gender","Condition", auto = F)
+
 
 }
 

@@ -1,7 +1,7 @@
-#' Two Way ANOVA emmeans_contrast
+#' emmeans_contrast is Two Way ANOVA and Post Hoc
 #' @param aov_data aov data , example aov(len ~ supp*dose, data = ToothGrowth)
-#' @param var contaast
-#' @param ... contrast
+#' @param var contaast variable
+#' @param ... contrast add
 #' @param auto contrast auto
 #' @param type overall result 'all','anova','emmeans','contrast', 'APA','confint','interaction'is plot
 #' @param hjust text position horizontal
@@ -28,6 +28,22 @@
 #
 #' aov(len ~ supp*dose, data = ToothGrowth) %>%
 #'   emmeans_contrast()
+#'
+#' aov(AveragePleasantness ~ Gender*Condition, data = epl) %>%
+#'   emmeans_contrast()
+#'
+#' aov(AveragePleasantness ~ Gender*Condition, data = epl) %>%
+#'   emmeans_contrast(type="emmeans")
+#'
+#' aov(AveragePleasantness ~ Gender*Condition, data = epl) %>%
+#'   emmeans_contrast(type="contrast")
+#'
+#' aov(AveragePleasantness ~ Gender*Condition, data = epl) %>%
+#'   emmeans_contrast("Gender","Condition", auto = F)
+#'
+# #바꾼 경우
+# aov(AveragePleasantness ~ Gender*Condition, data = epl) %>%
+#   emmeans_contrast("Condition", "Gender", auto = F)
 #'
 #' }
 #'
