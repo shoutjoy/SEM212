@@ -128,8 +128,8 @@ cfa2 <- function(x, format="markdown",
                          "lower "
     )
 
-    modelfitdata <-cbind.data.frame("criterian"=criteria_data_00,
-                                    "Value"=round(fitdata_00,3))
+    modelfitdata <-cbind.data.frame("criterian" = criteria_data_00,
+                                    "Value" = round(fitdata_00,3))
 
   }else{
 
@@ -193,6 +193,7 @@ cfa2 <- function(x, format="markdown",
 
   }
 
+#summary
   fitMeasures_s1 <- modelfitdata %>%
     kable (format=format,
            caption = "01 Model fit information")
@@ -203,7 +204,7 @@ cfa2 <- function(x, format="markdown",
   ## 02 factor loading-----
   options(knitr.kable.NA="")
 
-  factorloading <- parameterEstimates(x, standardized=TRUE) %>%
+  factorloading_0 <- parameterEstimates(x, standardized=TRUE) %>%
     filter(op=="=~") %>%
     mutate(stars=ifelse(pvalue < 0.001, "***",
                         ifelse(pvalue < 0.01, "**",
@@ -218,7 +219,8 @@ cfa2 <- function(x, format="markdown",
 
   ### factpr loadings 새로운 변수가 들어왔을 때 ------
   if(rename == TRUE){
-    factorloading <- factorloading %>% mutate(Indicator= var_name)%>%
+
+    factorloading <- factorloading_0 %>% mutate(Indicator= var_name)%>%
       dplyr::select(Latent,Item ,Indicator , Est, S.E., cr, Sig., p ,
                     std, Accept
       ) %>%
@@ -229,7 +231,8 @@ cfa2 <- function(x, format="markdown",
           (2) std.damda >= 0.5(Bagozzi & Yi(1988)")
 
   }else{
-    factorloading <-factorloading %>%
+
+    factorloading <-factorloading_0 %>%
       kable(digits=3, format=format,
             caption="02 Indicator Validity(1)
           Factor Loadings:
@@ -347,7 +350,7 @@ cfa2 <- function(x, format="markdown",
 
   #05 Reprort cronbach, AVE, C.R
   FL.1 <- cbind(alpha.1)
-  FL <-FL.1%>%kable(digits=3, format=format,
+  FL <- FL.1%>%kable(digits=3, format=format,
                     caption="03-1. Internal consistency
           (Cronbach's Alpha, 1951) and Composite Relibility
    Cronbach’s α (values ≥ .7 or .8 indicate good reliability; Kline (1999))
@@ -373,7 +376,7 @@ cfa2 <- function(x, format="markdown",
 
 
   ## 04 Convergent validity-----
-  alpha_AVE_CR <-   semTools::reliability(x, return.total = FALSE) %>%
+  alpha_AVE_CR_0 <-   semTools::reliability(x, return.total = FALSE) %>%
     # alpha_AVE_CR <-  reliability(x) %>%
     t() %>%
     as.data.frame() %>%
@@ -382,7 +385,8 @@ cfa2 <- function(x, format="markdown",
     mutate(sqrt.AVE=sqrt(AVE))%>%
     mutate(AVE_check=ifelse(AVE>0.5,"Accept(>0.5) *","Reject"))%>%
     dplyr::select(Cronbach,CR, AVE,AVE_check, #sqrt.AVE
-    ) %>%
+    )
+  alpha_AVE_CR <-   alpha_AVE_CR_0 %>%
     kable(digits = 3,format = format,
           caption = "03 Convergent validity
           Internal consistency(Cronbach's Alpha, 1951)(>0.7)
@@ -567,22 +571,38 @@ cfa2 <- function(x, format="markdown",
   )
   # all.reuslt
   ## cfa2()출력 옵션---------------
+  # switch(res,
+  #        all = all.reuslt,
+  #        model = model,
+  #        modelfit = fit,
+  #        modelfit2 = fitMeasures_s1,
+  #        loadings = factorloading,
+  #        alpha = FL,
+  #        CR_AVE = alpha_AVE_CR,
+  #        Convegent = alpha_AVE_CR,
+  #        fl_criteria = validity,
+  #        Discriminant = validity,
+  #        htmt = htmt,
+  #        HTMT = htmt,
+  #        # Latent_Cor=lv.cor,
+  #        str_cor = lv.cor.sig,
+  #        loadings_Bar = gg )
   switch(res,
          all = all.reuslt,
-         model= model,
-         modelfit=fit,
-         modelfit2=fitMeasures_s1,
-         loadings = factorloading,
-         alpha = FL,
-         CR_AVE=alpha_AVE_CR,
-         Convegent=alpha_AVE_CR,
-         fl_criteria = validity,
-         Discriminant = validity,
-         htmt = htmt,
-         HTMT = htmt,
+         model = model,
+         modelfit = modelfitdata,
+         modelfit2 = fitMeasures_s1,
+         loadings = factorloading_0,
+         alpha = FL.1,
+         CR_AVE = alpha_AVE_CR_0,
+         Convegent = alpha_AVE_CR_0,
+         fl_criteria = FornellNacker,
+         Discriminant = FornellNacker,
+         htmt = htmt2,
+         HTMT = htmt2,
          # Latent_Cor=lv.cor,
-         str_cor=lv.cor.sig,
-         loadings_Bar=gg )
+         str_cor = lv.cor.sig,
+         loadings_Bar = gg )
 
 }
 
