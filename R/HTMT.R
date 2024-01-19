@@ -70,8 +70,8 @@ HTMT <- function(model= NA,
     htmt0NA  <- htmt0 #NA data
     htmt0NA[lower.tri(htmt0)==FALSE] <- NA   # upper
     htmt1 <- htmt0 %>%
-      dplyr::mutate(Max = apply(htmt0, 1, max, na.rm=T),  #max value
-             dis = ifelse(0.9 - Max== 0.9, 0, 0.9 - Max),  #discriminant
+      dplyr::mutate("Max" = apply(htmt0, 1, max, na.rm=T),  #max value
+             dis = ifelse(0.9 - Max == 0.9, 0, 0.9 - Max),  #discriminant
              sig = ifelse(0.9- Max >= 0,"*","ns")) #sig
 
     htmt <- htmt1  %>%

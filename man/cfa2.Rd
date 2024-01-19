@@ -53,3 +53,88 @@ cfa2(
 \description{
 Create CFA result summary by lavaan sem estimated result By Park Joonghee Ph.D
 }
+\examples{
+# example code
+\dontrun{
+
+library(lavaan)
+data(PoliticalDemocracy)
+
+ model1 <- "
+ # measurement model
+   ind60 =~ x1 + x2 + x3
+   dem60 =~ y1 + y2 + y3 + y4
+   dem65 =~ y5 + y6 + y7 + y8
+ # regressions
+   dem60 ~ ind60
+   dem65 ~ ind60 + dem60
+ # residual correlations
+   y1 ~~ y5
+   y2 ~~ y4 + y6
+   y3 ~~ y7
+   y4 ~~ y8
+   y6 ~~ y8"
+
+
+#' fit1 <- sem(model1, data = PoliticalDemocracy)
+## summary(fit2, standardized = TRUE)
+
+## model 2 generate
+model2 <- "
+ ## measurement model
+   ind60 =~ x1 + x2 + x3
+   dem60 =~ y1 + y2 + y3 + y4
+   dem65 =~ y5 + y6 + y7 + y8
+ ## regressions
+   dem60 ~ ind60
+   dem65 ~ ind60 + dem60 "
+
+
+fit2 <- sem(model2, data = PoliticalDemocracy)
+## summary(fit2, standardized = TRUE)
+##
+ cfa2(fit)
+## if you wnat HTMT value, input model and dataset
+cfa2(fit, dataset = PoliticalDemocracy, model = model )
+
+
+#compare model fit and different values
+CompareFit_diff(fit1, fit2)
+
+# AVE calculatin by hand
+AVE(fit)
+# model fit
+cfa2(fit, dataset = PoliticalDemocracy, model = model,
+     res =  "modelfit")
+
+# item validattiy
+cfa2(fit, dataset = PoliticalDemocracy, model = model,
+     res =  "loadings")
+
+# Internal consistency
+cfa2(fit, dataset = PoliticalDemocracy, model = model,
+     res =  "alpha")
+
+cfa2(fit, dataset = PoliticalDemocracy, model = model,
+     res =  "CR_AVE")
+
+# Discriminant
+cfa2(fit, dataset = PoliticalDemocracy, model = model,
+     res =  "Discriminant")
+
+# HTMT
+
+cfa2(fit, dataset = PoliticalDemocracy, model = model,
+     format="markdown",
+     res =  "htmt")
+
+cfa2(fit, dataset = PoliticalDemocracy, model = model,
+     format="html",
+     res =  "htmt")\%>\%
+  kable_minimal(full_width =F)
+
+# structure correlation
+cfa2(fit, dataset = PoliticalDemocracy, model = model,
+      res =  "str_cor")
+}
+}

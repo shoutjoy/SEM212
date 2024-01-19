@@ -6,17 +6,17 @@
 
 #' @export
 CompareFit_diff<- function(...) {
-  library(magrittr)
-  # library(stargazer)
-  library(tibble)
-  library(knitr)
-  library(dplyr)
-  librar(lavaan)
+  # library(magrittr)
+  # # library(stargazer)
+  # library(tibble)
+  # library(knitr)
+  # library(dplyr)
+  # librar(lavaan)
 
 
   m <- list(...)
 
-  result <- sapply(m, fitMeasures) %>%
+  result <- sapply(m, lavaan::fitMeasures) %>%
     magrittr::set_colnames(paste0("Model_", 1:length(m))) %>%
     as.data.frame() %>%
     tibble::rownames_to_column("Fit_Measures") %>%
@@ -32,7 +32,7 @@ CompareFit_diff<- function(...) {
                   "gfi",
                   "aic",
                   "bic"),
-                Fit_Measures)) %>%
+                          Fit_Measures)) %>%
     dplyr::mutate(Fit_Measures=c("Chi-square",
                           "df",
                           "p-value",

@@ -1,5 +1,5 @@
 #' Create CFA result summary by lavaan sem estimated result By Park Joonghee Ph.D
-#' @export
+
 #' @param x lavaan result
 #' @param format knitr markdown decision
 #' @param dataset this is import name that dataset column name
@@ -14,14 +14,15 @@
 #' @param var_name new text name default NULL
 #' @param digits value rounding
 #' @param res result type
-#'
 #' @importFrom magrittr %>%
 #' @examples
 #' # example code
 #' \dontrun{
 #'
 #' library(lavaan)
-#'  model1 <- '
+#' data(PoliticalDemocracy)
+#'
+#'  model1 <- "
 #'  # measurement model
 #'    ind60 =~ x1 + x2 + x3
 #'    dem60 =~ y1 + y2 + y3 + y4
@@ -34,29 +35,38 @@
 #'    y2 ~~ y4 + y6
 #'    y3 ~~ y7
 #'    y4 ~~ y8
-#'    y6 ~~ y8
-#'    '
+#'    y6 ~~ y8"
 #'
-#' fit1 <- sem(model1, data = PoliticalDemocracy)
-#' # summary(fit2, standardized = TRUE)
-#' model2 <- '
-#'  # measurement model
+#'
+
+#' #' fit1 <- sem(model1, data = PoliticalDemocracy)
+#' ## summary(fit2, standardized = TRUE)
+#'
+#' ## model 2 generate
+#' model2 <- "
+#'  ## measurement model
 #'    ind60 =~ x1 + x2 + x3
 #'    dem60 =~ y1 + y2 + y3 + y4
 #'    dem65 =~ y5 + y6 + y7 + y8
-#'  # regressions
+#'  ## regressions
 #'    dem60 ~ ind60
-#'    dem65 ~ ind60 + dem60
-#'    '
+#'    dem65 ~ ind60 + dem60 "
+#'
 #'
 #' fit2 <- sem(model2, data = PoliticalDemocracy)
-#' # summary(fit2, standardized = TRUE)
-#'
-#' # if you wnat HTMT value, input model and dataset
+#' ## summary(fit2, standardized = TRUE)
+#' ##
+#'  cfa2(fit)
+#' ## if you wnat HTMT value, input model and dataset
 #' cfa2(fit, dataset = PoliticalDemocracy, model = model )
+#'
+#'
 #' #compare model fit and different values
 #' CompareFit_diff(fit1, fit2)
 #'
+
+#' # AVE calculatin by hand
+#' AVE(fit)
 #' # model fit
 #' cfa2(fit, dataset = PoliticalDemocracy, model = model,
 #'      res =  "modelfit")
@@ -90,13 +100,11 @@
 #'
 #' # structure correlation
 #' cfa2(fit, dataset = PoliticalDemocracy, model = model,
-#'      res =  "str_cor")
-
-#' # AVE calculatin by hand
-#' AVE(fit)
+#'       res =  "str_cor")
 #' }
-#'
 
+
+#' @export
 #cfa2 CFA lavaan SEM----
 cfa2 <- function(x, format="markdown",
                  dataset=NA, #dataset input htmt
@@ -287,7 +295,7 @@ cfa2 <- function(x, format="markdown",
   ## 02 factor loading-----
   options(knitr.kable.NA="")
 
-  factorloading_0 <- parameterEstimates(x, standardized=TRUE) %>%
+  factorloading_0 <- lavaan::parameterEstimates(x, standardized=TRUE) %>%
     filter(op=="=~") %>%
     mutate(stars=ifelse(pvalue < 0.001, "***",
                         ifelse(pvalue < 0.01, "**",
@@ -328,7 +336,7 @@ cfa2 <- function(x, format="markdown",
 
 
 
-  dataplot0 <-  parameterEstimates(x, standardized=TRUE) %>%
+  dataplot0 <-  lavaan::parameterEstimates(x, standardized=TRUE) %>%
     filter(op=="=~") %>%
     mutate(stars=ifelse(pvalue < 0.001, "***",
                         ifelse(pvalue < 0.01, "**",
@@ -416,7 +424,6 @@ cfa2 <- function(x, format="markdown",
     mutate(CR_Check=ifelse(CR>0.7,"Accept(>0.7) *","Reject")) %>%
     dplyr::select(Cronbach,alpha_Check,CR,CR_Check )
 
-  #' average variance extracted(AVE)"=avevar)
 
   #05 Reprort cronbach, AVE, C.R
   FL.1 <- cbind(alpha.1)
@@ -598,7 +605,7 @@ cfa2 <- function(x, format="markdown",
 
 
   ##06 cor significant----
-  lv.cor.sig <- parameterEstimates(x, standardized = T) %>%
+  lv.cor.sig <- lavaan::parameterEstimates(x, standardized = T) %>%
     filter(op=="~"|op=="~~"&lhs != rhs) %>%
     dplyr::select(lhs,op,rhs, std.lv, pvalue) %>%
     mutate(sig=ifelse(pvalue < 0.001, "***",
@@ -814,7 +821,7 @@ cfa3 <- function(x, graph=F){
 
   #
   #
-  #     factorloading <- parameterEstimates(x, standardized=TRUE) %>%
+  #     factorloading <- lavaan::parameterEstimates(x, standardized=TRUE) %>%
   #         filter(op=="=~") %>%
   #         mutate(stars=ifelse(pvalue < 0.001, "***",
   #                             ifelse(pvalue < 0.01, "**",
@@ -830,7 +837,7 @@ cfa3 <- function(x, graph=F){
   #     #       (2) std.damda >= 0.5(Bagozzi & Yi(1988)")
   #
   ## 02 factor loading-----
-  factorloading <- parameterEstimates(x, standardized=TRUE) %>%
+  factorloading <- lavaan::parameterEstimates(x, standardized=TRUE) %>%
     filter(op=="=~") %>%
     mutate(stars=ifelse(pvalue < 0.001, "***",
                         ifelse(pvalue < 0.01, "**",
@@ -843,7 +850,7 @@ cfa3 <- function(x, graph=F){
 
 
   if(graph==T){
-    dataplot0 <- parameterEstimates(x, standardized=TRUE) %>%
+    dataplot0 <- lavaan::parameterEstimates(x, standardized=TRUE) %>%
       filter(op=="=~") %>%
       mutate(stars=ifelse(pvalue < 0.001, "***",
                           ifelse(pvalue < 0.01, "**",
@@ -887,7 +894,6 @@ cfa3 <- function(x, graph=F){
     mutate(CR_Check=ifelse(CR>0.7,"Accept(>0.7) *","Reject")) %>%
     dplyr::select(Cronbach,alpha_Check,CR,CR_Check )
 
-  #," average variance extracted(AVE)"=avevar)
 
   #05 Reprort cronbach, AVE, C.R
   FL.1 <- cbind(alpha.1)
@@ -992,7 +998,7 @@ cfa3 <- function(x, graph=F){
 
 
   # cor significant
-  lv.cor.sig <- parameterEstimates(x, standardized = T) %>%
+  lv.cor.sig <- lavaan::parameterEstimates(x, standardized = T) %>%
     filter(op=="~"|op=="~~"&lhs != rhs) %>%
     dplyr::select(lhs,op,rhs, std.lv, pvalue) %>%
     mutate(sig=ifelse(pvalue < 0.001, "***",
