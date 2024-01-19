@@ -4,7 +4,14 @@
 \alias{Freq_table}
 \title{Freq_table  Frequency output function------------}
 \usage{
-Freq_table(data)
+Freq_table(
+  data,
+  format = "markdown",
+  title = "Frequency output function",
+  sort = FALSE,
+  prop = TRUE,
+  arrange = ""
+)
 }
 \arguments{
 \item{data}{data.frame}
