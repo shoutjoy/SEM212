@@ -42,8 +42,10 @@ viz LCA Latent Class Analysis
 \dontrun{
 
 data(election)
-data(glca::gss08)
-
+library(glca)
+data(gss08)
+gss08na <- gss08 \%>\% drop_na()
+gss08na
 fm1 <- cbind(MORALG,CARESG,KNOWG,MORALB,CARESB,
              KNOWB,LEADB,DISHONB,INTELB)~ PARTY
 
