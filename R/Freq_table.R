@@ -49,6 +49,7 @@ Freq_table <- function(data,
     }
   }else if(prop==FALSE){
     res <-  data%>% table() %>% as.data.frame()
-   }
+  }
+  res  #show result
 }
 

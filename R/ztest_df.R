@@ -1,5 +1,4 @@
-
-# 'z test using data.frame(or tibble)
+#' Z-test using data.frame(or tibble)
 #'
 #' @param data lm() and data.frame
 #' @param row1  row1 = 2
@@ -33,6 +32,8 @@
 #'    ztest_df(sel="term", rname1="hp", rname2="drat")
 
 #'  }
+#'
+#'
 ztest_df <- function(data, row1=2, row2=3,
                      rname1="", rname2="",
                      sel="row"){
