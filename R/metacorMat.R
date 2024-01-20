@@ -1,4 +1,4 @@
-#' Creating a meta-structural equation correlation matrix
+#' Creating a meta-structural equation correlation matrix JH, Park
 #' @param data data.frame, columns:  study, n, var1_var2, var1_var2, ...
 #' @param startcol The column where the correlation coefficient starts, ej, and the column where the correlation coefficient ends are automatically calculated.
 #' @param var Unique variable name with correlation analysis
@@ -7,7 +7,7 @@
 #'  ## making correlation matrix ##
 #' cormat1 = metacorMat(rd2, startcol= 3, var=c("po","ne","se","jp"))
 #'  ##variable : "po_ne" "po_se" "po_jp" "ne_se" "ne_jp" "se_jp"
-#'  varnames <- c("po","ne","se","jp")
+#'
 #' rd2<- data.frame(
 #'   stringsAsFactors = FALSE,
 #'   study = c(1L,
@@ -84,16 +84,16 @@
 #'
 #' ### 1. How to obtain the correlation matrix using the fixed effects model
 #' library(metaSEM)
-#' fixed1 <- tssem1(Cov=cormat, n=rd2$n, method="FEM")
+#' fixed1 <- tssem1(Cov=cormat1, n=rd2$n, method="FEM")
 #' summary(fixed1)
 #' coef(fixed1)
 #'
 #' ### random effects model
-#' random = tssem1(Cov=cormat, n=rd2$n, method="REM" , RE.type = "Diag")
+#' random = tssem1(Cov=cormat1, n=rd2$n, method="REM" , RE.type = "Diag")
 #' summary(random)
 #'
 #' # 2. How to find correlation matrix using random effects model
-#' remodel = tssem1(Cov=cormat, n=rd2$n, method="REM" , RE.type = "Diag")
+#' remodel = tssem1(Cov=cormat1, n=rd2$n, method="REM" , RE.type = "Diag")
 #' random1 = summary(remodel)
 #' mat1 <- vec2symMat(matrix(random1$coefficients[1:6,1]), diag = FALSE)
 #' colnames(mat1)=c("po","ne","se","jp")
@@ -102,13 +102,72 @@
 #'
 #' ##path modeling
 #' ### step1
-#' rem=tssem1(Cov=cormat, n=rd2$n, method="REM" , RE.type = "Diag")
+#' rem = tssem1(Cov=cormat1, n=rd2$n, method="REM" , RE.type = "Diag")
+#' summary(rem)
+#'
+#' ## path model to A
+#' ## se = b31*po + b32*ne +e3
+#' ## jp = b41*po + b42*ne + b43*se +e4
+#' A= create.mxMatrix(
+#' c(0,0,0,0,
+#'   0,0,0,0,
+#'   "0.1*b31","0.1*b32",0,0,
+#'   "0.1*b41","0.1*b42","0.1*b43",0),
+#' type="Full", nrow=4, ncol=4, byrow=TRUE, name="A")
+#' A
+#'
+#' #exogeous correlation matrix
+#' varnames <- c("po","ne","se","jp")
+#' S= create.mxMatrix(
+#' c(1,
+#'   "0.1*p21",1,
+#'   0,        0,"1*p33",
+#'   0,        0,      0,"1*p44"),
+#'   type="Symm", byrow = TRUE,
+#'   name="S",
+#'   dimnames=list(varnames, varnames)
+#' )
+#' S
+#'
+#'
 #' ### step 2
 #' stage2A = tssem2(rem, Amatrix = A, Smatrix = S, diag.constraints = TRUE)
 #' summary(stage2A)
 #' plot(stage2A, what="est", edge.label.cex = 0.9, edge.label.position=0.7,
 #'     nDigits=3, layout = "spring")
 #'
+#'
+#' ###Alternative model
+#' A2 = create.mxMatrix(
+#' c(0,0,0,0,
+#'   0,0,0,0,
+#'   "0.1*b31","0.1*b32",0,0,
+#'   0,"0.1*b42","0.1*b43",0),
+#' type="Full", nrow=4, ncol=4, byrow=TRUE, name="A")
+#'  A2
+#'
+#'
+#' stage3A = tssem2(rem, Amatrix = A2, Smatrix = S,
+#'                  diag.constraints = TRUE, intervals.type = "LB")
+#' summary(stage3A)
+#'
+#' plot(stage3A, what="est", edge.label.cex = 1, edge.color="gray20",
+#' edge.label.position=0.5, nDigits=4,
+#' layout = "spring", style="lisrel",residScale=16)
+#'
+#' # Test the significance of indirect effect
+#' stage4A = tssem2(rem, Amatrix = A2, Smatrix = S, diag.constraints = TRUE,
+#'           intervals.type = "LB",
+#'           mx.algebras = list(
+#'                    IDEpotojp = mxAlgebra(b31*b43, name="IDEpotojp"),
+#'                    IDEnetojp = mxAlgebra(b32*b43, name="IDEnetojp")
+#'                   ))
+#'   summary(stage4A)
+#'
+#' ## mxAlgebras objects (and their 95% likelihood-based CIs):
+#' ## lbound    Estimate      ubound
+#' ## IDEpotojp[1,1]  0.05315542  0.08413089  0.11799399
+#' ## IDEnetojp[1,1] -0.10185142 -0.06355753 -0.03440116
 #'
 #' }
 #'

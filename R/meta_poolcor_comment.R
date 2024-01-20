@@ -66,7 +66,9 @@
 #'            7L,3L)
 #' )
 #'
-#' ## cormat1
+#' cormat1
+#'
+#'
 #' ## [[1]]
 #' ## po ne se   jp
 #' ## po 1.00 NA NA 0.16
@@ -84,7 +86,7 @@
 #'
 #' ### 1. How to obtain the correlation matrix using the fixed effects model
 #' library(metaSEM)
-#' fixed1 <- tssem1(Cov=cormat, n=rd2$n, method="FEM")
+#' fixed1 <- tssem1(Cov=cormat1, n=rd2$n, method="FEM")
 #' summary(fixed1)
 #' coef(fixed1)
 #'
