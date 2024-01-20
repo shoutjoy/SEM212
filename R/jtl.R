@@ -26,3 +26,4 @@ jtl <-  function(text="",
     content(response, "text", encoding="UTF-8")
 
 }#();
+#
