@@ -1,0 +1,127 @@
+#' metasem primary analysis analysis results by JH, Park
+#'
+#' @param res metaSEM result
+#' @export
+#' @examples
+#' \dontrun{
+#' ## making correlation matrix ##
+#' cormat1 = metacorMat(rd2, startcol= 3, var=c("po","ne","se","jp"))
+#'  ##variable : "po_ne" "po_se" "po_jp" "ne_se" "ne_jp" "se_jp"
+#'  varnames <- c("po","ne","se","jp")
+#' rd2<- data.frame(
+#'   stringsAsFactors = FALSE,
+#'   study = c(1L,
+#'             2L,3L,4L,5L,6L,7L,8L,9L,10L,11L,12L,
+#'             13L,14L,15L,16L,17L,18L,19L,20L,
+#'             21L,22L,23L,24L,25L,26L,27L,28L,29L,
+#'             30L,31L,32L,33L,34L,35L,36L),
+#'   n = c(671L,
+#'         92L,73L,321L,214L,947L,321L,231L,
+#'         531L,567L,213L,928L,269L,593L,78L,983L,
+#'         1504L,247L,79L,875L,68L,201L,891L,
+#'         197L,431L,98L,179L,69L,301L,679L,273L,
+#'         254L,316L,781L,273L,268L),
+#'   po_ne = c(NA,
+#'             NA,-0.33,NA,NA,NA,NA,-0.32,NA,NA,NA,
+#'             NA,NA,NA,-0.21,-0.49,NA,-0.14,-0.29,
+#'             -0.27,NA,-0.37,NA,NA,-0.35,-0.17,NA,
+#'             -0.11,NA,NA,-0.41,NA,NA,NA,NA,-0.39),
+#'   po_se = c(NA,
+#'             0.37,0.29,0.16,0.41,NA,NA,0.21,0.59,
+#'             0.53,0.31,0.38,NA,NA,0.19,NA,NA,NA,
+#'             NA,0.21,0.07,0.57,0.45,NA,0.18,NA,
+#'             0.45,NA,NA,0.09,NA,NA,0.37,0.19,0.23,
+#'             NA),
+#'   po_jp = c(0.16,
+#'             0.39,0.09,0.07,NA,0.04,NA,NA,0.33,
+#'             0.11,NA,0.04,NA,NA,0.21,0.23,0.09,
+#'             0.11,0.31,0.11,-0.07,0.14,NA,0.19,0.13,
+#'             0.25,0.35,0.29,0.35,NA,0.27,0.19,NA,
+#'             NA,0.13,0.19),
+#'   ne_se = c(NA,
+#'             -0.31,NA,NA,NA,NA,NA,-0.19,NA,NA,NA,
+#'             NA,-0.49,NA,-0.45,NA,NA,NA,NA,-0.38,
+#'             NA,-0.39,NA,NA,-0.21,NA,NA,NA,NA,
+#'             -0.23,NA,NA,NA,NA,-0.44,NA),
+#'   ne_jp = c(NA,
+#'             -0.41,NA,NA,NA,-0.18,-0.11,NA,NA,NA,
+#'             NA,NA,-0.21,-0.15,-0.36,-0.29,NA,
+#'             -0.27,-0.29,-0.23,NA,-0.27,NA,NA,-0.19,
+#'             -0.07,NA,-0.31,NA,NA,0.07,NA,NA,NA,
+#'             -0.27,-0.05),
+#'   se_jp = c(NA,
+#'             NA,NA,0.07,NA,NA,NA,NA,0.27,0.07,NA,
+#'             NA,0.48,0.26,0.41,NA,NA,NA,NA,0.31,
+#'             0.19,0.34,NA,NA,0.19,NA,0.39,NA,
+#'             0.57,NA,NA,NA,NA,NA,NA,NA),
+#'   jobyear = c("f",
+#'               "f","s","s","s","s","f","f","s","s",
+#'               "s","s","f","f","f","f","f","f","s",
+#'               "s","s","s","s","f","s","f","f",
+#'               "f","f","f","f","s","s","s","f","f"),
+#'   wage = c(9L,
+#'            1L,1L,1L,4L,9L,2L,3L,3L,3L,2L,7L,
+#'            1L,8L,6L,3L,5L,7L,8L,4L,7L,1L,4L,
+#'            6L,7L,1L,9L,6L,7L,7L,7L,9L,2L,5L,
+#'            7L,3L)
+#' )
+#'
+#' ## cormat1
+#' ## [[1]]
+#' ## po ne se   jp
+#' ## po 1.00 NA NA 0.16
+#' ## ne   NA NA NA   NA
+#' ## se   NA NA NA   NA
+#' ## jp 0.16 NA NA 1.00
+#' ##
+#' ## [[2]]
+#' ## po    ne    se    jp
+#' ## po   NA    NA  0.37  0.39
+#' ## ne   NA  1.00 -0.31 -0.41
+#' ## se 0.37 -0.31    NA    NA
+#' ## jp 0.39 -0.41    NA  1.00
+#' ## 출처 meta-analaysis 경로분석모델 1단계 - 상관행렬추정 correlation using metaSEM|자유자재Paper
+#'
+#' ### 1. How to obtain the correlation matrix using the fixed effects model
+#' library(metaSEM)
+#' fixed1 <- tssem1(Cov=cormat, n=rd2$n, method="FEM")
+#' summary(fixed1)
+#' coef(fixed1)
+#'
+#' ## generate comment
+#'  poolcor_comment(fixed1)
+#' }
+#'
+#'
+ poolcor_comment<- function(res){
+  fs <- summary(res)
+  n    <- fs$stat[1]
+  chi2 <- fs$stat[2]
+  df   <- fs$stat[3]
+  p    <- fs$stat[4]
+  rmsea <- fs$stat[7]
+  rmsea.lower <- fs$stat[8]
+  rmsea.upper <- fs$stat[9]
+  srmr <- fs$stat[10]
+  tli <- fs$stat[11]
+  cfi <- fs$stat[12]
+
+  chi2.dis <- ifelse(p <0.05,"It was significant. Therefore, the model was not appropriate",
+                     "It wasn't significant. Therefore, the model was appropriate because the null hypothesis could not be rejected.")
+
+  rmsea.dis <- ifelse(rmsea < 0.05,"Fit was suitable", "Fit was not suitable.")
+  srmr.dis <- ifelse(rmsea < 0.05,"Fit was suitable,", "Fit was not suitable.")
+  tli.dis <- ifelse(tli > 0.95,"Fit was suitable", "Fit was not suitable.")
+  cfi.dis <- ifelse(cfi > 0.95,"Fit was suitable", "Fit was not suitable.")
+
+  # if(p<0.001){"p < .001"}else
+
+  cat(sprintf('As a result of estimating the pooled correlation matrix using tssem in the first step, chi-square analysis was %s, chi2(%.1d) = %.3f, p = %.3f. Looking at the RMSEA value, which is an evaluation index (Brown, 2015) that evaluates whether the model fits the population reasonably well, the model is %s, RMSEA = %.3f, 95%CI[%.3f, % .3f]. The standardized RMR (difference in covariance matrix) and the difference between the sample correlation matrix and the predicted correlation matrix are considered good if they are less than 0.05 (Bentler, 1995). SRMR = %s with %.3f. CFI and TLI are indicators that evaluate whether the model fit has improved compared to the basic model. The basic model represents a model in which the common variance between all variables is 0. The closer the CFI value is to 1, the better it is, and it should be 0.95 or higher (HU & Bentler , 1999). CFI= %s as %.3f. Lastly, TLI is a non-normal fit index (NNFI) and is similar to CFI. TLI = %s as %.3f.',
+              chi2.dis, df, chi2, p,
+              rmsea.dis, rmsea, rmsea.lower, rmsea.upper,
+              srmr, srmr.dis,
+              cfi, cfi.dis,
+              tli,tli.dis
+  )
+  )
+  }
