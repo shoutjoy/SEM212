@@ -15,7 +15,19 @@ Imports:
   knitr (>= 1.45),
   ggplot2 (>= 3.4.4),
   magrittr (>= 2.0.3),
-  lavaan (>= 0.6-16)
+  Hmisc,
+  psych,
+  semptools,
+  MASS,
+  MVN,
+  VIM,
+  curl,
+  ggrepel,
+  httr,
+  knitr,
+  reshape,
+  seminr,
+  stringr
 Suggests:
   broom (>= 1.0.5),
   httpuv (>= 1.6.13),
@@ -27,5 +39,6 @@ Suggests:
   kableExtra (>= 1.3.4)
 Depends:
   tidyverse,
-  lavaan
+  lavaan (>= 0.6-16)
+
   

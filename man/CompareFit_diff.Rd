@@ -4,9 +4,11 @@
 \alias{CompareFit_diff}
 \title{Comparison of Model Fit Indices of two or more structural equation models}
 \usage{
-CompareFit_diff(...)
+CompareFit_diff(fit, ...)
 }
 \arguments{
+\item{fit}{lavaan result and input fit1, fit2, ...}
+
 \item{...}{lavaan result and input fit1, fit2, ...}
 }
 \description{

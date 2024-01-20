@@ -1,11 +1,10 @@
-
 #'  Comparison of Model Fit Indices of two or more structural equation models
-
+#' @param fit lavaan result and input fit1, fit2, ...
+#'
 #' @param ... lavaan result and input fit1, fit2, ...
-
-
+#'
 #' @export
-CompareFit_diff<- function(...) {
+CompareFit_diff<- function(fit, ...) {
   # library(magrittr)
   # # library(stargazer)
   # library(tibble)
@@ -14,7 +13,7 @@ CompareFit_diff<- function(...) {
   # librar(lavaan)
 
 
-  m <- list(...)
+  m <- list(fit, ...)
 
   result <- sapply(m, lavaan::fitMeasures) %>%
     magrittr::set_colnames(paste0("Model_", 1:length(m))) %>%

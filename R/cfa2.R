@@ -15,6 +15,7 @@
 #' @param digits value rounding
 #' @param res result type
 #' @importFrom magrittr %>%
+
 #' @examples
 #' # example code
 #' \dontrun{
@@ -185,7 +186,7 @@ cfa2 <- function(x, format="markdown",
   #                            "parsimonious fit",
   #                            "parsimonious fit")
   fit <- fitMeasures  %>%
-    kable(digits=3, format=format,
+    knitr::kable(digits=3, format=format,
           caption="FitMeasure and criterian
           (*)satisfy By kline(2011) Suggestion")
 
@@ -290,7 +291,7 @@ cfa2 <- function(x, format="markdown",
 
 #summary
   fitMeasures_s1 <- modelfitdata %>%
-    kable (format=format,
+    knitr::kable(format=format,
            caption = "01 Model fit information")
 
 
@@ -300,7 +301,7 @@ cfa2 <- function(x, format="markdown",
   options(knitr.kable.NA="")
 
   factorloading_0 <- lavaan::parameterEstimates(x, standardized=TRUE) %>%
-    filter(op=="=~") %>%
+    dplyr::filter(op=="=~") %>%
     mutate(stars=ifelse(pvalue < 0.001, "***",
                         ifelse(pvalue < 0.01, "**",
                                ifelse(pvalue < 0.05, "*", "")))) %>%
@@ -319,7 +320,7 @@ cfa2 <- function(x, format="markdown",
       dplyr::select(Latent,Item ,Indicator , Est, S.E., cr, Sig., p ,
                     std, Accept
       ) %>%
-      kable(digits=3, format=format,
+      knitr::kable(digits=3, format=format,
             caption="02 Indicator Validity(1)
           Factor Loadings:
           (1) cr(critical ratio = Estimate/S.E) p<0.05,
@@ -328,7 +329,7 @@ cfa2 <- function(x, format="markdown",
   }else{
 
     factorloading <-factorloading_0 %>%
-      kable(digits=3, format=format,
+      knitr::kable(digits=3, format=format,
             caption="02 Indicator Validity(1)
           Factor Loadings:
           (1) cr(critical ratio = Estimate/S.E) p<0.05,
@@ -341,7 +342,7 @@ cfa2 <- function(x, format="markdown",
 
 
   dataplot0 <-  lavaan::parameterEstimates(x, standardized=TRUE) %>%
-    filter(op=="=~") %>%
+    dplyr::filter(op=="=~") %>%
     mutate(stars=ifelse(pvalue < 0.001, "***",
                         ifelse(pvalue < 0.01, "**",
                                ifelse(pvalue < 0.05, "*", "")))) %>%
@@ -431,7 +432,7 @@ cfa2 <- function(x, format="markdown",
 
   #05 Reprort cronbach, AVE, C.R
   FL.1 <- cbind(alpha.1)
-  FL <- FL.1%>%kable(digits=3, format=format,
+  FL <- FL.1%>%knitr::kable(digits=3, format=format,
                     caption="03-1. Internal consistency
           (Cronbach's Alpha, 1951) and Composite Relibility")
 
@@ -466,7 +467,7 @@ cfa2 <- function(x, format="markdown",
     dplyr::select(Cronbach,CR, AVE,AVE_check, #sqrt.AVE
     )
   alpha_AVE_CR <-   alpha_AVE_CR_0 %>%
-    kable(digits = 3,format = format,
+    knitr::kable(digits = 3,format = format,
           caption = "03 Convergent validity
           Internal consistency(Cronbach's Alpha, 1951)(>0.7)
           AVE(>0.5) & CR(>0.7): Fornell & Lacker(1981)")
@@ -521,7 +522,7 @@ cfa2 <- function(x, format="markdown",
     FornellNacker <- diff[,c(-(ncol(diff)-1))]
 
     validity <- FornellNacker %>%
-      kable(digits=3, format=format,
+      knitr::kable(digits=3, format=format,
             caption="04 Discriminant Validity:
           rho < Square Root of(AVE)
            By Fornell & Lacker(1981)")
@@ -562,7 +563,7 @@ cfa2 <- function(x, format="markdown",
     #
 
     validity <- FornellNacker %>%
-      kable(digits=3, format=format,
+      knitr::kable(digits=3, format=format,
             caption="04 Discriminant Validity:
           rho < Square Root of(AVE)
            By Fornell & Lacker(1981)")
@@ -593,7 +594,7 @@ cfa2 <- function(x, format="markdown",
 
 
     htmt <- htmt2  %>%
-      kable(format=format, digits = digits,
+      knitr::kable(format=format, digits = digits,
             caption="The heterotrait-monotrait ratio of correlations (HTMT).
           All correalation < 0.9 --> discriminant Accept(robusrst)
           general accept: < 1
@@ -610,7 +611,7 @@ cfa2 <- function(x, format="markdown",
 
   ##06 cor significant----
   lv.cor.sig <- lavaan::parameterEstimates(x, standardized = T) %>%
-    filter(op=="~"|op=="~~"&lhs != rhs) %>%
+    dplyr::filter(op=="~"|op=="~~"&lhs != rhs) %>%
     dplyr::select(lhs,op,rhs, std.lv, pvalue) %>%
     mutate(sig=ifelse(pvalue < 0.001, "***",
                       ifelse(pvalue < 0.01, "**",
@@ -618,7 +619,7 @@ cfa2 <- function(x, format="markdown",
     mutate(op=ifelse(op=="~","<--",
                      ifelse(op=="~~","cor",""))) %>%
     dplyr::select(lhs,op,rhs, std.lv, pvalue,sig) %>%
-    kable(digits=3, format=format,
+    knitr::kable(digits=3, format=format,
           caption="05 latent correlation Significant Check")
 
 
@@ -677,7 +678,7 @@ cfa2 <- function(x, format="markdown",
 
 #cfa2
 #
-# #quick markdown_table , kable(format="html) using cfa2()-----------
+# #quick markdown_table , knitr::kable(format="html) using cfa2()-----------
 # markdown_table_s <- function(data,
 #                              caption="html to markdown",
 #                              full_width=FALSE,
@@ -698,7 +699,7 @@ cfa2 <- function(x, format="markdown",
 #           row.names=row.names,col.names=col.names,
 #           centering=centering
 #       ) %>%
-#       kable_classic(full_width=full_width,font_size= font_size)
+#       knitr::kable_classic(full_width=full_width,font_size= font_size)
 #   }else if(show=="markdown"){
 #     data %>%
 #       kable_classic(full_width=full_width,font_size= font_size)
@@ -773,7 +774,7 @@ cfa3 <- function(x, graph=F){
   #                            "parsimonious fit",
   #                            "parsimonious fit")
   fit <- fitMeasures  #%>%
-  # kable(digits=3, format=format,
+  # knitr::kable(digits=3, format=format,
   #       caption="FitMeasure and criterian
   #       (*)satisfy By kline(2011) Suggestion")
   #
@@ -812,7 +813,7 @@ cfa3 <- function(x, graph=F){
                        "Value"=round(fitdata,3))
 
   fitMeasures_s1 <- modelfitdata# %>%
-  # kable (format=format,
+  # knitr::kable (format=format,
   #        caption = "01 Model fit information")
   #
 
@@ -826,7 +827,7 @@ cfa3 <- function(x, graph=F){
   #
   #
   #     factorloading <- lavaan::parameterEstimates(x, standardized=TRUE) %>%
-  #         filter(op=="=~") %>%
+  #         dplyr::filter(op=="=~") %>%
   #         mutate(stars=ifelse(pvalue < 0.001, "***",
   #                             ifelse(pvalue < 0.01, "**",
   #                                    ifelse(pvalue < 0.05, "*", "")))) %>%
@@ -835,14 +836,14 @@ cfa3 <- function(x, graph=F){
   #         dplyr::select("Latent"=lhs, Item=rhs, Est=est,S.E.=se,
   #                       cr=z, Sig.=stars, "p"=pvalue,
   #                       std=std.all, beta_Accept=label) #%>%
-  #     # kable(digits=3, format=format,
+  #     # knitr::kable(digits=3, format=format,
   #     #       caption="02 Indicator Validity(1)-Factor Loadings::
   #     #       (1) cr(critical ratio =Estimate/S.E) p<0.05,
   #     #       (2) std.damda >= 0.5(Bagozzi & Yi(1988)")
   #
   ## 02 factor loading-----
   factorloading <- lavaan::parameterEstimates(x, standardized=TRUE) %>%
-    filter(op=="=~") %>%
+    dplyr::filter(op=="=~") %>%
     mutate(stars=ifelse(pvalue < 0.001, "***",
                         ifelse(pvalue < 0.01, "**",
                                ifelse(pvalue < 0.05, "*", "")))) %>%
@@ -855,7 +856,7 @@ cfa3 <- function(x, graph=F){
 
   if(graph==T){
     dataplot0 <- lavaan::parameterEstimates(x, standardized=TRUE) %>%
-      filter(op=="=~") %>%
+      dplyr::filter(op=="=~") %>%
       mutate(stars=ifelse(pvalue < 0.001, "***",
                           ifelse(pvalue < 0.01, "**",
                                  ifelse(pvalue < 0.05, "*", "")))) %>%
@@ -933,7 +934,7 @@ cfa3 <- function(x, graph=F){
     mutate(AVE_check=ifelse(AVE>0.5,"Accept(>0.5) *","Reject"))%>%
     dplyr::select(Cronbach,CR, AVE,AVE_check, #sqrt.AVE
     ) #%>%
-  # kable(digits = 3,format = format,
+  # knitr::kable(digits = 3,format = format,
   #       caption = "03 Convergent validity
   #       Internal consistency(Cronbach's Alpha, 1951)(>0.7)
   #       AVE(>0.5) & CR(>0.7): Fornell & Lacker(1981)")
@@ -959,7 +960,7 @@ cfa3 <- function(x, graph=F){
 
 
     validity <- FornellNacker #%>%
-    # kable(digits=3, format=format,
+    # knitr::kable(digits=3, format=format,
     #       caption="04 Discriminant Validity:
     #     rho < Square Root of(AVE)
     #      By Fornell & Lacker(1981)")
@@ -992,7 +993,7 @@ cfa3 <- function(x, graph=F){
     #
 
     validity <- FornellNacker# %>%
-    #   kable(digits=3, format=format,
+    #   knitr::kable(digits=3, format=format,
     #         caption="04 Discriminant Validity:
     # rho < Square Root of(AVE)
     #  By Fornell & Lacker(1981)")
@@ -1003,7 +1004,7 @@ cfa3 <- function(x, graph=F){
 
   # cor significant
   lv.cor.sig <- lavaan::parameterEstimates(x, standardized = T) %>%
-    filter(op=="~"|op=="~~"&lhs != rhs) %>%
+    dplyr::filter(op=="~"|op=="~~"&lhs != rhs) %>%
     dplyr::select(lhs,op,rhs, std.lv, pvalue) %>%
     mutate(sig=ifelse(pvalue < 0.001, "***",
                       ifelse(pvalue < 0.01, "**",
@@ -1011,7 +1012,7 @@ cfa3 <- function(x, graph=F){
     mutate(op=ifelse(op=="~","<--",
                      ifelse(op=="~~","cor",""))) %>%
     dplyr::select(lhs,op,rhs, std.lv, pvalue,sig)# %>%
-  # kable(digits=3, format=format,
+  # knitr::kable(digits=3, format=format,
   #       caption="05 latent correlation Significant Check")
   #
 
