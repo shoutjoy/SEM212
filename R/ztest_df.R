@@ -1,6 +1,5 @@
 
-# z test using data.frame(or tibble)
-#' Title
+# 'z test using data.frame(or tibble)
 #'
 #' @param data lm() and data.frame
 #' @param row1  row1 = 2
@@ -53,7 +52,7 @@ ztest_df <- function(data, row1=2, row2=3,
 
     z = (b1 - b2)/ sqrt(se1_square + se2_square)
     p = 2*(1-pnorm(abs(z)))
-    statistics = tibble(b1,b2,se1,se2,diff, z, p)
+    statistics = tibble::tibble(b1,b2,se1,se2,diff, z, p)
     #colnames
     colnames(statistics)=c(
       paste0(data[row1, 1] %>%unlist(),"_est"),
@@ -64,20 +63,20 @@ ztest_df <- function(data, row1=2, row2=3,
 
     #selcting by variable name
   }else if(sel=="term"){
-    b1  = data %>% filter(term==rname1) %>%
+    b1  = data %>% dplyr::filter(term==rname1) %>%
       dplyr::select(2) %>%unlist()
-    b2  = data %>% filter(term==rname2) %>%
+    b2  = data %>% dplyr::filter(term==rname2) %>%
       dplyr::select(2) %>%unlist()
-    se1 = data %>% filter(term==rname1) %>%
+    se1 = data %>% dplyr::filter(term==rname1) %>%
       dplyr::select(3) %>%unlist()
-    se2 = data %>% filter(term==rname2) %>%
+    se2 = data %>% dplyr::filter(term==rname2) %>%
       dplyr::select(3)%>%unlist()
     se1_square = se1^2
     se2_square = se2^2
     diff= b1 - b2
     z = (b1 - b2)/ sqrt(se1_square + se2_square)
     p = 2*(1-pnorm(abs(z)))
-    statistics = tibble(b1,b2,se1,se2, diff, z, p)
+    statistics = tibble::tibble(b1,b2,se1,se2, diff, z, p)
 
     colnames(statistics)=c(
       paste0(rname1,"_est"),

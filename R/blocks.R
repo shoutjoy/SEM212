@@ -1,7 +1,6 @@
-
 #' item
 #'
-#' @param ...
+#' @param ... input
 #'
 #' @return list
 #' @export

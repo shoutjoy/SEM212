@@ -116,7 +116,4 @@ markdown_table <- function(lm_data,
 
   }
 }
-# ?kable_classic
-#data에 대한 것을 Viewer로 출력
-# ?kbl
 

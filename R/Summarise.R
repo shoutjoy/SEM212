@@ -1,5 +1,4 @@
-# descriptive statistics
-#' Title
+#' descriptive statistics
 #'
 #' @param x data.frame or etc
 #' @param type  result option. default 'normalitytest'. if you possible select optuon. 'col', 'row','skew','kurt','mean','sd', 'n', 'median', 'all', 'normalitytest','normalitytest_data', 'df', 'mvn','shapiro', 'ref'
@@ -29,17 +28,17 @@
 Summarise <- function(x,
                       type="normalitytest",
                       digit=2){
-  library(stringr)
-  library(tidyverse)
-  library(MVN)
+  # library(stringr)
+  # library(tidyverse)
+  # library(MVN)
   tryCatch({
     #col: Display vertically (variable is vertical)
     #row: Display horizontally (variable is horizontal)
     x <- x %>% as.data.frame()
-    s_col <- summarise(x,
-                       across( .cols=c(1:ncol(x)),
+    s_col <- dplyr::summarise(x,
+                       dplyr::across( .cols=c(1:ncol(x)),
                                .fns = function(x){
-                                 str_c(round(mean(x, na.rm = T),
+                                 stringr::str_c(round(mean(x, na.rm = T),
                                              digit),"(", round(sd(x),digit),")" )}
                        )) %>% t() %>% as.data.frame()
     colnames(s_col)="Mean(sd)"
@@ -48,34 +47,34 @@ Summarise <- function(x,
 
 
     #sample size
-    s_n <- summarise(x, across(
+    s_n <- dplyr::summarise(x,  dplyr::across(
       .cols=c(1:ncol(x)),
       .fns = function(x){length(x)}
     )) %>% t()
     colnames(s_n)="n"
     #mean
-    s_mean <-summarise(x, across(
+    s_mean <-  dplyr::summarise(x,  dplyr::across(
       .cols=c(1:ncol(x)),
       .fns = function(x){mean(x, na.rm = T)}
     )) %>% t() #%>% as.data.frame()
     colnames(s_mean)="mean"
 
     #Standard Deviation
-    s_sd <-summarise(x, across(
+    s_sd <- dplyr::summarise(x,  dplyr::across(
       .cols=c(1:ncol(x)),
       .fns = function(x){sd(x, na.rm = T)}
     )) %>% t()# %>% as.data.frame()
     colnames(s_sd)="sd"
 
     #skewness
-    s_skew <-summarise(x, across(
+    s_skew <- dplyr::summarise(x,  dplyr::across(
       .cols=c(1:ncol(x)),
       # .fns = function(x){SKEW(x)}
       .fns = function(x){ mean((x - mean(x))^3)/(sd(x)^3)}
     )) %>% t() #%>% as.data.frame()
     colnames(s_skew)="skew"
     #kurtosis
-    s_kurt <-summarise(x, across(
+    s_kurt <- dplyr::summarise(x,  dplyr::across(
       .cols=c(1:ncol(x)),
       # .fns = function(x){KURT(x)}
       .fns = function(x){mean((x - mean(x))^4) /(sd(x)^4) - 3}
@@ -83,14 +82,14 @@ Summarise <- function(x,
     colnames(s_kurt)="kurtosis"
 
     #median
-    s_median <-summarise(x, across(
+    s_median <- dplyr::summarise(x,  dplyr::across(
       .cols=c(1:ncol(x)),
       .fns = function(x){median(x)}
     )) %>% t() #%>% as.data.frame()
     colnames(s_median)="median"
 
     #colname addon
-    colName= colnames(x)
+    colName = colnames(x)
 
     # description = bind_cols(variable= colName,
     #                         round(s_mean, digit),
@@ -98,7 +97,7 @@ Summarise <- function(x,
     #                         s_n,
     #                         round(s_skew, digit),
     #                               round(s_kurt, digit) ) %>% tibble()
-    description = bind_cols(s_mean,
+    description = dplyr::bind_cols(s_mean,
                             s_sd,
                             s_n,
                             s_skew,
@@ -140,7 +139,7 @@ Summarise <- function(x,
     output[output$kurt.z < -1.96,"kurt_TF"]<- "fair"
     output[output$kurt.z < -3,"kurt_TF"]<- "Not Sig"
 
-    output_res= bind_cols(variabel= colName,
+    output_res = dplyr::bind_cols(variabel= colName,
                           round(output_df, digit),
                           output[,c(8:9)]
     )
@@ -156,9 +155,9 @@ Summarise <- function(x,
     )
 
     #### Normality : test Henze-Zirkler, Anderson-Darling -----
-    mvn_data = mvn(x, mvnTest = "mardia")  ## 11plot auto
-    shapirotest = mvn(x, univariateTest="SW")
-    mvn_hz = mvn(x, mvnTest = "hz")
+    mvn_data = MVN::mvn(x, mvnTest = "mardia")  ## 11plot auto
+    shapirotest = MVN::mvn(x, univariateTest="SW")
+    mvn_hz = MVN::mvn(x, mvnTest = "hz")
 
 
 
@@ -172,9 +171,9 @@ Summarise <- function(x,
            sd = round(s_sd, digit),
            n = s_n,
            median = s_median,
-           all = bind_cols(variable= colName, output_data0),
-           all_tibble = bind_cols(variable= colName,
-                                  output_data0) %>% tibble(),
+           all = dplyr::bind_cols(variable= colName, output_data0),
+           all_tibble = dplyr::bind_cols(variable= colName,
+                                  output_data0) %>% tibble::tibble(),
            normalitytest = list(cat(ref), output_res),
            normalitytest_data = output_res,
            df = output_res,

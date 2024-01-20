@@ -1,5 +1,3 @@
-
-
 #' effec1 is the path coefficient of the structural equation.
 #'
 #' @param x lavaan result

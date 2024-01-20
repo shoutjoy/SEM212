@@ -1,5 +1,4 @@
 #' Create CFA result summary by lavaan sem estimated result By Park Joonghee Ph.D
-
 #' @param x lavaan result
 #' @param format knitr markdown decision
 #' @param dataset this is import name that dataset column name

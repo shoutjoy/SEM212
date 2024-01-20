@@ -4,7 +4,7 @@
 #' @param ... lavaan result and input fit1, fit2, ...
 #'
 #' @export
-CompareFit_diff<- function(fit, ...) {
+CompareFit_diff <- function(fit, ...) {
   # library(magrittr)
   # # library(stargazer)
   # library(tibble)

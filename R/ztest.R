@@ -1,4 +1,3 @@
-
 #' Z test compare coefficient
 #'
 #' @param b1 b1 coeff
@@ -23,7 +22,7 @@ ztest<- function(b1, se1, b2, se2){
   p = 2*(1-pnorm(abs(z)))
 
 
-  res = tidy(c(z.value= z, pvalue=p))
+  res = broom::tidy(c(z.value= z, pvalue=p))
   colnames(res)=c("statistics","value")
   res
 }

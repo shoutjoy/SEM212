@@ -2,7 +2,7 @@
 % Please edit documentation in R/Summarise.R
 \name{Summarise}
 \alias{Summarise}
-\title{Title}
+\title{descriptive statistics}
 \usage{
 Summarise(x, type = "normalitytest", digit = 2)
 }
@@ -14,7 +14,7 @@ Summarise(x, type = "normalitytest", digit = 2)
 \item{digit}{rounding default 2}
 }
 \description{
-Title
+descriptive statistics
 }
 \examples{
 #example code

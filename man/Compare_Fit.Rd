@@ -2,7 +2,7 @@
 % Please edit documentation in R/Compare_Fit.R
 \name{Compare_Fit}
 \alias{Compare_Fit}
-\title{Title}
+\title{model fit}
 \usage{
 Compare_Fit(..., option = 2, format = "markdown")
 }
@@ -17,5 +17,5 @@ Compare_Fit(..., option = 2, format = "markdown")
 paper format
 }
 \description{
-Title
+model fit
 }

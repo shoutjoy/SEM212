@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #' NA to zero
 #'
 #' @param data data.frame
@@ -9,7 +8,7 @@
 #'
 
 all_na_zero <- function(data, fun="extend"){
-  data <- mutate(data, across(everything(), ~replace_na(.x, 0)))  # base function
+  data <- dplyr::mutate(data, across(everything(), ~replace_na(.x, 0)))  # base function
   data_base <- replace(data, is.na(data), 0)
 
   # replace(data, is.na(data), 0)   #
@@ -18,24 +17,3 @@ all_na_zero <- function(data, fun="extend"){
          base = data_base
   )
 }
-=======
-#' NA to zero
-#'
-#' @param data data.frame
-#' @param fun 'extend', 'base' are equal method
-#'
-#' @return Na data are changed zero
-#' @export
-#'
-
-all_na_zero <- function(data, fun="extend"){
-  data <- dplyr::mutate(data, dplyr::across(dplyr::everything(), ~ replace_na(.x, 0)))  # base function
-  data_base <- replace(data, is.na(data), 0)
-
-  # replace(data, is.na(data), 0)   #
-  switch(fun,
-         extend = data,
-         base = data_base
-  )
-}
->>>>>>> fd47d11 (error revise)

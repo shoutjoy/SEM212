@@ -39,8 +39,9 @@
 #'
 #'
 Modindices<- function(x,
-                      op1 = "~~",
-                      mi.level = 10){
+                      mi.level = 10,
+                      op1 = "~~"
+                     ){
   modindices(x) %>%
     filter(op==op1 & mi> mi.level) %>%
     arrange(desc(mi))

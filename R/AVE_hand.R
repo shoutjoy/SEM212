@@ -1,4 +1,3 @@
-
 #' AVE by hnad
 #' @param x lavaan result
 #' @param digit rounding

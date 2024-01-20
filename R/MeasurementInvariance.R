@@ -1,5 +1,5 @@
 
-#' Title
+#' MeasurementInvariance
 #'
 #' @param model lavaan mode syntax
 #' @param data data.frame

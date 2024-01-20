@@ -1,4 +1,3 @@
-
 #' plspm path create
 #'
 #' @param row_names rowname

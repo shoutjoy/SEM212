@@ -7,7 +7,7 @@
 item(...)
 }
 \arguments{
-\item{...}{}
+\item{...}{input}
 }
 \value{
 list

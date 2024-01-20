@@ -1,4 +1,3 @@
-
 #' Google translate data.frame
 #' #gtl_df() dataframe 번역 ----------
 #' #영어논문을 만들 때, 표에 들어가는 단어를 번역하여 넣기

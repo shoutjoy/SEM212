@@ -1,5 +1,3 @@
-
-
 #' Google translaste english  to koean
 #'
 #' @param text  Input text

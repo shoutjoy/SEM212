@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasurementInvariance.R
 \name{MeasurementInvariance}
 \alias{MeasurementInvariance}
-\title{Title}
+\title{MeasurementInvariance}
 \usage{
 MeasurementInvariance(model, data, grp = "")
 }
@@ -17,5 +17,5 @@ MeasurementInvariance(model, data, grp = "")
 Measurement invariance Testing
 }
 \description{
-Title
+MeasurementInvariance
 }

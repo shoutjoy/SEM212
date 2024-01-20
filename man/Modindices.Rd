@@ -4,14 +4,14 @@
 \alias{Modindices}
 \title{Modification Indices}
 \usage{
-Modindices(x, op1 = "~~", mi.level = 10)
+Modindices(x, mi.level = 10, op1 = "~~")
 }
 \arguments{
 \item{x}{lavaan result}
 
-\item{op1}{regression '~~'}
-
 \item{mi.level}{mi over 10, default}
+
+\item{op1}{regression '~~'}
 }
 \value{
 chisquare
