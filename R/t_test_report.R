@@ -2,6 +2,8 @@
 #' @param data data.frame
 #' @param iv independent variable
 #' @param dv dependent variable
+#' @param xlab graph name dependent variable
+#' @param ylab graph name dependent variable
 #' @param type  type option default is 'all'. and  'var.test', 'var.test.report', 't.test','t.test.report', 'boxplot', 'var.test.full', 't.test.full' output each result
 #' @examples
 #' # mtcars data
@@ -12,7 +14,11 @@
 #'
 #'
 
-t_test_report <- function(data, iv=NULL, dv = NULL, type = "all") {
+t_test_report <- function(data,
+                          iv=NULL, dv = NULL,
+                          type = "all",
+                          xlab = "independent Variable",
+                          ylab = "dependent Variable") {
   library(tidyverse)
 
 
@@ -134,8 +140,8 @@ t_test_report <- function(data, iv=NULL, dv = NULL, type = "all") {
                      group = iv_value)) +
       geom_boxplot(color="black", fill=c("steelblue","gold")) +
       labs(title = "t tset Result",
-           x ="independent Variable",
-           y = "dependent Variable",
+           x = xlab,
+           y = xlab,
            subtitle = t_test_report_sub)+
       theme_bw()
 

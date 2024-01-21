@@ -4,7 +4,14 @@
 \alias{t_test_report}
 \title{Advanceed t test report function}
 \usage{
-t_test_report(data, iv = NULL, dv = NULL, type = "all")
+t_test_report(
+  data,
+  iv = NULL,
+  dv = NULL,
+  type = "all",
+  xlab = "independent Variable",
+  ylab = "dependent Variable"
+)
 }
 \arguments{
 \item{data}{data.frame}
@@ -14,6 +21,10 @@ t_test_report(data, iv = NULL, dv = NULL, type = "all")
 \item{dv}{dependent variable}
 
 \item{type}{type option default is 'all'. and  'var.test', 'var.test.report', 't.test','t.test.report', 'boxplot', 'var.test.full', 't.test.full' output each result}
+
+\item{xlab}{graph name dependent variable}
+
+\item{ylab}{graph name dependent variable}
 }
 \description{
 Advanceed t test report function
