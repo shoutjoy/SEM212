@@ -54,10 +54,6 @@ t_test_report <- function(data,
   iv_value <- data[[iv]]
   dv_value <- data[[dv]]
 
-  #descriptive statistics
-  f_summary <- function(x, ...) c(n=length(x,...), mean=mean(x, ...), sd=sd(x, ...))
-  descriptive = aggregate(formula( paste(dv, "~", iv) ), data = data, FUN= f_summary)%>%tibble()
-
 
   # Test for homogeneity of variance
   var_test_result <- var.test(dv_value ~ iv_value)
@@ -72,15 +68,22 @@ t_test_report <- function(data,
   var_test_report <- paste(
     "The test of equality of variances between independent variable '",
     iv, "' and dependent variable '", dv, "' was",
-    ifelse(var_test_result$p.value < 0.05, "statistically significant, F(", "not statistically significant, F("),
+    ifelse(var_test_result$p.value < 0.05, "statistically significant, F(",
+           "not statistically significant, F("),
     var.test(dv_value ~ iv_value)$parameter[1], ",",
     var.test(dv_value ~ iv_value)$parameter[2], ") = ",
     round(var_test_result$statistic, 2), ",",
     " p = ",
     round(var_test_result$p.value, 2), ",",
-    ifelse(var_test_result$p.value < 0.05, "This suggests that the variances of the two groups are not equal.", "This suggests that the variances of the two groups are equal.")
+    ifelse(var_test_result$p.value < 0.05,
+           "This suggests that the variances of the two groups are not equal.",
+           "This suggests that the variances of the two groups are equal.")
   )
 
+  #descriptive statistics
+  f_summary <- function(x, ...) c(n=length(x,...), mean=mean(x, ...), sd=sd(x, ...))
+  descriptive = aggregate(formula( paste(dv, "~", iv) ), data = data, FUN= f_summary)%>%tibble()
+  mean_data <-aggregate(formula( paste(dv, "~", iv) ), data = data, mean)%>% tibble()
 
   # Perform t test
 
@@ -88,8 +91,10 @@ t_test_report <- function(data,
   if (var_test_result$p.value < 0.05) {
     t_test_result <- t.test(dv_value ~ iv_value, var.equal = FALSE)
     t_test_result_tibble <- tibble(
-      IV = iv,
       DV = dv,
+      IV = iv,
+      IV.1 = paste0(mean_data[1,1],"(",round(mean_data[1,2],2),")" ),
+      IV.2 = paste0(mean_data[2,1],"(",round(mean_data[2,2],2),")" ),
       df = t_test_result$parameter,
       t.value = t_test_result$statistic,
       p.value = t_test_result$p.value,
@@ -129,8 +134,10 @@ t_test_report <- function(data,
     #student
     t_test_result <- t.test(dv_value ~ iv_value,  var.equal = TRUE)
     t_test_result_tibble <- tibble(
-      IV = iv,
       DV = dv,
+      IV = iv,
+      IV.1 = paste0(mean_data[1,1],"(",round(mean_data[1,2],2),")" ),
+      IV.2 = paste0(mean_data[2,1],"(",round(mean_data[2,2],2),")" ),
       df = t_test_result$parameter,
       t.value = t_test_result$statistic,
       p.value = t_test_result$p.value,
