@@ -25,19 +25,19 @@ Compare_grp_effect <- function(global,
   gen_global <- global %>% med_effect(effect1 = "DE") %>% dplyr::select(est)
 
   #Selecting group a
-  rowname <- groupsem %>% med_effect(type="ci",effect1 = "DE_") %>%
+  rowname <- groupsem %>% med_effect(effect1 = "DE_") %>%
     mutate(path=substring(lhs,namestart),grp=substring(parameter,3)) %>%
     filter(grp=="a") %>%
     dplyr::select(path)# %>% filter(grp=="a")
 
 
-  grp1_para_0 <- groupsem %>% med_effect(type="ci",effect1 = "DE_") %>%
+  grp1_para_0 <- groupsem %>% med_effect(effect1 = "DE_") %>%
     mutate(grp=substring(parameter,3)) %>% filter(grp=="a")
   #selecting grup b
-  grp2_para_0 <- groupsem %>% med_effect(type="ci",effect1 = "DE_") %>%
+  grp2_para_0 <- groupsem %>% med_effect(effect1 = "DE_") %>%
     mutate(grp=substring(parameter,3)) %>% filter(grp=="b")
   #Difference Verification Extraction
-  grp_diff_0 <- groupsem %>% med_effect(type="ci",effect1 = "diff_D")
+  grp_diff_0 <- groupsem %>% med_effect(effect1 = "diff_D")
 
 
 

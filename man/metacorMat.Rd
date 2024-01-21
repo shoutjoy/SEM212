@@ -17,7 +17,8 @@ metacorMat(data, startcol, var = "")
 Creating a meta-structural equation correlation matrix JH, Park
 }
 \examples{
-\dontsrun{
+##make matrix
+\dontrun{
  ## making correlation matrix ##
 cormat1 = metacorMat(rd2, startcol= 3, var=c("po","ne","se","jp"))
  ##variable : "po_ne" "po_se" "po_jp" "ne_se" "ne_jp" "se_jp"

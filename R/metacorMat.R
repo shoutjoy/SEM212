@@ -3,7 +3,8 @@
 #' @param startcol The column where the correlation coefficient starts, ej, and the column where the correlation coefficient ends are automatically calculated.
 #' @param var Unique variable name with correlation analysis
 #' @examples
-#' \dontsrun{
+#' ##make matrix
+#' \dontrun{
 #'  ## making correlation matrix ##
 #' cormat1 = metacorMat(rd2, startcol= 3, var=c("po","ne","se","jp"))
 #'  ##variable : "po_ne" "po_se" "po_jp" "ne_se" "ne_jp" "se_jp"

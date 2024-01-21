@@ -118,12 +118,24 @@
 
   # if(p<0.001){"p < .001"}else
 
-  cat(sprintf('As a result of estimating the pooled correlation matrix using tssem in the first step, chi-square analysis was %s, chi2(%.1d) = %.3f, p = %.3f. Looking at the RMSEA value, which is an evaluation index (Brown, 2015) that evaluates whether the model fits the population reasonably well, the model is %s, RMSEA = %.3f, 95%CI[%.3f, % .3f]. The standardized RMR (difference in covariance matrix) and the difference between the sample correlation matrix and the predicted correlation matrix are considered good if they are less than 0.05 (Bentler, 1995). SRMR = %s with %.3f. CFI and TLI are indicators that evaluate whether the model fit has improved compared to the basic model. The basic model represents a model in which the common variance between all variables is 0. The closer the CFI value is to 1, the better it is, and it should be 0.95 or higher (HU & Bentler , 1999). CFI= %s as %.3f. Lastly, TLI is a non-normal fit index (NNFI) and is similar to CFI. TLI = %s as %.3f.',
-              chi2.dis, df, chi2, p,
-              rmsea.dis, rmsea, rmsea.lower, rmsea.upper,
-              srmr, srmr.dis,
-              cfi, cfi.dis,
-              tli,tli.dis
-  )
+  cat(
+
+    sprintf('As a result of estimating the pooled correlation matrix using tssem in the first step, chi-square analysis was %s, chi2(%d) = %.3f, p = %.3f. Looking at the RMSEA value, which is an evaluation index (Brown, 2015) that evaluates whether the model fits the population reasonably well, the model is %s, RMSEA = %.3f, 95%%CI[%.3f, %.3f].
+            The standardized RMR (difference in covariance matrix) and the difference between the sample correlation matrix and the predicted correlation matrix are considered good if they are less than 0.05 (Bentler, 1995). SRMR = %.3f with %s. CFI and TLI are indicators that evaluate whether the model fit has improved compared to the basic model. The basic model represents a model in which the common variance between all variables is 0. The closer the CFI value is to 1, the better it is, and it should be 0.95 or higher (HU & Bentler, 1999). CFI =  %.3f with %s. Lastly, TLI is a non-normal fit index (NNFI) and is similar to CFI. TLI = %.3f with %s.',
+            chi2.dis,
+            df,
+            chi2,
+            p,
+            rmsea.dis,
+            rmsea,
+            rmsea.lower,
+            rmsea.upper,
+            srmr,
+            srmr.dis,
+            cfi,
+            cfi.dis,
+            tli,
+            tli.dis
+    )
   )
   }

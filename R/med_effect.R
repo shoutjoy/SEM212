@@ -13,8 +13,8 @@
 med_effect <- function(x,
                        effect1="",
                        caption="",
-                       effect2="." ,#,
-                       option = 1# 2: ci
+                       effect2="." ,
+                       option = 1      # 2: ci
                        # format="markdown"
 
 ){
