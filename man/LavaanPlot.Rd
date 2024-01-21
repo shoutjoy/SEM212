@@ -6,17 +6,20 @@
 \usage{
 LavaanPlot(
   x,
-  stand = TRUE,
   rotation = "LR",
   coefs = TRUE,
   col = "gray60",
-  covs = TRUE
+  stand = FALSE,
+  label = NULL,
+  covs = FALSE,
+  stars = c("covs", "latent", "regress"),
+  overlap = FALSE,
+  layout = "dot",
+  digits = 3
 )
 }
 \arguments{
 \item{x}{lavaan result}
-
-\item{stand}{standardzied TRUE}
 
 \item{rotation}{rotation 'LR','RL', 'TB','BT'}
 
@@ -24,7 +27,17 @@ LavaanPlot(
 
 \item{col}{default 'gray60'}
 
+\item{stand}{std coeff}
+
+\item{label}{input name labels=c(f1_1="exp", f1_2="want",f1_3="problem") etc}
+
 \item{covs}{TRUE}
+
+\item{overlap}{default FALSE}
+
+\item{layout}{'dot', 'neato', 'fdp', 'sfdp', 'circo', 'twopi', 'nop','nop2', 'osage', 'patchwork'}
+
+\item{digits}{digits = 3#'}
 }
 \value{
 plot
