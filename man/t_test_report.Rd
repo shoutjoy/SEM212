@@ -16,11 +16,11 @@ t_test_report(
 \arguments{
 \item{data}{data.frame}
 
-\item{iv}{independent variable}
+\item{iv}{independent variable, if you want to change the name, you can change the setting}
 
-\item{dv}{dependent variable}
+\item{dv}{dependent variable, if you want to change the name, you can change the setting}
 
-\item{type}{type option default is 'all'. and  'var.test', 'var.test.report', 't.test','t.test.report', 'boxplot', 'var.test.full', 't.test.full' output each result}
+\item{type}{type option default is 'all'. and  'var.test', 'var.test.report', 't.test','t.test.report', 'boxplot', 'var.test.full', 't.test.full', 'descriptive' output each result}
 
 \item{xlab}{graph name dependent variable}
 

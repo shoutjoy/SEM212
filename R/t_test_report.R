@@ -1,10 +1,10 @@
 #' Advanceed t test report function
 #' @param data data.frame
-#' @param iv independent variable
-#' @param dv dependent variable
+#' @param iv independent variable, if you want to change the name, you can change the setting
+#' @param dv dependent variable, if you want to change the name, you can change the setting
 #' @param xlab graph name dependent variable
 #' @param ylab graph name dependent variable
-#' @param type  type option default is 'all'. and  'var.test', 'var.test.report', 't.test','t.test.report', 'boxplot', 'var.test.full', 't.test.full' output each result
+#' @param type  type option default is 'all'. and  'var.test', 'var.test.report', 't.test','t.test.report', 'boxplot', 'var.test.full', 't.test.full', 'descriptive' output each result
 #' @examples
 #' # mtcars data
 #' \dontrun{
@@ -43,7 +43,7 @@
 #'
 
 t_test_report <- function(data,
-                          iv=NULL, dv = NULL,
+                          iv = NULL, dv = NULL,
                           type = "all",
                           xlab = "independent Variable",
                           ylab = "dependent Variable") {
@@ -53,6 +53,11 @@ t_test_report <- function(data,
   # Extract independent and dependent variables
   iv_value <- data[[iv]]
   dv_value <- data[[dv]]
+
+  #descriptive statistics
+  f_summary <- function(x, ...) c(n=length(x,...), mean=mean(x, ...), sd=sd(x, ...))
+  descriptive = aggregate(formula( paste(dv, "~", iv) ), data = data, FUN= f_summary)%>%tibble()
+
 
   # Test for homogeneity of variance
   var_test_result <- var.test(dv_value ~ iv_value)
@@ -162,14 +167,14 @@ t_test_report <- function(data,
 
 
     # box plot output
-    gg <- ggplot2::ggplot(data,
+    gg <- ggplot(data,
                  aes(x = factor(iv_value),
                      y = dv_value,
                      group = iv_value)) +
       geom_boxplot(color="black", fill=c("steelblue","gold")) +
       labs(title = "t tset Result",
            x = xlab,
-           y = ylab,
+           y = xlab,
            subtitle = t_test_report_sub)+
       theme_bw()
 
@@ -180,17 +185,20 @@ t_test_report <- function(data,
              var_test_report = var_test_report,
              t_test_result_tibble = t_test_result_tibble,
              t_test_report = t_test_report,
+             descriptive = descriptive,
              boxplot= gg),
            'var.test' = var_test_result_tibble,
            'var.test.report' = var_test_report,
            't.test' = t_test_result_tibble,
            't.test.report' =t_test_report,
            'boxplot' = gg,
+           'descriptive' = descriptive ,
            'var.test.full'= var_test_result,
            't.test.full' = t_test_result
     )
   }
 }
+
 
 
 # t_test_report(mtcars, iv="vs",dv="mpg")
