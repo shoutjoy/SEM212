@@ -43,11 +43,12 @@
 #'
 
 t_test_report <- function(data,
-                          iv = NULL, dv = NULL,
+                          iv = NULL,
+                          dv = NULL,
                           type = "all",
                           xlab = "independent Variable",
                           ylab = "dependent Variable") {
-  library(tidyverse)
+  # library(tidyverse)
 
 
   # Extract independent and dependent variables
@@ -59,7 +60,7 @@ t_test_report <- function(data,
   var_test_result <- var.test(dv_value ~ iv_value)
 
   # Output the results of the homogeneity of variance test in tibble format
-  var_test_result_tibble <- tibble(
+  var_test_result_tibble <- tibble::tibble(
     Var = unique(iv_value),
     df = var_test_result$parameter,
     f_value = var_test_result$statistic,
@@ -82,19 +83,26 @@ t_test_report <- function(data,
 
   #descriptive statistics
   f_summary <- function(x, ...) c(n=length(x,...), mean=mean(x, ...), sd=sd(x, ...))
-  descriptive = aggregate(formula( paste(dv, "~", iv) ), data = data, FUN= f_summary)%>%tibble()
-  mean_data <-aggregate(formula( paste(dv, "~", iv) ), data = data, mean)%>% tibble()
+  descriptive = aggregate(formula( paste(dv, "~", iv) ),
+                          data = data, FUN= f_summary)%>%tibble::tibble()
+
+  #mean calculation
+  mean_data <- aggregate(formula( paste(dv, "~", iv) ), data = data, mean)%>%
+                      tibble::tibble()
+
+  # extracted iv level named
+  iv_name <-   unique(data[,iv] )
 
   # Perform t test
 
   #welch
   if (var_test_result$p.value < 0.05) {
     t_test_result <- t.test(dv_value ~ iv_value, var.equal = FALSE)
-    t_test_result_tibble <- tibble(
+    t_test_result_tibble <- tibble::tibble(
       DV = dv,
       IV = iv,
-      IV.1 = paste0(mean_data[1,1],"(",round(mean_data[1,2],2),")" ),
-      IV.2 = paste0(mean_data[2,1],"(",round(mean_data[2,2],2),")" ),
+      IV.1 = paste0(iv_name[1],"(",round(mean_data[1, 2],2),")" ),
+      IV.2 = paste0(iv_name[2],"(",round(mean_data[2, 2],2),")" ),
       df = t_test_result$parameter,
       t.value = t_test_result$statistic,
       p.value = t_test_result$p.value,
@@ -136,8 +144,8 @@ t_test_report <- function(data,
     t_test_result_tibble <- tibble(
       DV = dv,
       IV = iv,
-      IV.1 = paste0(mean_data[1,1],"(",round(mean_data[1,2],2),")" ),
-      IV.2 = paste0(mean_data[2,1],"(",round(mean_data[2,2],2),")" ),
+      IV.1 = paste0(iv_name[1],"(",round(mean_data[1, 2],2),")" ),
+      IV.2 = paste0(iv_name[2],"(",round(mean_data[2, 2],2),")" ),
       df = t_test_result$parameter,
       t.value = t_test_result$statistic,
       p.value = t_test_result$p.value,
@@ -174,14 +182,14 @@ t_test_report <- function(data,
 
 
     # box plot output
-    gg <- ggplot(data,
+    gg <- ggplot2::ggplot(data,
                  aes(x = factor(iv_value),
                      y = dv_value,
                      group = iv_value)) +
       geom_boxplot(color="black", fill=c("steelblue","gold")) +
       labs(title = "t tset Result",
            x = xlab,
-           y = xlab,
+           y = ylab,
            subtitle = t_test_report_sub)+
       theme_bw()
 
@@ -205,6 +213,8 @@ t_test_report <- function(data,
     )
   }
 }
+
+
 
 
 
