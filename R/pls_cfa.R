@@ -63,9 +63,9 @@
 #'   composite("AppSatisfy", single_item("satisfy"), weights = mode_A)
 #' )
 #' ## learn_model.r
-#' # plot(lmodel1)  #plotting model
+#' plot(lmodel1)  #plotting model
 #'
-#' ## browse_plot(lmodel1)  #plotting model measurement model
+#' # browse_plot(lmodel1)  #plotting model measurement model
 #'
 #' ## structure model ---------------
 #' lstr1 = relationships(
@@ -80,7 +80,7 @@
 #' ## model estimate ----------------
 #' srlapp_pls  <- estimate_pls(data = stat_onl,
 #'                             measurement_model = lmodel1,
-#'                             structural_model0 = lstr1)
+#'                             structural_model = lstr1)
 #' #result summary
 #' summary(srlapp_pls)
 #'
@@ -94,10 +94,8 @@
 #' pls_cfa(srlapp_pls, rename = T, var_name = varName)
 #'
 #' ## item validigy : Below is a function that extracts each index. Includes structural model analysis and observed variable analysis corresponding to confirmatory factor analysis.
-#'
-#' boot_srlapp_pls %>% pls_boot_summary("loadings",
-#'                  rename = T, var_name = varName_boot) %>% arrange(latent)
-#'
+#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName,
+#'                       res="loadings_rename") %>% arrange(variable)
 #' ## CR, convergent
 #' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "CR_AVE_sig")
 #'
@@ -114,6 +112,7 @@
 #' srlapp_pls %>% pls_cfa(rename = T, var_name = varName,  res = "HTMT")
 #'
 #' #VIF
+#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "vif")
 #' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "vifr")
 #'
 #' ## paths
@@ -131,6 +130,8 @@
 #' # totatl effect
 #' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "Total_effect")
 #'
+#' # plotting
+#' plot(srlapp_pls)
 #' }
 #'
 pls_cfa = function(pls_data,
