@@ -11,7 +11,11 @@ t_test_report(
   type = "all",
   xlab = "independent Variable",
   ylab = "dependent Variable",
-  translate = FALSE
+  translate = FALSE,
+  mu = 0,
+  paired = FALSE,
+  var.equal = FALSE,
+  conf.level = 0.95
 )
 }
 \arguments{
@@ -28,6 +32,14 @@ t_test_report(
 \item{ylab}{graph name dependent variable}
 
 \item{translate}{report translate defualt FALSE, TRUE is korean}
+
+\item{mu}{a number indicating the true value of the mean (or difference in means if you are performing a two sample test).}
+
+\item{paired}{description}
+
+\item{var.equal}{a logical variable indicating whether to treat the two variances as being equal. If TRUE then the pooled variance is used to estimate the variance otherwise the Welch (or Satterthwaite) approximation to the degrees of freedom is used.}
+
+\item{conf.level}{confidence level of the interval.}
 }
 \description{
 Advanceed t test report function

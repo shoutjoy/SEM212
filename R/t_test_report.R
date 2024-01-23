@@ -6,6 +6,10 @@
 #' @param ylab graph name dependent variable
 #' @param type  type option default is 'all'. and  'var.test', 'var.test.report', 't.test','t.test.report', 'boxplot', 'var.test.full', 't.test.full', 'descriptive' output each result
 #' @param translate report translate defualt FALSE, TRUE is korean
+#' @param mu a number indicating the true value of the mean (or difference in means if you are performing a two sample test).
+#' @param paired description
+#' @param var.equal a logical variable indicating whether to treat the two variances as being equal. If TRUE then the pooled variance is used to estimate the variance otherwise the Welch (or Satterthwaite) approximation to the degrees of freedom is used.
+#' @param conf.level confidence level of the interval.
 #' @examples
 #' # mtcars data
 #' \dontrun{
@@ -49,7 +53,11 @@ t_test_report <- function(data,
                           type = "all",
                           xlab = "independent Variable",
                           ylab = "dependent Variable",
-                          translate = FALSE) {
+                          translate = FALSE,
+                          mu = 0,
+                          paired = FALSE,
+                          var.equal = FALSE,
+                          conf.level = 0.95) {
   # library(tidyverse)
 
   # if(is.na(data)){
@@ -108,7 +116,10 @@ t_test_report <- function(data,
 
   #welch
   if (var_test_result$p.value < 0.05) {
-    t_test_result <- t.test(dv_value ~ iv_value, var.equal = FALSE)
+    t_test_result <- t.test(dv_value ~ iv_value, var.equal = var.equal,
+                            mu = mu,
+                            paired = paired,
+                            conf.level = conf.level)
     t_test_result_tibble <- tibble::tibble(
       DV = dv,
       IV = iv,
@@ -160,7 +171,10 @@ t_test_report <- function(data,
 
   } else if (var_test_result$p.value > 0.05){
     #student
-    t_test_result <- t.test(dv_value ~ iv_value,  var.equal = TRUE)
+    t_test_result <- t.test(dv_value ~ iv_value, var.equal = var.equal,
+                            mu = mu,
+                            paired = paired,
+                            conf.level = conf.level)
     t_test_result_tibble <- tibble(
       DV = dv,
       IV = iv,
