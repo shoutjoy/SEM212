@@ -17,10 +17,10 @@
 #'
 #'
 #'
-e = function (text="hello let's start translate english to korean.",
-              slang="en",
-              elang="ko",
-              show="translate") {
+e = function (text = "hello let's start translate english to korean.",
+              slang = "en",
+              elang = "ko",
+              show = "translate") {
   library(tidyverse)
   library(rvest)
   library(httpuv)
@@ -44,6 +44,10 @@ e = function (text="hello let's start translate english to korean.",
   }else if(show=="translate"){
     res = result
     cat(res)
+
+  }else if(show=="data"){
+    res = result
+   res
 
   }else if(show== "browser"){
     res = paste("Input text:\n\n" ,input_text = text,

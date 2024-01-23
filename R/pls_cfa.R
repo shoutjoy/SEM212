@@ -16,15 +16,121 @@
 #'
 #' @examples
 #' \dontrun{
-#' # View result
-#' srlapp_pls %>% pls_cfa(rename = F, var_name = varName)
-#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName)
-#' srl_boot3 %>% pls_boot_summary()
+#' ## Research model : Park (2023) constructs a model by selecting variables that fit the theoretical background.
+#' ## JH, Park(2023) Exploring the Influence of  Feature Recognition and Usage Satisfaction in Online Learning Applications on Learning Satisfaction and Continued Learning Intentions: using Multivariate analysis and PLS-SEM
+#' data(stat_onl)
+#' str(stat_onl)
+#'
+#' library(seminr)
+#'
+#' ## Establishing a model for observed variables (items)
+#'
+#' srl_model="
+#' SRL_meta =~ Review + Add_learn + Feedback + Focus_on
+#' SRL_env =~ Place + Time
+#' OnlineSAT =~ Joy + Easy + Satisgy + Engage
+#' USEIntent =~ IntentUse
+#' AppSatisfy =~ Upgrade + Appsatisfy
+#'
+#' ## Structural model establishes causal relationships
+#' SRL_meta ~ AppSatisfy
+#' SRL_env ~ AppSatisfy
+#' OnlineSAT ~ AppSatisfy
+#' OnlineSAT ~ SRL_meta + SRL_env
+#' USEIntent ~ SRL_meta + SRL_env + OnlineSAT
+#' "
+#' # Output a plot of the model using the seminr function
+#' browse_plot( csem2seminr(srl_model))
+#' # output Viewer
+#' plot( csem2seminr(srl_model))
+
+
+#' ### model
+#' library(seminr)
+#' lmodel1 <- constructs(
+#'   composite("SRL_meta", single_item("메타인지2"), weights = mode_A),
+#'   composite("SRL_meta", single_item("메타인지3"), weights = mode_A),
+#'   composite("SRL_meta", single_item("메타인지4"), weights = mode_A),
+#'   composite("SRL_meta", single_item("노력지속2"), weights = mode_A),
+#'   composite("SRL_env", single_item("환경관리1"), weights = mode_A),
+#'   composite("SRL_env", single_item("환경관리2"), weights = mode_A),
+#'   composite("OnlineSAT", single_item("learn_joy"), weights = mode_A),
+#'   composite("OnlineSAT", single_item("learn_convenience"), weights = mode_A),
+#'   composite("OnlineSAT", single_item("learn_satisfy"), weights = mode_A),
+#'   composite("OnlineSAT", single_item("Participation" ), weights = mode_A),
+#'   composite("USEIntent", single_item("Intension_use"), weights = mode_A),
+#'  composite("AppSatisfy", single_item("upgrade"), weights = mode_A),
+#'   composite("AppSatisfy", single_item("satisfy"), weights = mode_A)
+#' )
+#' ## learn_model.r
+#' # plot(lmodel1)  #plotting model
+#'
+#' ## browse_plot(lmodel1)  #plotting model measurement model
+#'
+#' ## structure model ---------------
+#' lstr1 = relationships(
+#'   paths(from=c("AppSatisfy"), to=c("SRL_meta", "SRL_env" ,"OnlineSAT")),
+#'   paths(from=c("SRL_meta", "SRL_env"),to=c( "OnlineSAT")),
+#'   paths(from=c("SRL_meta", "SRL_env"),to=c( "USEIntent")),
+#'   paths(from=c("OnlineSAT"),to=c( "USEIntent")))
+#' ## view browse strutrue model
+#' # browse_plot(lstr1)
+#'  plot(lstr1)
+#'
+#' ## model estimate ----------------
+#' srlapp_pls  <- estimate_pls(data = stat_onl,
+#'                             measurement_model = lmodel1,
+#'                             structural_model0 = lstr1)
+#' #result summary
+#' summary(srlapp_pls)
+#'
+#' ## change var name and total CFA result
 #' varName = c( "A_upgrade","A_satisfy",
 #'              "S_Review","S_Add_learn","S_Feedback","S-Focus_on",
-#'              "SE_place","SE_time",
-#'              "On_joy","On_easy","On_satisfy","On_paticipate" ,
-#'              "IntensionUse")
+#'             "SE_Place","SE_Time",
+#'              "On_Joy","On_Easy","On_Satisfy","On_Engage" ,
+#'              "IntenstUse")
+#'
+#' pls_cfa(srlapp_pls, rename = T, var_name = varName)
+#'
+#' ## item validigy : Below is a function that extracts each index. Includes structural model analysis and observed variable analysis corresponding to confirmatory factor analysis.
+#'
+#' boot_srlapp_pls %>% pls_boot_summary("loadings",
+#'                  rename = T, var_name = varName_boot) %>% arrange(latent)
+#'
+#' ## CR, convergent
+#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "CR_AVE_sig")
+#'
+#' ## Internal consistency reliability plot----------
+#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "reliablility_plot")
+#'
+#' ## crossloadings
+#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "crossloadings")
+#'
+#' ## fl ----------
+#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "FL_criteria")
+#'
+#' ## HTMT
+#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName,  res = "HTMT")
+#'
+#' #VIF
+#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "vifr")
+#'
+#' ## paths
+#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "paths")
+#'
+#' ## effect size
+#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "f2")
+#'
+#' ## Mediation  effect ----------------------
+#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "effect")
+#'
+#' ## indircet effect
+#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "indirect_effect")
+#'
+#' # totatl effect
+#' srlapp_pls %>% pls_cfa(rename = T, var_name = varName, res = "Total_effect")
+#'
 #' }
 #'
 pls_cfa = function(pls_data,

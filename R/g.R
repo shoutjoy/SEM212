@@ -3,7 +3,7 @@
 #' @param text input your text
 #' @param slang start language. default Korean
 #' @param elang translated language. default English
-#' @param show show Methode. 'translate' is console, 'browser'  is Print to your computer's browser, 'all' are There are two ways to output it.
+#' @param show show Methode. 'translate' is console, 'browser'  is Print to your computer's browser, 'all' are There are two ways to output it. 'data' is char data
 #' @examples
 #' # example code
 #' \dontrun{
@@ -45,9 +45,14 @@ g <- function (text = "hi.",
                View_browse=browseURL(url)
     )
     res
+
   }else if(show == "translate"){
     res = result
     cat(res)
+
+  }else if(show == "data"){
+    res = result
+    res
 
   }else if(show == "browser"){
     res = paste("Input text:\n\n" ,input_text = text,
@@ -55,7 +60,7 @@ g <- function (text = "hi.",
                 "\n",
                 "Translate result:\n\n",
                 translate= result)
-    cat(res)
+    cat(res,"\n\n")
     # res
   }
 

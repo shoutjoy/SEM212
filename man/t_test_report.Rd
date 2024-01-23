@@ -10,7 +10,8 @@ t_test_report(
   dv = NULL,
   type = "all",
   xlab = "independent Variable",
-  ylab = "dependent Variable"
+  ylab = "dependent Variable",
+  translate = FALSE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ t_test_report(
 \item{xlab}{graph name dependent variable}
 
 \item{ylab}{graph name dependent variable}
+
+\item{translate}{report translate defualt FALSE, TRUE is korean}
 }
 \description{
 Advanceed t test report function

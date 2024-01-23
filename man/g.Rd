@@ -13,7 +13,7 @@ g(text = "hi.", slang = "ko", elang = "en", show = "translate")
 
 \item{elang}{translated language. default English}
 
-\item{show}{show Methode. 'translate' is console, 'browser'  is Print to your computer's browser, 'all' are There are two ways to output it.}
+\item{show}{show Methode. 'translate' is console, 'browser'  is Print to your computer's browser, 'all' are There are two ways to output it. 'data' is char data}
 }
 \description{
 Googole Translate korean to english

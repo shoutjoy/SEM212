@@ -5,6 +5,7 @@
 #' @param xlab graph name dependent variable
 #' @param ylab graph name dependent variable
 #' @param type  type option default is 'all'. and  'var.test', 'var.test.report', 't.test','t.test.report', 'boxplot', 'var.test.full', 't.test.full', 'descriptive' output each result
+#' @param translate report translate defualt FALSE, TRUE is korean
 #' @examples
 #' # mtcars data
 #' \dontrun{
@@ -47,15 +48,33 @@ t_test_report <- function(data,
                           dv = NULL,
                           type = "all",
                           xlab = "independent Variable",
-                          ylab = "dependent Variable") {
+                          ylab = "dependent Variable",
+                          translate = FALSE) {
   # library(tidyverse)
 
+  # if(is.na(data)){
+  #   stop("check your data exist NA")
+  # }
 
   # Extract independent and dependent variables
   iv_value <- data[[iv]]
   dv_value <- data[[dv]]
 
+  #descriptive statistics
 
+  f_summary <- function(x, ...) c(n=length(x,...), mean=mean(x, ...), sd=sd(x, ...))
+  descriptive = aggregate(formula( paste(dv, "~", iv) ),
+                          data = data, FUN = f_summary) %>% tibble::tibble()
+
+  ## mean calculation
+  mean_data <- aggregate(formula( paste(dv, "~", iv) ), data = data, mean)%>%
+    tibble::tibble()
+
+
+
+
+  # extracted iv level named
+  iv_name <-   unique(data[,iv] )
   # Test for homogeneity of variance
   var_test_result <- var.test(dv_value ~ iv_value)
 
@@ -66,32 +85,24 @@ t_test_report <- function(data,
     f_value = var_test_result$statistic,
     p_value = var_test_result$p.value
   )
-  var_test_report <- paste(
-    "The test of equality of variances between independent variable '",
-    iv, "' and dependent variable '", dv, "' was",
-    ifelse(var_test_result$p.value < 0.05, "statistically significant, F(",
-           "not statistically significant, F("),
+
+  var_test_report <- paste0(
+    "The t-test results between the two groups '",iv_name[1], "' and '",iv_name[2],
+    "' of the independent variable '",iv,"'",
+    " with respect to the dependent variable '", dv, "' showed a",
+    ifelse(var_test_result$p.value < 0.05, "statistically significant. F(",
+           "not statistically significant. F("),
     var.test(dv_value ~ iv_value)$parameter[1], ",",
     var.test(dv_value ~ iv_value)$parameter[2], ") = ",
     round(var_test_result$statistic, 2), ",",
     " p = ",
-    round(var_test_result$p.value, 2), ",",
+    round(var_test_result$p.value, 2), ". ",
     ifelse(var_test_result$p.value < 0.05,
-           "This suggests that the variances of the two groups are not equal.",
-           "This suggests that the variances of the two groups are equal.")
+           "This indicates that the variances of the two groups are not equal..",
+           "This indicates that the variances of the two groups are equal.")
   )
 
-  #descriptive statistics
-  f_summary <- function(x, ...) c(n=length(x,...), mean=mean(x, ...), sd=sd(x, ...))
-  descriptive = aggregate(formula( paste(dv, "~", iv) ),
-                          data = data, FUN= f_summary)%>%tibble::tibble()
 
-  #mean calculation
-  mean_data <- aggregate(formula( paste(dv, "~", iv) ), data = data, mean)%>%
-                      tibble::tibble()
-
-  # extracted iv level named
-  iv_name <-   unique(data[,iv] )
 
   # Perform t test
 
@@ -114,27 +125,36 @@ t_test_report <- function(data,
     )
 
     #using result report
-    t_test_report <- paste(
-      "The t-test between independent variable '", iv,
-      "' and dependent variable '", dv,
-      "' was",
+    t_test_report <- paste0(
+      "The t-test results between the two groups '",
+      iv_name[1], "' and '",iv_name[2],
+      "' of the independent variable '",iv,"' ",
+      "with respect to the dependent variable '", dv, "' showed a",
       ifelse(t_test_result$p.value < 0.05,
-             "statistically significant, t(",
-             "not statistically significant, t(" ),
-      round(t_test_result$parameter, 2), ") =",
+             "statistically significant. t(",
+             "not statistically significant. t(" ),
+      round(t_test_result$parameter, 2), ") = ",
       round(t_test_result$statistic, 2), ",",
-      "p = ", round(t_test_result$p.value, 2), ".")
+      ifelse(t_test_result$p.value< 0.001," p < .001",
+             paste0("p = ",round(t_test_result$p.value, 2)))
+      , ".")
+
 
     t_test_report_sub <- paste(
-      "The t-test between '", iv,
-      "' and '", dv,
-      "' was",
+      "The t-test between the two groups '",
+      iv_name[1], "' and '",iv_name[2],
+      "' of the '",iv,"'",
+      "'with respect to the '", dv, "' showed a",
       ifelse(t_test_result$p.value < 0.05,
              "significant, t(",
              "not significant, t(" ),
       round(t_test_result$parameter, 2), ") =",
       round(t_test_result$statistic, 2), ",",
-      "p = ", round(t_test_result$p.value, 2), ".")
+      ifelse(t_test_result$p.value< 0.001," p < .001",
+             paste0("p = ",round(t_test_result$p.value, 2)))
+      , ".")
+
+
 
 
 
@@ -153,32 +173,39 @@ t_test_report <- function(data,
                               p.value < 0.01 ~ "**",
                               p.value < 0.05 ~ "*",
                               TRUE ~ "ns" ),
-      test_type = "student t.test"
+      test_type = "student's t.test"
     )
 
     #using result report
-    t_test_report <- paste(
-      "The t-test between independent variable '", iv,
-      "' and dependent variable '", dv,
-      "' was ",
+    t_test_report <- paste0(
+      "The t-test results between the two groups '",
+      iv_name[1], "' and '",iv_name[2],
+      "' of the independent variable ' ",iv," '",
+      "'with respect to the dependent variable '", dv, "' showed a",
       ifelse(t_test_result$p.value < 0.05,
-             "statistically significant, t(",
-             "not statistically significant, t(" ),
-      round(t_test_result$parameter, 2),") =",
+             "statistically significant. t(",
+             "not statistically significant. t(" ),
+      round(t_test_result$parameter, 2),") = ",
       round(t_test_result$statistic, 2), ",",
-      "p = ", round(t_test_result$p.value, 2), ".")
+      ifelse(t_test_result$p.value< 0.001," p < .001",
+             paste0("p = ",round(t_test_result$p.value, 2)))
+      , ".")
+
 
     #using graph
     t_test_report_sub <- paste(
-      "The t-test between '", iv,
-      "' and '", dv,
-      "' was",
+      "The t-test between the two groups '",
+      iv_name[1], "' and '",iv_name[2],
+      "' of the '",iv,"'",
+      "'with respect to the '", dv, "' showed a",
       ifelse(t_test_result$p.value < 0.05,
              " significant, t(",
              "not significant, t(" ),
       round(t_test_result$parameter, 2), ") =",
       round(t_test_result$statistic, 2), ",",
-      "p = ", round(t_test_result$p.value, 2), ".")
+      ifelse(t_test_result$p.value< 0.001," p < .001",
+             paste0("p = ",round(t_test_result$p.value, 2)))
+      , ".")
 
 
     # box plot output
@@ -187,19 +214,31 @@ t_test_report <- function(data,
                      y = dv_value,
                      group = iv_value)) +
       geom_boxplot(color="black", fill=c("steelblue","gold")) +
-      labs(title = "t tset Result",
+      labs(title = "t-test Result and Comparison mean",
            x = xlab,
            y = ylab,
-           subtitle = t_test_report_sub)+
-      theme_bw()
+           subtitle = t_test_report_sub)+theme_bw()
+
+### translate fucntion eng to kor
+if(translate == TRUE){
+  var_test_report = g(var_test_report,"en","ko",show = "data")
+  t_test_report = g(t_test_report,"en","ko",show = "data")
+}else if(translate == FALSE){
+  var_test_report = g(var_test_report, "en","en",show = "data")
+  t_test_report = g(t_test_report, "en","en",show = "data")
+}
+
+
 
     # Output results
     switch(type,
            'all' = list(
              var_test_result_tibble = var_test_result_tibble,
              var_test_report = var_test_report,
+             # var_test_report_kor = var_test_report %>% g("en","kr", show = "data"),
              t_test_result_tibble = t_test_result_tibble,
              t_test_report = t_test_report,
+             # t_test_report_kor = t_test_report %>% g("en","ko", show = "data"),
              descriptive = descriptive,
              boxplot= gg),
            'var.test' = var_test_result_tibble,

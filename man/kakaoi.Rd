@@ -4,7 +4,7 @@
 \alias{kakaoi}
 \title{Kakao translaste}
 \usage{
-kakaoi(text = "", slang = "en", elang = "ko", show = " normal")
+kakaoi(text = "", slang = "en", elang = "ko", show = " data")
 }
 \arguments{
 \item{text}{input text}

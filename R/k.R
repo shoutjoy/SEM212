@@ -61,7 +61,7 @@ k = function (text="",
 kakaoi = function (text="",
               slang="en",
               elang="ko",
-              show =" normal") {
+              show =" data") {
   library("httr")
   library("httpuv")
   response <- POST("https://translate.kakao.com/translator/translate.json",
@@ -85,9 +85,10 @@ kakaoi = function (text="",
   if(show ==" normal"){
     cat("Source language: \n\n",resin,"\n\n")
     cat("Translate language: \n\n", resout)
+
   }else if(show == "data"){
-    res= list(source= resin,
+    res = list(source = resin,
               translate = resout)
-    res
+    cat( "\n\n", res, "\n\n")
   }
 }
