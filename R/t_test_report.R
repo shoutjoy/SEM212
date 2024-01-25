@@ -7,8 +7,8 @@
 #' @param type  type option default is 'all'. and  'var.test', 'var.test.report', 't.test','t.test.report', 'boxplot', 'var.test.full', 't.test.full', 'descriptive' output each result
 #' @param translate report translate defualt FALSE, TRUE is korean
 #' @param mu a number indicating the true value of the mean (or difference in means if you are performing a two sample test).
-#' @param paired description
-#' @param var.equal a logical variable indicating whether to treat the two variances as being equal. If TRUE then the pooled variance is used to estimate the variance otherwise the Welch (or Satterthwaite) approximation to the degrees of freedom is used.
+#' @param paired a logical indicating whether you want a paired t-test.
+#' var.equal a logical variable indicating whether to treat the two variances as being equal. If TRUE then the pooled variance is used to estimate the variance otherwise the Welch (or Satterthwaite) approximation to the degrees of freedom is used.
 #' @param conf.level confidence level of the interval.
 #' @examples
 #' # mtcars data
@@ -56,7 +56,6 @@ t_test_report <- function(data,
                           translate = FALSE,
                           mu = 0,
                           paired = FALSE,
-                          var.equal = FALSE,
                           conf.level = 0.95) {
   # library(tidyverse)
 
@@ -116,7 +115,7 @@ t_test_report <- function(data,
 
   #welch
   if (var_test_result$p.value < 0.05) {
-    t_test_result <- t.test(dv_value ~ iv_value, var.equal = var.equal,
+    t_test_result <- t.test(dv_value ~ iv_value, var.equal = FALSE,
                             mu = mu,
                             paired = paired,
                             conf.level = conf.level)
@@ -171,7 +170,7 @@ t_test_report <- function(data,
 
   } else if (var_test_result$p.value > 0.05){
     #student
-    t_test_result <- t.test(dv_value ~ iv_value, var.equal = var.equal,
+    t_test_result <- t.test(dv_value ~ iv_value, var.equal = TRUE,
                             mu = mu,
                             paired = paired,
                             conf.level = conf.level)
