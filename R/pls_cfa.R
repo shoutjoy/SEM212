@@ -48,18 +48,21 @@
 #' ### model
 #' library(seminr)
 #' lmodel1 <- constructs(
-#'   composite("SRL_meta", single_item("메타인지2"), weights = mode_A),
-#'   composite("SRL_meta", single_item("메타인지3"), weights = mode_A),
-#'   composite("SRL_meta", single_item("메타인지4"), weights = mode_A),
-#'   composite("SRL_meta", single_item("노력지속2"), weights = mode_A),
-#'   composite("SRL_env", single_item("환경관리1"), weights = mode_A),
-#'   composite("SRL_env", single_item("환경관리2"), weights = mode_A),
-#'   composite("OnlineSAT", single_item("learn_joy"), weights = mode_A),
-#'   composite("OnlineSAT", single_item("learn_convenience"), weights = mode_A),
-#'   composite("OnlineSAT", single_item("learn_satisfy"), weights = mode_A),
-#'   composite("OnlineSAT", single_item("Participation" ), weights = mode_A),
+#'   composite("SRL_meta", single_item("S_Review"), weights = mode_A),
+#'   composite("SRL_meta", single_item("S_Add_learn"), weights = mode_A),
+#'   composite("SRL_meta", single_item("S_Feedback"), weights = mode_A),
+#'   composite("SRL_meta", single_item("S_Focus_on"), weights = mode_A),
+#'
+#'   composite("SRL_env", single_item("SE_Place"), weights = mode_A),
+#'   composite("SRL_env", single_item("SE_Time"), weights = mode_A),
+#'
+#'  composite("OnlineSAT", single_item("On_Joy"), weights = mode_A),
+#'   composite("OnlineSAT", single_item("On_Easy"), weights = mode_A),
+#'   composite("OnlineSAT", single_item("On_Satisfy"), weights = mode_A),
+#'   composite("OnlineSAT", single_item("On_Engage" ), weights = mode_A),
+#'
 #'   composite("USEIntent", single_item("Intension_use"), weights = mode_A),
-#'  composite("AppSatisfy", single_item("upgrade"), weights = mode_A),
+#'   composite("AppSatisfy", single_item("upgrade"), weights = mode_A),
 #'   composite("AppSatisfy", single_item("satisfy"), weights = mode_A)
 #' )
 #' ## learn_model.r
