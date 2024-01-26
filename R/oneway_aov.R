@@ -71,6 +71,7 @@ oneway_aov <- function(formula,
     pairs() %>%
     plot(comparisons = TRUE)+
     geom_vline(xintercept = 0, linetype = "dashed", color = "gray40")+
+    labs(title = "Post-hoc of differences between variables")
     theme_bw()
 
 
@@ -82,6 +83,7 @@ oneway_aov <- function(formula,
     ylim(0, max(des_dv$Mean)+ 10 )+
     geom_text(aes(label = paste0("M=",round(Mean,2),", SD=",round(SD,2),", N=", N )),
               vjust =-.8, size=3)+
+    labs(title = "Descriptive statistics between groups")
     theme_bw()
 
   graph_grid<- gridExtra::grid.arrange(gg, posthoc_plot,
