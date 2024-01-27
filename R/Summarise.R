@@ -60,7 +60,8 @@ mySummarise <- function(x,
     colnames(s_mean)="mean"
 
     #Standard Deviation
-    s_sd <- dplyr::summarise(x,  dplyr::across(
+    s_sd <- dplyr::summarise(x,
+                             dplyr::across(
       .cols=c(1:ncol(x)),
       .fns = function(x){sd(x, na.rm = T)}
     )) %>% t()# %>% as.data.frame()
