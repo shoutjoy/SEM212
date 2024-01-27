@@ -2,12 +2,14 @@
 #' lower pull matrix
 #'
 #' @param mat matrix data
+#' @param fill matrix data fill upper 0 or if that's what you want , enter it
+#' @param diag matrix data diag enter 0
 #'
 #' @return lowermatrix, upper 0
 #' @export
 #'
 #'
-lowerMat <- function(mat) {
+lowerMat <- function(mat, fill = 0, diag = 0  ) {
   num_rows <- nrow(mat)
   num_cols <- ncol(mat)
 
@@ -18,9 +20,9 @@ lowerMat <- function(mat) {
   for (i in 1:num_rows) {
     for (j in 1:num_cols) {
       if (i == j) {
-        mat[i, j] <- 0
+        mat[i, j] <- fill
       } else if (i < j) {
-        mat[i, j] <- 0
+        mat[i, j] <- diag
       }
     }
   }

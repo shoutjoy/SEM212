@@ -4,10 +4,14 @@
 \alias{lowerMat}
 \title{lower pull matrix}
 \usage{
-lowerMat(mat)
+lowerMat(mat, fill = 0, diag = 0)
 }
 \arguments{
 \item{mat}{matrix data}
+
+\item{fill}{matrix data fill upper 0 or if that's what you want , enter it}
+
+\item{diag}{matrix data diag enter 0}
 }
 \value{
 lowermatrix, upper 0
