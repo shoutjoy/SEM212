@@ -4,12 +4,14 @@
 \alias{des_stat}
 \title{Tmean and sd}
 \usage{
-des_stat(x, digit = 3)
+des_stat(x, digit = 3, tpye = "col")
 }
 \arguments{
 \item{x}{data.frame}
 
 \item{digit}{default 3}
+
+\item{type}{output  tpye}
 }
 \value{
 reuren mean(sd) type
@@ -24,6 +26,12 @@ subject = c(1:6),
 mon1 = c(45, 42, 36, 39, 51, 44),
 mon3 = c(50, 42, 41, 35, 55, 49),
 mon6 = c(55, 45, 43, 40, 59, 56))
+
 df[,2:4] \%>\% des_stat()
+df[,2:4] \%>\% des_stat(type="all")
+df[,2:4] \%>\% des_stat(type="row")
+df[,2:4] \%>\% des_stat(type="col")
+
+
 }
 }
