@@ -6,18 +6,18 @@
 #' @examples
 #' #example code
 #' \dontrun{
-#'  mtcars%>% Summarise("col", 2)
-#'  mtcars %>% Summarise("mean",4)
-#'  mtcars %>% Summarise("sd",3)
-#'  mtcars %>% Summarise("skew",4)
-#'  mtcars %>% Summarise("kurt",4)
-#'  mtcars %>% Summarise("all")
-#'  mtcars %>% Summarise("all_tibble")
-#'  mtcars %>% Summarise("all", 3)
-#'  mtcars %>% Summarise("all", 4)
-#'  mtcars %>% Summarise("normalitytest")
-#'  mtcars %>% Summarise("normalitytest", 3)
-#'  mtcars %>% Summarise("normalitytest_data")
+#'  mtcars %>% mySummarise("col", 2)
+#'  mtcars %>% mySummarise("mean",4)
+#'  mtcars %>% mySummarise("sd",3)
+#'  mtcars %>% mySummarise("skew",4)
+#'  mtcars %>% mySummarise("kurt",4)
+#'  mtcars %>% mySummarise("all")
+#'  mtcars %>% mySummarise("all_tibble")
+#'  mtcars %>% mySummarise("all", 3)
+#'  mtcars %>% mySummarise("all", 4)
+#'  mtcars %>% mySummarise("normalitytest")
+#'  mtcars %>% mySummarise("normalitytest", 3)
+#'  mtcars %>% mySummarise("normalitytest_data")
 #'
 #' }
 #'
@@ -25,7 +25,7 @@
 #' @export
 #'
 #'
-Summarise <- function(x,
+mySummarise <- function(x,
                       type="normalitytest",
                       digit=2){
   # library(stringr)
