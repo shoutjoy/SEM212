@@ -35,6 +35,11 @@ fit.quality|> lme_report(apa= TRUE) #error the app is FALSE
 fit.quality|> lme_report(apa=FALSE) #error the app is FALSE
 fit.quality|> ICC()
 
+lmer(Reaction ~ Days + (Days | Subject), sleepstudy) |>
+SEM212::lme_report(apa=TRUE, fit_more = T)
+lmer(Reaction ~ Days + (Days | Subject), sleepstudy) |>
+SEM212::lme_report(apa=TRUE, fit_more = F)  #default FALSE, it is show that AIC and BIC
+
 }
 
 }
