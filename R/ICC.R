@@ -18,7 +18,7 @@ ICC = function(lmedata){
     dplyr::mutate(Sum = sum(vcov),
                   ICC = (vcov/Sum),
                   ICC_ratio = paste0(round((vcov/Sum)*100, 2),"%"),
-                  ICC_rank = rank(desc(ICC))
+                  ICC_rank = rank(dplyr::desc(ICC))
     ) |>
     dplyr::select(1:2,7,8,9)
   icc
