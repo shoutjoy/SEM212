@@ -22,8 +22,10 @@
 #' fit.quality|> ICC()
 #'
 #' }
+#'
 lme_report <- function(lmedata, apa=FALSE){
 
+  library(multilevelTools)
   #formula output
   formula = lmedata@call
 
@@ -59,12 +61,12 @@ lme_report <- function(lmedata, apa=FALSE){
             JWileymisc::APAStyler()
 
   }else{
-    apa =NULL
+    apa = NULL
   }
 
 
   #model fit
-  # fit = lmedata |> JWileymisc::modelPerformance()
+  fit = lmedata |> JWileymisc::modelPerformance()
 
   # result
   res = list(formula = formula,
