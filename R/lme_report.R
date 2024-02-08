@@ -64,7 +64,7 @@ lme_report <- function(lmedata, apa=FALSE){
 
 
   #model fit
-  fit = lmedata |> JWileymisc::modelPerformance()
+  # fit = lmedata |> JWileymisc::modelPerformance()
 
   # result
   res = list(formula = formula,
@@ -72,7 +72,7 @@ lme_report <- function(lmedata, apa=FALSE){
              Random_effect = random_effect,
              ICC = icc,
              ConfidenceInterval_95 = CI,
-             FIT = fit,
+             # FIT = fit,
              APA = apa
   )
 
