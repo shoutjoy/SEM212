@@ -1,6 +1,7 @@
 #' linear mixed model report
 #' @param lmedata lmedata is lmer() function result
 #' @param apa = default FALSE, if you  REML is FALSE
+#' @param fit_more = default FALSE, TRUE detailed report
 #' @export
 #' @examples
 #' \dontrun{
@@ -23,7 +24,7 @@
 #'
 #' }
 #'
-lme_report <- function(lmedata, apa=FALSE){
+lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE){
 
   library(multilevelTools)
   #formula output
@@ -64,9 +65,15 @@ lme_report <- function(lmedata, apa=FALSE){
     apa = NULL
   }
 
+  # bind_cols(AIC(lmedata), BIC(lmedata))
+
 
   #model fit
+  if(fit_more){
   fit = lmedata |> JWileymisc::modelPerformance()
+  }else{
+    fit = dplyr::bind_cols(AIC = AIC(lmedata), BIC= BIC(lmedata))
+  }
 
   # result
   res = list(formula = formula,
@@ -74,7 +81,7 @@ lme_report <- function(lmedata, apa=FALSE){
              Random_effect = random_effect,
              ICC = icc,
              ConfidenceInterval_95 = CI,
-             # FIT = fit,
+             FIT = fit,
              APA = apa
   )
 

@@ -4,12 +4,14 @@
 \alias{lme_report}
 \title{linear mixed model report}
 \usage{
-lme_report(lmedata, apa = FALSE)
+lme_report(lmedata, apa = FALSE, fit_more = FALSE)
 }
 \arguments{
 \item{lmedata}{lmedata is lmer() function result}
 
 \item{apa}{= default FALSE, if you  REML is FALSE}
+
+\item{fit_more}{= default FALSE, TRUE detailed report}
 }
 \description{
 linear mixed model report
