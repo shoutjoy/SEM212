@@ -9,7 +9,7 @@ Description: This is my personal package. It contains some handy functions that
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Imports: 
   dplyr (>= 1.1.3) ,
   knitr (>= 1.45),
