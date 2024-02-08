@@ -57,6 +57,14 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE){
     ) |>
     dplyr::select(1:2,7,8,9)
 
+
+  # test the variance parameter
+  # APA style
+  test_variance = rand(lmedata)
+
+
+
+
   CI = confint(lmedata, oldNames = FALSE)
 
 
@@ -72,6 +80,7 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE){
 
   # bind_cols(AIC(lmedata), BIC(lmedata))
 
+  anova_test = anova(lmedata)
 
   #model fit
   if(fit_more){
@@ -85,8 +94,11 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE){
              Fixed_effect = fixed_effect,
              Random_effect = random_effect,
              ICC = icc,
+             test_of_variance = test_variance,
              ConfidenceInterval_95 = CI,
+             Satterthwaite_method = anova_test,
              FIT = fit,
+
              APA = apa
   )
 
