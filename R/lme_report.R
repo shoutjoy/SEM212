@@ -82,6 +82,7 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
   # bind_cols(AIC(lmedata), BIC(lmedata))
 
   anova_test = anova(lmedata)
+  ranef = ranef(lmedata)
 
   #model fit
   if(fit_more){
@@ -95,6 +96,7 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
              Fixed_effect = fixed_effect,
              Random_effect = random_effect,
              ICC = icc,
+             ranef = ranef,
              # test_of_variance = test_variance,
              ConfidenceInterval_95 = CI,
              Satterthwaite_method = anova_test,
@@ -109,6 +111,7 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
         ICC = icc,
         CI = CI,
         FIT = fit,
+        ranef = ranef,
         anova = anova_test,
         APA = apa
 
