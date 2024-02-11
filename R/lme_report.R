@@ -60,7 +60,7 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE){
 
   # test the variance parameter
   # APA style
-  test_variance = rand(lmedata)
+  # test_variance = rand(lmedata)
 
 
 
@@ -94,7 +94,7 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE){
              Fixed_effect = fixed_effect,
              Random_effect = random_effect,
              ICC = icc,
-             test_of_variance = test_variance,
+             # test_of_variance = test_variance,
              ConfidenceInterval_95 = CI,
              Satterthwaite_method = anova_test,
              FIT = fit,
