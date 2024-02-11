@@ -104,11 +104,12 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
 
   switch(type,
         all = res,
-        Fixed_effect = Fixed_effect,
-        Random_effect = Random_effect,
+        Fixed_effect = fixed_effect,
+        Random_effect = random_effect,
         ICC = icc,
         CI = CI,
         FIT = fit,
+        anova = anova_test,
         APA = apa
 
         )
