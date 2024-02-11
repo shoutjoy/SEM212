@@ -4,7 +4,7 @@
 \alias{lme_report}
 \title{linear mixed model report}
 \usage{
-lme_report(lmedata, apa = FALSE, fit_more = FALSE)
+lme_report(lmedata, apa = FALSE, fit_more = FALSE, type = "all")
 }
 \arguments{
 \item{lmedata}{lmedata is lmer() function result}
@@ -12,6 +12,8 @@ lme_report(lmedata, apa = FALSE, fit_more = FALSE)
 \item{apa}{= default FALSE, if you  REML is FALSE}
 
 \item{fit_more}{= default FALSE, TRUE detailed report}
+
+\item{type}{= 'all' is res, 'Fixed_effect','Random_effect','ICC', 'ConfidenceInterval_95','Satterthwaite_method','FIT','APA'}
 }
 \description{
 linear mixed model report

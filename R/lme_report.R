@@ -2,6 +2,7 @@
 #' @param lmedata lmedata is lmer() function result
 #' @param apa = default FALSE, if you  REML is FALSE
 #' @param fit_more = default FALSE, TRUE detailed report
+#' @param type = 'all' is res, 'Fixed_effect','Random_effect','ICC', 'ConfidenceInterval_95','Satterthwaite_method','FIT','APA'
 #' @export
 #' @examples
 #' \dontrun{
@@ -29,7 +30,7 @@
 #'
 #' }
 #'
-lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE){
+lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
 
   library(multilevelTools)
   #formula output
@@ -98,9 +99,9 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE){
              ConfidenceInterval_95 = CI,
              Satterthwaite_method = anova_test,
              FIT = fit,
-
              APA = apa
   )
 
-  res
+  swich(tpye,
+        all = res, )
 }
