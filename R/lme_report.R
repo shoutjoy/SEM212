@@ -102,7 +102,7 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
              APA = apa
   )
 
-  switch(tpye,
+  switch(type,
         all = res,
         Fixed_effect = Fixed_effect,
         Random_effect = Random_effect,
