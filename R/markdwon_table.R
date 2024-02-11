@@ -48,7 +48,7 @@ markdown_table <- function(data,
                            digits = 2,
                            font_size= 18,
                            full_width= F,
-                           table ="classic",
+                           table ="paper",
                            show="data",
                            format="html",
                            row.names = NA,
@@ -66,7 +66,7 @@ markdown_table <- function(data,
                            lightable_options= "basic",
                            html_font = '"Arial Narrow", arial, helvetica, sans-serif',
                            general_title="Note: ",
-                           general = NULL,
+                           # general = NULL,
                            number = NULL,
                            alphabet = NULL
 ){
@@ -103,7 +103,8 @@ markdown_table <- function(data,
                                 lightable_options= lightable_options)
 
   }else if(show =="data"){
-    data<- data %>% as.data.frame() %>%
+
+    data <- data %>% as.data.frame() %>%
       kableExtra::kbl(digits = digits,
           format= format,
           # caption =  caption,
@@ -122,13 +123,14 @@ markdown_table <- function(data,
           centering = TRUE
       )
 
+    #re apply
     if(table == "paper"){
-      data %>%  kable_paper(full_width = full_width,
+      data %>%  kableExtra::kable_paper(full_width = full_width,
                                font_size = font_size,
                             lightable_options = lightable_options) %>%
         kableExtra::footnote(general = c("*** : p < .001, ** : p < .01, * : p < .05"),
                              general_title = general_title,
-                             general = general,
+                             # general = general,
                              number = number,
                              alphabet = alphabet
                              )
@@ -140,7 +142,7 @@ markdown_table <- function(data,
                                 lightable_options = lightable_options)%>%
         kableExtra::footnote(c("*** : p < .001, ** : p < .01, * : p < .05"),
                              general_title = general_title,
-                             general = general,
+                             # general = general,
                              number = number,
                              alphabet = alphabet)
 
@@ -150,7 +152,7 @@ markdown_table <- function(data,
                                       lightable_options = lightable_options)%>%
         kableExtra::footnote(general = c("*** : p < .001, ** : p < .01, * : p < .05"),
                              general_title = general_title,
-                             general = general,
+                             # general = general,
                              number = number,
                              alphabet = alphabet)
 
@@ -169,7 +171,7 @@ markdown_table <- function(data,
                                 position = position)%>%
         kableExtra::footnote(general = c("*** : p < .001, ** : p < .01, * : p < .05"),
                              general_title = general_title,
-                             general = general,
+                             # general = general,
                              number = number,
                              alphabet = alphabet)
 
