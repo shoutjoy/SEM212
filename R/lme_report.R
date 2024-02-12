@@ -31,7 +31,7 @@
 #'
 #' }
 #'
-lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all",
+lme_report <- function(lmedata,type= "all", apa=FALSE, fit_more=FALSE,
                        ranef_sig = FALSE){
 
   library(multilevelTools)
