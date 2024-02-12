@@ -43,7 +43,12 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
   fixed_effect <- lmedata_summary$coefficients
 
   # lmedata |> # summary()|> coef()
+  ranef = ranef(lmedata)
+  fixef = fixef(lmedata)
 
+  # prediction for each categories
+  # fixef(lmedata) + ranef(lmedata)$operator
+  coef = coef(lmedata)
 
   #random effect
   random_effect <- data.frame(lme4::VarCorr(lmedata))
@@ -63,6 +68,10 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
   # APA style
   # test_variance = rand(lmedata)
 
+  #Significance of random effects
+  # H0: Var(random effect) (i.e., σ2)= 0
+  # Ha: Var(random effect) (i.e., σ2) > 0
+  ranef_sig = RLRsim::exactRLRT(lmedata)
 
 
 
@@ -80,9 +89,11 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
   }
 
   # bind_cols(AIC(lmedata), BIC(lmedata))
-
+  # p-value based on lmerTest
   anova_test = anova(lmedata)
-  ranef = ranef(lmedata)
+
+
+
 
   #model fit
   if(fit_more){
@@ -94,9 +105,12 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
   # result
   res = list(formula = formula,
              Fixed_effect = fixed_effect,
+             fixef = fixef,
              Random_effect = random_effect,
              ICC = icc,
              ranef = ranef,
+             coef = coef,
+             ranef_sig  = ranef_sig,
              # test_of_variance = test_variance,
              ConfidenceInterval_95 = CI,
              Satterthwaite_method = anova_test,
@@ -109,9 +123,11 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
         Fixed_effect = fixed_effect,
         Random_effect = random_effect,
         ICC = icc,
+        ranef_sig = ranef_sig,
         CI = CI,
         FIT = fit,
         ranef = ranef,
+        fixef = fixef,
         anova = anova_test,
         APA = apa
 
