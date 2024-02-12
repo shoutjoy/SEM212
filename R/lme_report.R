@@ -66,7 +66,7 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
 
   # test the variance parameter
   # APA style
-  # test_variance = rand(lmedata)
+
 
   #Significance of random effects
   # H0: Var(random effect) (i.e., σ2)= 0
@@ -105,18 +105,16 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
   # result
   res = list(formula = formula,
              Fixed_effect = fixed_effect,
-             fixef = fixef,
              Random_effect = random_effect,
              ICC = icc,
+             ranef_sig  = ranef_sig,
+             FIT = fit,
+             fixef = fixef,
              ranef = ranef,
              coef = coef,
-             ranef_sig  = ranef_sig,
-             # test_of_variance = test_variance,
              ConfidenceInterval_95 = CI,
              Satterthwaite_method = anova_test,
-             FIT = fit,
-             APA = apa
-  )
+             APA = apa  )
 
   switch(type,
         all = res,
@@ -129,7 +127,7 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
         ranef = ranef,
         fixef = fixef,
         anova = anova_test,
-        APA = apa
-
+        APA = apa,
+        formula =   formula
         )
 }
