@@ -116,8 +116,26 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
              Satterthwaite_method = anova_test,
              APA = apa  )
 
+  #full data view
+  full = list(
+    summary = lmedata_summary,
+    formula = formula,
+             Fixed_effect = fixed_effect,
+             Random_effect = random_effect,
+             ICC = icc,
+             ranef_sig  = ranef_sig,
+             FIT = fit,
+             fixef = fixef,
+             ranef = ranef,
+             coef = coef,
+             ConfidenceInterval_95 = CI,
+             Satterthwaite_method = anova_test,
+             APA = apa  )
+#select result
   switch(type,
         all = res,
+        full = full, #full data
+        summary = lmedata_summary, #lmer summary
         Fixed_effect = fixed_effect,
         Random_effect = random_effect,
         ICC = icc,
