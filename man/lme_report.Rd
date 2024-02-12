@@ -9,7 +9,8 @@ lme_report(
   type = "all",
   apa = FALSE,
   fit_more = FALSE,
-  ranef_sig = FALSE
+  ranef_sig = FALSE,
+  glmer = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ lme_report(
 \item{fit_more}{= default FALSE, TRUE detailed report}
 
 \item{ranef_sig}{ranef_sig =TRUE  random effect test}
+
+\item{glmer}{glmer TRUE ICC change}
 }
 \description{
 linear mixed model report

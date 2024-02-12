@@ -4,6 +4,7 @@
 #' @param fit_more = default FALSE, TRUE detailed report
 #' @param type = 'all' is res, 'Fixed_effect','Random_effect','ICC', 'ConfidenceInterval_95','Satterthwaite_method','FIT','APA'
 #' @param ranef_sig ranef_sig =TRUE  random effect test
+#' @param glmer glmer TRUE ICC change
 #' @export
 #' @examples
 #' \dontrun{
@@ -32,7 +33,7 @@
 #' }
 #'
 lme_report <- function(lmedata,type= "all", apa=FALSE, fit_more=FALSE,
-                       ranef_sig = FALSE){
+                       ranef_sig = FALSE, glmer = FALSE){
 
   library(multilevelTools)
   #formula output
@@ -56,6 +57,19 @@ lme_report <- function(lmedata,type= "all", apa=FALSE, fit_more=FALSE,
   random_effect <- data.frame(lme4::VarCorr(lmedata))
 
 
+
+  if(glmer){
+    #ICC
+    # pisqaure/3
+    icc_glmer =  random_effect |>
+      dplyr::mutate(Sum = sum(vcov) + ((pi^2)/3),
+                    ICC = (vcov/Sum),
+                    ICC_ratio = paste0(round((vcov/Sum)*100, 2),"%"),
+                    ICC_rank = rank(dplyr::desc(ICC))
+      ) |>
+      dplyr::select(1:2,7,8,9)
+
+  }else{
   #ICC
   icc =  random_effect |>
     dplyr::mutate(Sum = sum(vcov),
@@ -64,6 +78,9 @@ lme_report <- function(lmedata,type= "all", apa=FALSE, fit_more=FALSE,
                   ICC_rank = rank(dplyr::desc(ICC))
     ) |>
     dplyr::select(1:2,7,8,9)
+
+  }
+
 
 
   # test the variance parameter
@@ -129,6 +146,7 @@ lme_report <- function(lmedata,type= "all", apa=FALSE, fit_more=FALSE,
              Fixed_effect = fixed_effect,
              Random_effect = random_effect,
              ICC = icc,
+             # ICC_glmer = icc_glmer,
              ranef_sig  = ranef_sig,
              FIT = fit,
              fixef = fixef,
@@ -145,6 +163,7 @@ lme_report <- function(lmedata,type= "all", apa=FALSE, fit_more=FALSE,
         Fixed_effect = fixed_effect,
         Random_effect = random_effect,
         ICC = icc,
+        ICC_glmer = icc_glmer,
         ranef_sig = ranef_sig,
         CI = CI,
         FIT = fit,
