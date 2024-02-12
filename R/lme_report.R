@@ -3,6 +3,7 @@
 #' @param apa = default FALSE, if you  REML is FALSE
 #' @param fit_more = default FALSE, TRUE detailed report
 #' @param type = 'all' is res, 'Fixed_effect','Random_effect','ICC', 'ConfidenceInterval_95','Satterthwaite_method','FIT','APA'
+#' @param ranef_sig ranef_sig =TRUE  random effect test
 #' @export
 #' @examples
 #' \dontrun{
@@ -30,7 +31,8 @@
 #'
 #' }
 #'
-lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
+lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all",
+                       ranef_sig = FALSE){
 
   library(multilevelTools)
   #formula output
@@ -71,7 +73,11 @@ lme_report <- function(lmedata, apa=FALSE, fit_more=FALSE, type= "all"){
   #Significance of random effects
   # H0: Var(random effect) (i.e., σ2)= 0
   # Ha: Var(random effect) (i.e., σ2) > 0
+  if(ranef_sig){
   ranef_sig = RLRsim::exactRLRT(lmedata)
+  }else{
+    ranef_sig = "ranef_sig = TRUE -> perform random effect test "
+  }
 
 
 
