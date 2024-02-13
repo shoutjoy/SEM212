@@ -4,7 +4,8 @@
 #' @param fit_more = default FALSE, TRUE detailed report
 #' @param type = 'all' is res, 'Fixed_effect','Random_effect','ICC', 'ConfidenceInterval_95','Satterthwaite_method','FIT','APA'
 #' @param ranef_sig ranef_sig =TRUE  random effect test
-#' @param glmer glmer TRUE ICC change
+#' @param form 'lmer','glmer' = 'logit'='dich', 'poisson' ='pois'
+#' @param show.effect if you show.effect = TRUE -> show ranef, fixef, coef
 #' @param show.ci TRUE calculation 95percent CI
 #' @description
 #'  Mixed model summary
@@ -43,7 +44,8 @@ lme_report <- function(lmedata,type= "all",
                        apa=FALSE,
                        fit_more=FALSE,
                        ranef_sig = FALSE,
-                       glmer = FALSE,
+                       form = "lmer",
+                       show.effect=FALSE,
                        show.ci=FALSE){
 
   library(multilevelTools)
@@ -59,15 +61,20 @@ lme_report <- function(lmedata,type= "all",
    #random effect
   random_effect <- data.frame(lme4::VarCorr(lmedata))
 
-
+if(show.effect){
   ranef = ranef(lmedata)
   fixef = fixef(lmedata)
   # prediction for each categories
   # fixef(lmedata) + ranef(lmedata)$operator
   coef = coef(lmedata)
+}else{
+  ranef ="If you want to see the effect, show.effect = TRUE results."
+  fixef="If you want to see the effect, show.effect = TRUE results."
+  coef="If you want to see the effect, show.effect = TRUE results."
+}
 
 
-  if(glmer){
+  if(form=="glmer"){
     #ICC
     # pisqaure/3
     icc =  random_effect |>
@@ -78,7 +85,7 @@ lme_report <- function(lmedata,type= "all",
       ) |>
       dplyr::select(1:2,7,8,9)
 
-  }else{
+  }else if(form =="lmer"){
   #ICC
   icc =  random_effect |>
     dplyr::mutate(Sum = sum(vcov),
@@ -88,6 +95,38 @@ lme_report <- function(lmedata,type= "all",
     ) |>
     dplyr::select(1:2,7,8,9)
 
+  }else if(form == "poisson"){
+    icc =  random_effect |>
+      dplyr::mutate(Sum = sum(vcov) + 1,
+                    ICC = (vcov/Sum),
+                    ICC_ratio = paste0(round((vcov/Sum)*100, 2),"%"),
+                    ICC_rank = rank(dplyr::desc(ICC))
+      ) |>
+      dplyr::select(1:2,7,8,9)
+  }else if(form == "pois"){
+    icc =  random_effect |>
+      dplyr::mutate(Sum = sum(vcov) + 1,
+                    ICC = (vcov/Sum),
+                    ICC_ratio = paste0(round((vcov/Sum)*100, 2),"%"),
+                    ICC_rank = rank(dplyr::desc(ICC))
+      ) |>
+      dplyr::select(1:2,7,8,9)
+  }else if(form == "logit"){
+    icc =  random_effect |>
+      dplyr::mutate(Sum = sum(vcov) + ((pi^2)/3),
+                    ICC = (vcov/Sum),
+                    ICC_ratio = paste0(round((vcov/Sum)*100, 2),"%"),
+                    ICC_rank = rank(dplyr::desc(ICC))
+      ) |>
+      dplyr::select(1:2,7,8,9)
+  }else if(form == "dich"){
+    icc =  random_effect |>
+      dplyr::mutate(Sum = sum(vcov) + ((pi^2)/3),
+                    ICC = (vcov/Sum),
+                    ICC_ratio = paste0(round((vcov/Sum)*100, 2),"%"),
+                    ICC_rank = rank(dplyr::desc(ICC))
+      ) |>
+      dplyr::select(1:2,7,8,9)
   }
 
 

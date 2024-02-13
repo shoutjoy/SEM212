@@ -10,7 +10,8 @@ lme_report(
   apa = FALSE,
   fit_more = FALSE,
   ranef_sig = FALSE,
-  glmer = FALSE,
+  form = "lmer",
+  show.effect = FALSE,
   show.ci = FALSE
 )
 }
@@ -25,7 +26,9 @@ lme_report(
 
 \item{ranef_sig}{ranef_sig =TRUE  random effect test}
 
-\item{glmer}{glmer TRUE ICC change}
+\item{form}{'lmer','glmer' = 'logit'='dich', 'poisson' ='pois'}
+
+\item{show.effect}{if you show.effect = TRUE -> show ranef, fixef, coef}
 
 \item{show.ci}{TRUE calculation 95percent CI}
 }

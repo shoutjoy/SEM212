@@ -78,6 +78,8 @@ mydes <- function(myvariable, var = NULL, digits = 2){
 #' ## 1   32  20.09062  6.0269481 10.400  33.900
 #' ## 2   32   3.21725  0.9784574  1.513   5.424
 #' ## 3   32 146.68750 68.5628685 52.000 335.000
+#'
+#'
 #' }
 mysummary <- function(myobject, ...){
   #  Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr
