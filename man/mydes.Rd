@@ -4,10 +4,12 @@
 \alias{mydes}
 \title{mydes 'n','mean','sd','min','max'}
 \usage{
-mydes(myvariable, digits = 2)
+mydes(myvariable, var = NULL, digits = 2)
 }
 \arguments{
 \item{myvariable}{variable vector}
+
+\item{var}{input variable name}
 
 \item{digits}{digits}
 }
@@ -16,7 +18,9 @@ mydes 'n','mean','sd','min','max'
 }
 \examples{
 \dontrun{
-
+## view variable
+mydes(mtcars$mpg,"mpg")
+##not see variable
 mydes(mtcars$mpg)
 
 }

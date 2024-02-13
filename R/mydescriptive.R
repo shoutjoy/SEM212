@@ -29,16 +29,20 @@ mydescriptive <- function(myvariable, digits = 3){
 #'
 #'
 #' @param myvariable variable vector
+#' @param var input variable name
 #' @param digits digits
 #' @export
 #' @examples
 #' \dontrun{
-#'
+#' ## view variable
+#' mydes(mtcars$mpg,"mpg")
+#' ##not see variable
 #' mydes(mtcars$mpg)
 #'
 #' }
 #'
-mydes <- function(myvariable, digits = 2){
+mydes <- function(myvariable, var = NULL, digits = 2){
+  Var = var
   N <- length(myvariable)
   Mean <- round(mean(myvariable),digits)
   SD <- round(sd(myvariable),digits)
@@ -47,8 +51,11 @@ mydes <- function(myvariable, digits = 2){
   Skew <- round(SKEW(myvariable),digits)
   Kurt <- round(KURT(myvariable),digits)
 
-  mydes <- cbind.data.frame(N, Mean, SD, Min, Max, Skew, Kurt)
-  # colnames(mydes) <- c('n','mean','sd','min','max')
+  if(is.null(Var)){
+    mydes <- cbind.data.frame(N, Mean, SD, Min, Max, Skew, Kurt)
+  }else{
+    mydes <- cbind.data.frame(Var, N, Mean, SD, Min, Max, Skew, Kurt)
+  }
   mydes <- tibble::tibble(mydes)
   mydes
 }
