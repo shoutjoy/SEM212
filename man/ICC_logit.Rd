@@ -19,6 +19,6 @@ ICC.logit generalized linear model ICC
 \dontrun{
 lme4::glmer(am ~ wt + (wt |vs ), mtcars,
             family=binomial(link='logit'))|>
-            ICC.logit()
+            ICC_logit()
 }
 }
