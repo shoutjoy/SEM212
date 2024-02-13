@@ -52,3 +52,33 @@ mydes <- function(myvariable, digits = 2){
   mydes <- tibble::tibble(mydes)
   mydes
 }
+
+
+
+
+#' my summary descriptive statistics
+#'
+#' @param myobject data.frame, matrix
+#' @param myvariable column variable
+#'
+#' @return size   MEAN    SD  MIN  MAX
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' mysummary(mtcars, "mpg")
+#' }
+mysummary <- function(myobject, myvariable){
+  # myobject[[myvariable]]
+  myresult <- dplyr::summarise(myobject,
+
+                               size = length(myobject[[myvariable]]),
+                               MEAN = mean(myobject[[myvariable]]),
+                               SD = sd(myobject[[myvariable]]),
+                               MIN = min(myobject[[myvariable]]),
+                               MAX = max(myobject[[myvariable]]))
+  round(myresult,3)
+}
+
+
+
