@@ -5,12 +5,19 @@
 #' @param type = 'all' is res, 'Fixed_effect','Random_effect','ICC', 'ConfidenceInterval_95','Satterthwaite_method','FIT','APA'
 #' @param ranef_sig ranef_sig =TRUE  random effect test
 #' @param glmer glmer TRUE ICC change
+#' @param show.ci TRUE calculation 95percent CI
+#' @description
+#'  Mixed model summary
+#'
 #' @export
 #' @examples
 #' \dontrun{
 #' data(sleepstudy)
+#'
 #' sleepstudy |> str()
+#'
 #' lmer(Reaction ~ Days + (Days | Subject), sleepstudy) |> lme_report()
+#'
 #' lmer(Reaction ~ Days + (Days | Subject), sleepstudy) |> lme_report(apa=TRUE)
 #'
 #'
@@ -32,8 +39,12 @@
 #'
 #' }
 #'
-lme_report <- function(lmedata,type= "all", apa=FALSE, fit_more=FALSE,
-                       ranef_sig = FALSE, glmer = FALSE){
+lme_report <- function(lmedata,type= "all",
+                       apa=FALSE,
+                       fit_more=FALSE,
+                       ranef_sig = FALSE,
+                       glmer = FALSE,
+                       show.ci=FALSE){
 
   library(multilevelTools)
   #formula output
@@ -45,23 +56,21 @@ lme_report <- function(lmedata,type= "all", apa=FALSE, fit_more=FALSE,
   #fixed effect
   fixed_effect <- lmedata_summary$coefficients
 
-  # lmedata |> # summary()|> coef()
+   #random effect
+  random_effect <- data.frame(lme4::VarCorr(lmedata))
+
+
   ranef = ranef(lmedata)
   fixef = fixef(lmedata)
-
   # prediction for each categories
   # fixef(lmedata) + ranef(lmedata)$operator
   coef = coef(lmedata)
-
-  #random effect
-  random_effect <- data.frame(lme4::VarCorr(lmedata))
-
 
 
   if(glmer){
     #ICC
     # pisqaure/3
-    icc_glmer =  random_effect |>
+    icc =  random_effect |>
       dplyr::mutate(Sum = sum(vcov) + ((pi^2)/3),
                     ICC = (vcov/Sum),
                     ICC_ratio = paste0(round((vcov/Sum)*100, 2),"%"),
@@ -96,10 +105,12 @@ lme_report <- function(lmedata,type= "all", apa=FALSE, fit_more=FALSE,
     ranef_sig = "ranef_sig = TRUE -> perform random effect test "
   }
 
-
-
+#confidence interval
+if(show.ci){
   CI = confint(lmedata, oldNames = FALSE)
-
+}else{
+  CI = "If you want to see 95%CI, set show.ci = TRUE"
+}
 
   #apa output
   if(apa){
@@ -108,7 +119,7 @@ lme_report <- function(lmedata,type= "all", apa=FALSE, fit_more=FALSE,
             JWileymisc::APAStyler()
 
   }else{
-    apa = NULL
+    apa = "If you want to see APA style result, set apa = TRUE"
   }
 
   # bind_cols(AIC(lmedata), BIC(lmedata))

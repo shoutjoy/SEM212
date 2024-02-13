@@ -10,7 +10,8 @@ lme_report(
   apa = FALSE,
   fit_more = FALSE,
   ranef_sig = FALSE,
-  glmer = FALSE
+  glmer = FALSE,
+  show.ci = FALSE
 )
 }
 \arguments{
@@ -25,15 +26,20 @@ lme_report(
 \item{ranef_sig}{ranef_sig =TRUE  random effect test}
 
 \item{glmer}{glmer TRUE ICC change}
+
+\item{show.ci}{TRUE calculation 95percent CI}
 }
 \description{
-linear mixed model report
+Mixed model summary
 }
 \examples{
 \dontrun{
 data(sleepstudy)
+
 sleepstudy |> str()
+
 lmer(Reaction ~ Days + (Days | Subject), sleepstudy) |> lme_report()
+
 lmer(Reaction ~ Days + (Days | Subject), sleepstudy) |> lme_report(apa=TRUE)
 
 
