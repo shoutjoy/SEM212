@@ -4,12 +4,12 @@
 \alias{mysummary}
 \title{my summary descriptive statistics}
 \usage{
-mysummary(myobject, myvariable)
+mysummary(myobject, ...)
 }
 \arguments{
 \item{myobject}{data.frame, matrix}
 
-\item{myvariable}{column variable}
+\item{...}{column variable}
 }
 \value{
 size   MEAN    SD  MIN  MAX
@@ -19,6 +19,10 @@ my summary descriptive statistics
 }
 \examples{
 \dontrun{
-mysummary(mtcars, "mpg")
+mysummary(mtcars, "mpg","wt","hp")
+## size      MEAN         SD    MIN     MAX
+## 1   32  20.09062  6.0269481 10.400  33.900
+## 2   32   3.21725  0.9784574  1.513   5.424
+## 3   32 146.68750 68.5628685 52.000 335.000
 }
 }
