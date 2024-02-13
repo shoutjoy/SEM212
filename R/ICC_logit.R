@@ -11,7 +11,7 @@
 #'             family=binomial(link='logit'))|>
 #'             ICC.logit()
 #' }
-ICC.logit <- function(gmlm.dichotomous){
+ICC_logit <- function(gmlm.dichotomous){
 
   var.cov <- data.frame(VarCorr(gmlm.dichotomous))
   icc2.dich <- var.cov$vcov/(sum(var.cov$vcov)+((pi^2)/3))
