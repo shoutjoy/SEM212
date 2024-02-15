@@ -74,6 +74,7 @@ markdown_table <- function(data,
   # library(kableExtra)
   # library(broom)
   #논문에 넣을때 복사하여 넣을 것
+  options(knitr.kable.NA = '')
   cat(" *** : p < .001, ** : p < .01, * : p < .05")
 
   if(show =="lm"){
