@@ -148,7 +148,9 @@ pls_cfa = function(pls_data,
                    var_name=NULL,
                    vjust=-0.5
 ){
-
+  if (requireNamespace("tidyverse")) library(tidyverse)
+  if (requireNamespace("seminr")) library(seminr)
+  if (requireNamespace("reshape")) library(reshape)
   library(seminr)
   library(reshape)
   library(tidyverse)
