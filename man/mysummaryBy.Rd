@@ -33,6 +33,12 @@ mysummaryBy(mpg ~ vs, data = mtcars)
 mysummaryBy(mpg ~ vs+am, data = mtcars)
 mysummaryBy(mpg ~ vs+am+cyl, data = mtcars)
 
+##statistic data output
+mysummaryBy(mpg ~ 1, data = mtcars, "mpg", stat="t.test")
+mysummaryBy(mpg ~ vs, data = mtcars, stat="t.test")
+mysummaryBy(mpg ~ vs+am, data = mtcars, stat="aov")
+mysummaryBy(mpg ~ vs*cyl, data = mtcars, stat="aov")
+
 }
 
 }

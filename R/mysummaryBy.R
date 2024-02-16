@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' \donrun{
+#' \dontrun{
 #' ## Used to obtain statistics for one variable
 #' mysummaryBy(mpg ~ 1, data = mtcars)
 #' mysummaryBy(mpg ~ 1, data = mtcars, "mpg")
@@ -18,6 +18,12 @@
 #' mysummaryBy(mpg ~ vs, data = mtcars)
 #' mysummaryBy(mpg ~ vs+am, data = mtcars)
 #' mysummaryBy(mpg ~ vs+am+cyl, data = mtcars)
+#'
+#' ##statistic data output
+#'mysummaryBy(mpg ~ 1, data = mtcars, "mpg", stat="t.test")
+#'mysummaryBy(mpg ~ vs, data = mtcars, stat="t.test")
+#'mysummaryBy(mpg ~ vs+am, data = mtcars, stat="aov")
+#'mysummaryBy(mpg ~ vs*cyl, data = mtcars, stat="aov")
 #'
 #' }
 #'
@@ -40,7 +46,10 @@ mysummaryBy <- function(formula,
                           SD = sd(x, na.rm = TRUE),
                           N = length(x),
                           Min = min(x, na.rm = TRUE),
-                          Max = max(x, na.rm = TRUE))
+                          Max = max(x, na.rm = TRUE),
+                          Skew = SKEW(x),
+                          Kurt =KURT(x)
+                          )
                       })
 
 
