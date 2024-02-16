@@ -4,7 +4,7 @@
 \alias{mysummaryBy}
 \title{statistics by group}
 \usage{
-mysummaryBy(formula, data, add_var = NULL)
+mysummaryBy(formula, data, add_var = NULL, stat = FALSE)
 }
 \arguments{
 \item{formula}{general formula}
@@ -12,6 +12,8 @@ mysummaryBy(formula, data, add_var = NULL)
 \item{data}{data.frame}
 
 \item{add_var}{one sample name, Used to obtain statistics for one variable}
+
+\item{stat}{TRUE t.test and aov(), thes stat ="t.test", or 'aov'}
 }
 \value{
 Mea, SD, N, min, max
@@ -32,4 +34,5 @@ mysummaryBy(mpg ~ vs+am, data = mtcars)
 mysummaryBy(mpg ~ vs+am+cyl, data = mtcars)
 
 }
+
 }
