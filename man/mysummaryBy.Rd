@@ -16,7 +16,7 @@ mysummaryBy(formula, data, add_var = NULL, stat = FALSE)
 \item{stat}{TRUE t.test and aov(), thes stat ="t.test", or 'aov'}
 }
 \value{
-Mea, SD, N, min, max
+Mea, SD, N, min, max, skew, kurt
 }
 \description{
 statistics by group

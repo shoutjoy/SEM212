@@ -4,7 +4,7 @@
 #' @param data data.frame
 #' @param add_var one sample name, Used to obtain statistics for one variable
 #' @param stat TRUE t.test and aov(), thes stat ="t.test", or 'aov'
-#' @return Mea, SD, N, min, max
+#' @return Mea, SD, N, min, max, skew, kurt
 #' @export
 #'
 #' @examples
@@ -29,8 +29,8 @@
 #'
 mysummaryBy <- function(formula,
                         data,
-                        add_var=NULL,
-                        stat=FALSE) {
+                        add_var = NULL,
+                        stat = FALSE) {
   # Make sure the data object is provided
   if (missing(data)) stop("Please provide the data object as an argument.")
   # Import dplyr if needed
