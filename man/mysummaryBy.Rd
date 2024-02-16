@@ -22,7 +22,7 @@ Mea, SD, N, min, max
 statistics by group
 }
 \examples{
-\donrun{
+\dontrun{
 ## Used to obtain statistics for one variable
 mysummaryBy(mpg ~ 1, data = mtcars)
 mysummaryBy(mpg ~ 1, data = mtcars, "mpg")

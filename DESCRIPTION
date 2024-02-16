@@ -1,7 +1,7 @@
 Package: SEM212
 Type: Package
 Title: CFA from SEM
-Version: 0.1.1
+Version: 0.1.2
 Author: Park Joonghee
 Maintainer: The package maintainer <shoutjoy@janmail.net>
 Description: This is my personal package. It contains some handy functions that

@@ -48,7 +48,7 @@ mysummaryBy <- function(formula,
                           Min = min(x, na.rm = TRUE),
                           Max = max(x, na.rm = TRUE),
                           Skew = SKEW(x),
-                          Kurt =KURT(x)
+                          Kurt = KURT(x)
                           )
                       })
 
