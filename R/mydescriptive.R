@@ -90,14 +90,68 @@ mysummary <- function(myobject, ...){
   myvars <- c(...)
   myresult <- dplyr::reframe(myobject,
                              var = myvars,
-                             size = sapply(myobject[myvars], length),
+                             N = sapply(myobject[myvars], length),
                              MEAN = sapply(myobject[myvars], mean),
                              SD = sapply(myobject[myvars], sd),
                              MIN = sapply(myobject[myvars], min),
-                             MAX = sapply(myobject[myvars], max))
+                             MAX = sapply(myobject[myvars], max),
+                             Skew = sapply(myobject[myvars], SKEW),
+                             Kurt = sapply(myobject[myvars], KURT),
+                             )
   myresult
 
 }
+
+
+
+
+
+#' Describedescriptive statistics cusum
+#'
+#' @param myobject data.frame, matrix
+#' @param ... column variable
+#'
+#' @return size   MEAN    SD  MIN  MAX
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' mysummary(mtcars, "mpg","wt","hp")
+#' ## size      MEAN         SD    MIN     MAX
+#' ## 1   32  20.09062  6.0269481 10.400  33.900
+#' ## 2   32   3.21725  0.9784574  1.513   5.424
+#' ## 3   32 146.68750 68.5628685 52.000 335.000
+#'
+#'
+#' }
+#'
+Describe <- function(myobject, ...){
+  #  Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr
+  # 1.1.0.
+  # ℹ Please use `reframe()` instead.
+  # ℹ When switching from `summarise()` to `reframe()`, remember that `reframe()` always
+  #   returns an ungrouped data frame and adjust accordingly.
+  myvars <- c(...)
+  myresult <- dplyr::reframe(myobject,
+                             var = myvars,
+                             N = sapply(myobject[myvars], length),
+                             MEAN = sapply(myobject[myvars], mean),
+                             SD = sapply(myobject[myvars], sd),
+                             Var = sapply(myobject[myvars], var),
+                             MIN = sapply(myobject[myvars], min),
+                             MAX = sapply(myobject[myvars], max),
+                             Skew = sapply(myobject[myvars], SKEW),
+                             Kurt = sapply(myobject[myvars], KURT)
+
+  )
+  myresult
+
+}
+
+
+
+
+
 
 
 #
