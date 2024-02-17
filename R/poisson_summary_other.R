@@ -32,12 +32,12 @@ Poisson_summary_function = function(my_model_estimation,
 
   mycoefs = broom::tidy(my_model_estimation) %>%
     mutate(
-      est2 = format(round(estimate, mydigit),mydigit),
-      se2 = format(round(std.error, mydigit),mydigit),
+      est2 = format(round(estimate, digit),digit),
+      se2 = format(round(std.error, digit),digit),
       mystars = cut(p.value,c(0,0.001,0.01,0.05,0.10,1),
                     c("***","**","*","+",""), right = F),
       report = str_c(" ", est2, mystars,"(",se2,")", sep=""),
-      exp_est = format(round(exp(estimate), mydigit), mydigit)
+      exp_est = format(round(exp(estimate), digit), digit)
     ) %>% dplyr::select( term, report, exp_est)
 
   myGOF = glance(my_model_estimation) %>%
@@ -49,14 +49,14 @@ Poisson_summary_function = function(my_model_estimation,
       DF_CHI2 = df.null-df.residual,
       p.value = 1 - pchisq(LL_CHI2, DF_CHI2),
       McFaddenR2 = format(round((null.deviance-deviance)/null.deviance,
-                                mydigit),mydigit),
-      LL_CHI2 = format(round(LL_CHI2, mydigit), mydigit),
+                                digit),digit),
+      LL_CHI2 = format(round(LL_CHI2, digit), digit),
       mystars = cut(p.value,c(0,0.001,0.01,0.05,0.10,1),
                     c("***","**","*","+",""),right=F),
       my_CHI2 = str_c(LL_CHI2, mystars),
       LL_CHI2_df = str_c("(",DF_CHI2,")"),
-      AIC = format(round(AIC(my_model_estimation),mydigit),mydigit),
-      BIC = format(round(BIC(my_model_estimation),mydigit),mydigit)
+      AIC = format(round(AIC(my_model_estimation),digit),digit),
+      BIC = format(round(BIC(my_model_estimation),digit),digit)
     ) %>% dplyr::select( `--------`,
                          DF_null,
                          DF_residual,
@@ -122,12 +122,12 @@ summary_pois = function(my_model_estimation,
 
   mycoefs = broom::tidy(my_model_estimation) %>%
     mutate(
-      est2 = format(round(estimate, mydigit),mydigit),
-      se2 = format(round(std.error, mydigit),mydigit),
+      est2 = format(round(estimate, digit),digit),
+      se2 = format(round(std.error, digit),digit),
       mystars = cut(p.value,c(0,0.001,0.01,0.05,0.10,1),
                     c("***","**","*","+",""), right = F),
       report = str_c(" ", est2,"(",se2,")", mystars, sep=""),
-      exp_est = format(round(exp(estimate), mydigit), mydigit)
+      exp_est = format(round(exp(estimate), digit), digit)
     ) %>% dplyr::select( term, report, exp_est)
 
   myGOF = glance(my_model_estimation) %>%
@@ -137,24 +137,24 @@ summary_pois = function(my_model_estimation,
       DF_CHI2 = df.null- df.residual,
       p.value = 1 - pchisq(LL_CHI2, DF_CHI2),
       McFaddenR2 = format(round((null.deviance-deviance)/null.deviance,
-                                mydigit),mydigit),
-      LL_CHI2 = format(round(LL_CHI2, mydigit), mydigit),
+                                digit),digit),
+      LL_CHI2 = format(round(LL_CHI2, digit), digit),
       mystars = cut(p.value,c(0,0.001,0.01,0.05,0.10,1),
                     c("***","**","*","+",""),right=F),
       my_CHI2 = str_c(LL_CHI2, mystars),
       LL_CHI2_df = str_c("(",DF_CHI2,")"),
-      AIC = format(round(AIC(my_model_estimation),mydigit),mydigit),
-      BIC = format(round(BIC(my_model_estimation),mydigit),mydigit),
+      AIC = format(round(AIC(my_model_estimation),digit),digit),
+      BIC = format(round(BIC(my_model_estimation),digit),digit),
       `----------------`= "---------------",
       null_deviance_df = paste0(round(null.deviance,2), "(", df.null, ")"),
       resi_deviance_df = paste0(round(deviance,2), "(", df.residual, ")"),
-      Dispersion =  round(my_model_summary$dispersion, mydigit),
+      Dispersion =  round(my_model_summary$dispersion, digit),
 
       Dispersion_chcek = ifelse(my_model_estimation$family$family=="quasi",
-                       round(var0 /mean0^2, mydigit),
+                       round(var0 /mean0^2, digit),
                        ifelse(my_model_estimation$family$family=="quasipoisson"|
                               my_model_estimation$family$family == "poisson",
-                       round(var0 /mean0, mydigit) ))
+                       round(var0 /mean0, digit) ))
           ) %>% dplyr::select(  `----------`,
                           McFaddenR2,
                           my_CHI2,
@@ -187,8 +187,10 @@ summary_pois = function(my_model_estimation,
 #' bind_pois_df multiple model
 #'
 #' @param ... model name
+#' @param term_name NA variabel first  model
+#' @param n n and range is possiblle
 #'
-#' @returncompare table
+#' @return  compare table
 #' @export
 #'
 #' @examples
@@ -212,9 +214,15 @@ summary_pois = function(my_model_estimation,
 #' summary_pois(model3a)
 #' ## all
 #' bind_pois(model1a, model2a, model3a)
+#'
+#' ##  Options that are set to prevent NA from shifting position when there are no variables in the first model
+#' bind_pois(model1a, model2a, model3a, term_name=c("pop"),n = 4)
+#' ## additional test
+#' bind_pois(model1a, model2a, model3a, term_name=c("pop","pop1"),n = 4:5)
+#'
 #' }
 #'
-bind_pois <- function(...) {
+bind_pois <- function(..., term_name = NULL, n = NULL) {
   # Combine multiple models by joining their summary results
   # Usage: bind_pois(model1, model2, model3, ...)
 
@@ -223,7 +231,16 @@ bind_pois <- function(...) {
 
   # Initialize the result with the first model's summary
   result <- summary_pois(model_list[[1]])
-
+  # Options that are set to prevent NA from shifting position when there are no variables in the first model
+  if(is.null(term_name)){
+    result
+  }else{
+    result<- result|>
+      tibble::add_row(term = term_name,
+                      .before = n,
+                      report = NA )
+    result
+  }
   # Loop through the remaining models and join their summaries
   for (i in 2:length(model_list)) {
     result <- full_join(result,
@@ -236,4 +253,3 @@ bind_pois <- function(...) {
 
   return(result)
 }
-

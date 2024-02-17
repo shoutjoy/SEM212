@@ -4,10 +4,17 @@
 \alias{bind_pois}
 \title{bind_pois_df multiple model}
 \usage{
-bind_pois(...)
+bind_pois(..., term_name = NULL, n = NULL)
 }
 \arguments{
 \item{...}{model name}
+
+\item{term_name}{NA variabel first  model}
+
+\item{n}{n and range is possiblle}
+}
+\value{
+compare table
 }
 \description{
 bind_pois_df multiple model
@@ -33,6 +40,12 @@ summary_pois(model2a)
 summary_pois(model3a)
 ## all
 bind_pois(model1a, model2a, model3a)
+
+##  Options that are set to prevent NA from shifting position when there are no variables in the first model
+bind_pois(model1a, model2a, model3a, term_name=c("pop"),n = 4)
+## additional test
+bind_pois(model1a, model2a, model3a, term_name=c("pop","pop1"),n = 4:5)
+
 }
 
 }
