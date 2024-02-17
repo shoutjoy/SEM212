@@ -118,13 +118,15 @@ summary_pois = function(my_model_estimation,
 
   my_model_summary =  summary( my_model_estimation)
 
+  #function check
+
   mycoefs = broom::tidy(my_model_estimation) %>%
     mutate(
       est2 = format(round(estimate, mydigit),mydigit),
       se2 = format(round(std.error, mydigit),mydigit),
       mystars = cut(p.value,c(0,0.001,0.01,0.05,0.10,1),
                     c("***","**","*","+",""), right = F),
-      report = str_c(" ", est2, mystars,"(",se2,")", sep=""),
+      report = str_c(" ", est2,"(",se2,")", mystars, sep=""),
       exp_est = format(round(exp(estimate), mydigit), mydigit)
     ) %>% dplyr::select( term, report, exp_est)
 
@@ -149,11 +151,11 @@ summary_pois = function(my_model_estimation,
       Dispersion =  round(my_model_summary$dispersion, mydigit),
 
       Dispersion_chcek = ifelse(my_model_estimation$family$family=="quasi",
-                                round(var0 /mean0^2, mydigit),
-                                ifelse(my_model_estimation$family$family=="quasipoisson"|
-                                         my_model_estimation$family$family == "poisson",
-                                       round(var0 /mean0, mydigit) ))
-    ) %>% dplyr::select(  `----------`,
+                       round(var0 /mean0^2, mydigit),
+                       ifelse(my_model_estimation$family$family=="quasipoisson"|
+                              my_model_estimation$family$family == "poisson",
+                       round(var0 /mean0, mydigit) ))
+          ) %>% dplyr::select(  `----------`,
                           McFaddenR2,
                           my_CHI2,
                           LL_CHI2_df,
@@ -178,3 +180,23 @@ summary_pois = function(my_model_estimation,
   mytable|>data.frame()
 }
 
+
+
+
+
+#' The function combining the Poisson analysis result
+#'
+#' @param model1 model 1 result
+#' @param model2 model 2 ruslt
+#'
+#' @return  compare table
+#' @export
+#'
+#'
+bind_pois<- function(model1, model2){
+
+  summary_pois(model1) %>%
+    full_join(summary_pois(model2), by ="term") %>%
+    select(term, report.x, report.y) %>%
+    rename(model_1 = report.x, model_2 = report.y)
+}
