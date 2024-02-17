@@ -253,3 +253,7 @@ bind_pois <- function(..., term_name = NULL, n = NULL) {
 
   return(result)
 }
+
+
+
+
