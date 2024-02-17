@@ -4,6 +4,8 @@
 #' @param data data.frame
 #' @param add_var one sample name, Used to obtain statistics for one variable
 #' @param stat TRUE t.test and aov(), thes stat ="t.test", or 'aov'
+#' @param agg TRUE, mnay to many variable is showed. This functuion tha makes aggregate() work full
+#' @param digits Troundings
 #' @return Mea, SD, N, min, max, skew, kurt
 #' @export
 #'
@@ -27,10 +29,15 @@
 #'
 #' }
 #'
+#'
+#'
 mysummaryBy <- function(formula,
                         data,
                         add_var = NULL,
-                        stat = FALSE) {
+                        stat = FALSE,
+                        agg = FALSE,
+                        digits = 2
+) {
   # Make sure the data object is provided
   if (missing(data)) stop("Please provide the data object as an argument.")
   # Import dplyr if needed
@@ -47,9 +54,9 @@ mysummaryBy <- function(formula,
                           N = length(x),
                           Min = min(x, na.rm = TRUE),
                           Max = max(x, na.rm = TRUE),
-                          Skew = SKEW(x),
-                          Kurt = KURT(x)
-                          )
+                          Skew = SEM212::SKEW(x),
+                          Kurt = SEM212::KURT(x)
+                        )
                       })
 
 
@@ -61,31 +68,107 @@ mysummaryBy <- function(formula,
     stat_res=NULL
   }
 
+  if(agg){
+    res = result |>
+      # t() |>
+      data.frame()
 
-  if(func[3]!='1()'){
-    res = dplyr::bind_cols(var=result[,1: (ncol(result)-1) ],
-                           result[[ncol(result)]] ) |> tibble::tibble()
+    res <- res %>%
+      mutate(across(where(is.numeric), round, digits))|>
+      t()|>
+      data.frame() |>
+      tibble::rownames_to_column("stat_var")|>tibble::tibble()
+    res |> print(n=Inf)
 
-    if(is.null(stat_res)){
-      res
-    }else{
-      res = list(descriptive = res, statistic = stat_res)
-      res
+  }else{
+    if(func[3]!='1()'){
+      res = dplyr::bind_cols(var = result[,1: (ncol(result)-1) ],
+                             result[[ncol(result)]] ) |> tibble::tibble()
+
+      if(is.null(stat_res)){
+        res
+      }else{
+        res = list(descriptive = res,statistic= stat_res)
+        res
+      }
+
+    }else{ #Used to obtain statistics for one variable
+      res = dplyr::bind_cols(stat_var = add_var,
+                             result[[ncol(result)]] ) |> tibble::tibble()
+      if(is.null(stat_res)){
+        res
+      }else{
+        res = list(descriptive=res, statistic= stat_res)
+        res
+      }
     }
-
-  }else{ #Used to obtain statistics for one variable
-    res = dplyr::bind_cols(stat_var=add_var,
-                           result[[ncol(result)]] ) |> tibble::tibble()
-    if(is.null(stat_res)){
-      res
-    }else{
-      res = list(descriptive = res, statistic = stat_res)
-      res
-    }
-    #  res = list(res, stat_res)
-    #  return(res)
   }
 }
+
+# mysummaryBy <- function(formula,
+#                         data,
+#                         add_var = NULL,
+#                         stat = FALSE) {
+#   # Make sure the data object is provided
+#   if (missing(data)) stop("Please provide the data object as an argument.")
+#   # Import dplyr if needed
+#   if (requireNamespace("dplyr")) library(dplyr)
+#   # Aggregate with summary statistics
+#   func = formula(formula) #formula extraction
+#
+#   #analysis
+#   result <- aggregate(formula(formula), data,
+#                       FUN = function(x) {
+#                         c(
+#                           Mean = mean(x, na.rm = TRUE),
+#                           SD = sd(x, na.rm = TRUE),
+#                           N = length(x),
+#                           Min = min(x, na.rm = TRUE),
+#                           Max = max(x, na.rm = TRUE),
+#                           Skew = SKEW(x),
+#                           Kurt = KURT(x)
+#                           )
+#                       })
+#
+# #statistic data
+#   if(stat=="t.test"){
+#     stat_res = t.test(formula, data = data) |> broom::tidy()|>select(1:5)
+#   }else if(stat=="aov"){
+#     stat_res = aov(formula(formula), data = data) |> broom::tidy()
+#   }else{
+#     stat_res=NULL
+#   }
+#
+# #aggregate data : many ~ one
+#
+#   if(func[3]!='1()'){
+#     res = dplyr::bind_cols(var=result[,1: (ncol(result)-1) ],
+#                            result[[ncol(result)]] ) |> tibble::tibble()
+#
+#     if(is.null(stat_res)){
+#       res
+#     }else{
+#       res = list(descriptive = res, statistic = stat_res)
+#       res
+#     }
+#
+#   }else{ #Used to obtain statistics for one variable
+#     res = dplyr::bind_cols(stat_var=add_var,
+#                            result[[ncol(result)]] ) |> tibble::tibble()
+#     if(is.null(stat_res)){
+#       res
+#     }else{
+#       res = list(descriptive = res, statistic = stat_res)
+#       res
+#     }
+#     #  res = list(res, stat_res)
+#     #  return(res)
+#   }
+# }
+#
+
+
+
 #' #'
 #' mysummaryBy <- function(formula, data, add_var=NULL) {
 #'   # Make sure the data object is provided

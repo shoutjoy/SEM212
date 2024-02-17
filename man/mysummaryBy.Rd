@@ -4,7 +4,14 @@
 \alias{mysummaryBy}
 \title{statistics by group}
 \usage{
-mysummaryBy(formula, data, add_var = NULL, stat = FALSE)
+mysummaryBy(
+  formula,
+  data,
+  add_var = NULL,
+  stat = FALSE,
+  agg = FALSE,
+  digits = 2
+)
 }
 \arguments{
 \item{formula}{general formula}
@@ -14,6 +21,10 @@ mysummaryBy(formula, data, add_var = NULL, stat = FALSE)
 \item{add_var}{one sample name, Used to obtain statistics for one variable}
 
 \item{stat}{TRUE t.test and aov(), thes stat ="t.test", or 'aov'}
+
+\item{agg}{TRUE, mnay to many variable is showed. This functuion tha makes aggregate() work full}
+
+\item{digits}{Troundings}
 }
 \value{
 Mea, SD, N, min, max, skew, kurt
@@ -40,5 +51,7 @@ mysummaryBy(mpg ~ vs+am, data = mtcars, stat="aov")
 mysummaryBy(mpg ~ vs*cyl, data = mtcars, stat="aov")
 
 }
+
+
 
 }
