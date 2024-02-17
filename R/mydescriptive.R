@@ -98,7 +98,8 @@ mysummary <- function(myobject, ...){
                              Skew = sapply(myobject[myvars], SKEW),
                              Kurt = sapply(myobject[myvars], KURT),
                              )
-  myresult
+
+    myresult
 
 }
 
