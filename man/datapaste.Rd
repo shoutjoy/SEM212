@@ -4,10 +4,12 @@
 \alias{datapaste}
 \title{exceldata to dataframe}
 \usage{
-datapaste(x = "clipboard")
+datapaste(type = "data.frame", x = "clipboard")
 }
 \arguments{
 \item{x}{"clipboard"}
+
+\item{tpye}{"clipboard" to table data. dataframe, tibble}
 }
 \value{
 paste data.frame
@@ -19,6 +21,8 @@ exceldata to dataframe
 #first you must copy data (Ctrl+C)
 ## then excute below ctrl+Enter
 df = datapaste()
-df
+df = datapaste("tibble")
+df = datapaste("table")
+df = datapaste("data.frame")
 
 }
