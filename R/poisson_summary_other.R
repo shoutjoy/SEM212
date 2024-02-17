@@ -26,42 +26,60 @@ Poisson_summary_function = function(my_model_estimation,
   if (requireNamespace("broom")) library(broom)
   if (requireNamespace("modelr")) library(modelr)
 
+
   options(knitr.kable.NA = '')
 
-  mycoefs = tidy(my_model_estimation) %>%
+
+  mycoefs = broom::tidy(my_model_estimation) %>%
     mutate(
-      est2 = format(round(estimate, digit),digit),
-      se2 = format(round(std.error, digit),digit),
+      est2 = format(round(estimate, mydigit),mydigit),
+      se2 = format(round(std.error, mydigit),mydigit),
       mystars = cut(p.value,c(0,0.001,0.01,0.05,0.10,1),
-                  c("***","**","*","+",""),right=F),
-      report = str_c(" ",est2,mystars,"(",se2,")",sep=""),
-      my_irr = format(round(exp(estimate), digit),digit)
-    ) %>% select(term,report,my_irr)
+                    c("***","**","*","+",""), right = F),
+      report = str_c(" ", est2, mystars,"(",se2,")", sep=""),
+      exp_est = format(round(exp(estimate), mydigit), mydigit)
+    ) %>% dplyr::select( term, report, exp_est)
+
   myGOF = glance(my_model_estimation) %>%
     mutate(
-      LL_CHI2 = null.deviance-deviance,
+      `--------`= "---------",
+      DF_null = df.null,
+      DF_residual = df.residual,
+      LL_CHI2 = null.deviance - deviance,
       DF_CHI2 = df.null-df.residual,
-      p.value = 1 - pchisq(LL_CHI2,DF_CHI2),
+      p.value = 1 - pchisq(LL_CHI2, DF_CHI2),
       McFaddenR2 = format(round((null.deviance-deviance)/null.deviance,
-                              digit),digit),
-      LL_CHI2 = format(round(LL_CHI2, digit),digit),
+                                mydigit),mydigit),
+      LL_CHI2 = format(round(LL_CHI2, mydigit), mydigit),
       mystars = cut(p.value,c(0,0.001,0.01,0.05,0.10,1),
-                  c("***","**","*","+",""),right=F),
-      my_CHI2 = str_c(LL_CHI2,mystars),
+                    c("***","**","*","+",""),right=F),
+      my_CHI2 = str_c(LL_CHI2, mystars),
       LL_CHI2_df = str_c("(",DF_CHI2,")"),
-      AIC = format(round(AIC(my_model_estimation),digit),digit),
-      BIC = format(round(BIC(my_model_estimation),digit),digit)
-    ) %>% select(McFaddenR2, my_CHI2, LL_CHI2_df, AIC, BIC) %>%
-    gather(key=term,value=report) %>% mutate(my_irr="")
+      AIC = format(round(AIC(my_model_estimation),mydigit),mydigit),
+      BIC = format(round(BIC(my_model_estimation),mydigit),mydigit)
+    ) %>% dplyr::select( `--------`,
+                         DF_null,
+                         DF_residual,
+                         McFaddenR2,
+                         my_CHI2,
+                         LL_CHI2_df,
+                         AIC,
+                         BIC) %>%
+    gather(key = term, value = report) %>%
+    mutate(exp_est="")
   # sortid를 만든 이유는 여러 모형들의 결과를 하나의 표에 합칠 경우
   mytable = bind_rows(mycoefs,myGOF) %>%
-    mutate(sortid = row_number()) %>%
-    select(sortid,term,report,my_irr) %>%
+              mutate(sortid = row_number()) %>%
+              dplyr::select(sortid,
+                            term,
+                            report,
+                            exp_est) %>%
     # mutate_at(vars(2:4),funs(as.character(.)))
-    mutate_at(vars(2:4), list(as.character))
+              mutate_at(vars(2:4), list(as.character))
 
-  return(data.frame(mytable))
-}
+  mytable|>data.frame()
+
+  }
 
 
 
@@ -87,7 +105,6 @@ Poisson_summary_function = function(my_model_estimation,
 #'
 summary_pois = function(my_model_estimation,
                         digit=3){
-
   if (missing(my_model_estimation)) stop("Please provide the data object as an argument.")
   if (requireNamespace("tidyverse")) library(tidyverse)
   if (requireNamespace("broom")) library(broom)
@@ -95,39 +112,72 @@ summary_pois = function(my_model_estimation,
 
   options(knitr.kable.NA = '')
 
-  mycoefs = tidy(my_model_estimation) %>%
+  var0 = my_model_estimation$data[[as.character(my_model_estimation$formula[2])]]|>var()
+  mean0 = my_model_estimation$data[[as.character(my_model_estimation$formula[2])]]|>mean()
+
+  mycoefs = broom::tidy(my_model_estimation) %>%
     mutate(
-      est2 = format(round(estimate, digit),digit),
-      se2 = format(round(std.error, digit),digit),
+      est2 = format(round(estimate, mydigit),mydigit),
+      se2 = format(round(std.error, mydigit),mydigit),
       mystars = cut(p.value,c(0,0.001,0.01,0.05,0.10,1),
-                    c("***","**","*","+",""),right=F),
-      report = str_c(" ",est2,mystars,"(",se2,")",sep=""),
-      my_irr = format(round(exp(estimate), digit),digit)
-    ) %>% select(term,report,my_irr)
+                    c("***","**","*","+",""), right = F),
+      report = str_c(" ", est2, mystars,"(",se2,")", sep=""),
+      exp_est = format(round(exp(estimate), mydigit), mydigit)
+    ) %>% dplyr::select( term, report, exp_est)
+
   myGOF = glance(my_model_estimation) %>%
     mutate(
-      LL_CHI2 = null.deviance-deviance,
-      DF_CHI2 = df.null-df.residual,
-      p.value = 1 - pchisq(LL_CHI2,DF_CHI2),
+      `----------`= "--------------",
+      LL_CHI2 = null.deviance - deviance,
+      DF_CHI2 = df.null- df.residual,
+      p.value = 1 - pchisq(LL_CHI2, DF_CHI2),
       McFaddenR2 = format(round((null.deviance-deviance)/null.deviance,
-                                digit),digit),
-      LL_CHI2 = format(round(LL_CHI2, digit),digit),
+                                mydigit),mydigit),
+      LL_CHI2 = format(round(LL_CHI2, mydigit), mydigit),
       mystars = cut(p.value,c(0,0.001,0.01,0.05,0.10,1),
                     c("***","**","*","+",""),right=F),
-      my_CHI2 = str_c(LL_CHI2,mystars),
+      my_CHI2 = str_c(LL_CHI2, mystars),
       LL_CHI2_df = str_c("(",DF_CHI2,")"),
-      AIC = format(round(AIC(my_model_estimation),digit),digit),
-      BIC = format(round(BIC(my_model_estimation),digit),digit)
-    ) %>% select(McFaddenR2, my_CHI2, LL_CHI2_df, AIC, BIC) %>%
-    gather(key=term,value=report) %>% mutate(my_irr="")
+      AIC = format(round(AIC(my_model_estimation),mydigit),mydigit),
+      BIC = format(round(BIC(my_model_estimation),mydigit),mydigit),
+      `----------------`= "---------------",
+      null_deviance_df = paste0(round(null.deviance,2), "(", df.null, ")"),
+      resi_deviance_df = paste0(round(deviance,2), "(", df.residual, ")"),
+      Dispersion =
+        ifelse( my_model_estimation$family$family == "poisson",
+                my_model_estimation$family$dispersion,
+                ifelse(my_model_estimation$family$family=="quasi",
+                       round(var0 /mean0^2, 3),
+               ifelse(my_model_estimation$family$family=="quasipoisson",
+                              round(var0 /mean0,3) ))),
+
+      Dispersion_chcek = ifelse(my_model_estimation$family$family=="quasi"|
+                        my_model_estimation$family$family == "poisson",
+                                round(var0 /mean0^2, 3),
+              ifelse(my_model_estimation$family$family=="quasipoisson",
+                                       round(var0 /mean0,3) ))
+    ) %>% dplyr::select(  `----------`,
+                          McFaddenR2,
+                          my_CHI2,
+                          LL_CHI2_df,
+                          AIC,
+                          BIC,
+                          `----------------`,
+                          null_deviance_df,
+                          resi_deviance_df,
+                          Dispersion,
+                          Dispersion_chcek) %>%
+    gather(key = term, value = report) %>%
+    mutate(exp_est="")
   # sortid를 만든 이유는 여러 모형들의 결과를 하나의 표에 합칠 경우
-  mytable = bind_rows(mycoefs,myGOF) %>%
+  mytable=bind_rows(mycoefs,myGOF) %>%
     mutate(sortid = row_number()) %>%
-    select(sortid,term,report,my_irr) %>%
+    dplyr::select(sortid,
+                  term,
+                  report,
+                  exp_est) %>%
     # mutate_at(vars(2:4),funs(as.character(.)))
     mutate_at(vars(2:4), list(as.character))
-
-  return(data.frame(mytable))
+  mytable|>data.frame()
 }
-
 
