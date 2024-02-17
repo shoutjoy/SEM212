@@ -2,18 +2,37 @@
 % Please edit documentation in R/poisson_summary_other.R
 \name{bind_pois}
 \alias{bind_pois}
-\title{The function combining the Poisson analysis result}
+\title{bind_pois_df multiple model}
 \usage{
-bind_pois(model1, model2)
+bind_pois(...)
 }
 \arguments{
-\item{model1}{model 1 result}
-
-\item{model2}{model 2 ruslt}
-}
-\value{
-compare table
+\item{...}{model name}
 }
 \description{
-The function combining the Poisson analysis result
+bind_pois_df multiple model
+}
+\examples{
+\dontrun{
+set.seed(20240217)
+dat <- data.frame(
+  exposure = rpois(100, lambda = 10),  # 노출량 (인구, 시간 등)
+  cases = rpois(100, lambda = 2),      # 발생빈도 (사건 수)
+  pop = rpois(100, lambda = 1000),     # 지역별 인구수
+  hospital = rpois(100, lambda = 5)    # 지역별 병원수
+)
+dat$logpop <- log(dat$pop)
+
+model1a <- glm(cases ~ exposure + hospital, data = dat, family = poisson)
+model2a <- glm(cases ~ exposure + hospital + pop , data = dat, family = poisson)
+model3a <- glm(cases ~ exposure + hospital + offset(logpop), data = dat,
+                family = poisson)
+###comparison model
+summary_pois(model1a)
+summary_pois(model2a)
+summary_pois(model3a)
+## all
+bind_pois(model1a, model2a, model3a)
+}
+
 }

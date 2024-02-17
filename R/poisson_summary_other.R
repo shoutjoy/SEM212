@@ -184,19 +184,56 @@ summary_pois = function(my_model_estimation,
 
 
 
-#' The function combining the Poisson analysis result
+#' bind_pois_df multiple model
 #'
-#' @param model1 model 1 result
-#' @param model2 model 2 ruslt
+#' @param ... model name
 #'
-#' @return  compare table
+#' @returncompare table
 #' @export
 #'
+#' @examples
+#' \dontrun{
+#' set.seed(20240217)
+#' dat <- data.frame(
+#'   exposure = rpois(100, lambda = 10),  # 노출량 (인구, 시간 등)
+#'   cases = rpois(100, lambda = 2),      # 발생빈도 (사건 수)
+#'   pop = rpois(100, lambda = 1000),     # 지역별 인구수
+#'   hospital = rpois(100, lambda = 5)    # 지역별 병원수
+#' )
+#' dat$logpop <- log(dat$pop)
 #'
-bind_pois<- function(model1, model2){
+#' model1a <- glm(cases ~ exposure + hospital, data = dat, family = poisson)
+#' model2a <- glm(cases ~ exposure + hospital + pop , data = dat, family = poisson)
+#' model3a <- glm(cases ~ exposure + hospital + offset(logpop), data = dat,
+#'                 family = poisson)
+#' ###comparison model
+#' summary_pois(model1a)
+#' summary_pois(model2a)
+#' summary_pois(model3a)
+#' ## all
+#' bind_pois(model1a, model2a, model3a)
+#' }
+#'
+bind_pois <- function(...) {
+  # Combine multiple models by joining their summary results
+  # Usage: bind_pois(model1, model2, model3, ...)
 
-  summary_pois(model1) %>%
-    full_join(summary_pois(model2), by ="term") %>%
-    select(term, report.x, report.y) %>%
-    rename(model_1 = report.x, model_2 = report.y)
+  # Convert arguments to a list of models
+  model_list <- list(...)
+
+  # Initialize the result with the first model's summary
+  result <- summary_pois(model_list[[1]])
+
+  # Loop through the remaining models and join their summaries
+  for (i in 2:length(model_list)) {
+    result <- full_join(result,
+                        summary_pois(model_list[[i]]), by = "term")%>%
+      select(term, starts_with("report"))
+  }
+
+  # Set column names based on model names
+  colnames(result) <- c("term", paste0("model_", 1:(length(model_list) )))
+
+  return(result)
 }
+
