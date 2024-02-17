@@ -110,10 +110,13 @@ summary_pois = function(my_model_estimation,
   if (requireNamespace("broom")) library(broom)
   if (requireNamespace("modelr")) library(modelr)
 
+
   options(knitr.kable.NA = '')
 
   var0 = my_model_estimation$data[[as.character(my_model_estimation$formula[2])]]|>var()
   mean0 = my_model_estimation$data[[as.character(my_model_estimation$formula[2])]]|>mean()
+
+  my_model_summary =  summary( my_model_estimation)
 
   mycoefs = broom::tidy(my_model_estimation) %>%
     mutate(
@@ -143,19 +146,13 @@ summary_pois = function(my_model_estimation,
       `----------------`= "---------------",
       null_deviance_df = paste0(round(null.deviance,2), "(", df.null, ")"),
       resi_deviance_df = paste0(round(deviance,2), "(", df.residual, ")"),
-      Dispersion =
-        ifelse( my_model_estimation$family$family == "poisson",
-                my_model_estimation$family$dispersion,
-                ifelse(my_model_estimation$family$family=="quasi",
-                       round(var0 /mean0^2, 3),
-               ifelse(my_model_estimation$family$family=="quasipoisson",
-                              round(var0 /mean0,3) ))),
+      Dispersion =  round(my_model_summary$dispersion, mydigit),
 
-      Dispersion_chcek = ifelse(my_model_estimation$family$family=="quasi"|
-                        my_model_estimation$family$family == "poisson",
-                                round(var0 /mean0^2, 3),
-              ifelse(my_model_estimation$family$family=="quasipoisson",
-                                       round(var0 /mean0,3) ))
+      Dispersion_chcek = ifelse(my_model_estimation$family$family=="quasi",
+                                round(var0 /mean0^2, mydigit),
+                                ifelse(my_model_estimation$family$family=="quasipoisson"|
+                                         my_model_estimation$family$family == "poisson",
+                                       round(var0 /mean0, mydigit) ))
     ) %>% dplyr::select(  `----------`,
                           McFaddenR2,
                           my_CHI2,
