@@ -222,45 +222,40 @@ summary_pois = function(my_model_estimation,
 #'
 #' }
 #'
-bind_pois <- function(..., term_name = NULL, n = NULL) {
+bind_pois <- function(...) {
   # Combine multiple models by joining their summary results
   # Usage: bind_pois(model1, model2, model3, ...)
 
   # Convert arguments to a list of models
   model_list <- list(...)
 
-  # Initialize the result with the first model's summary
-  result <- summary_pois(model_list[[1]])
-  # Options that are set to prevent NA from shifting position when there are no variables in the first model
-  if(is.null(term_name)){
-    result
+  if(length(model_list) == 1){
+    result <- summary_pois(model_list[[1]])
+    return(result)
   }else{
-    result<- result|>
-      tibble::add_row(term = term_name,
-                      .before = n,
-                      report = NA )
-    result
+
+    # Initialize the result with the first model's summary
+    result <- summary_pois(model_list[[1]])
+
+    # Loop through the remaining models and join their summaries
+    for (i in 2:length(model_list)) {
+      result <- full_join(result,
+                          summary_pois(model_list[[i]]), by = "term")
+      #
+    }
+
+    result <- dplyr::arrange(result,
+                             dplyr::select(result, ncol(result)-2))
+    #            dplyr::select(term, starts_with("report"))
+
+    # # Set column names based on model names
+    result<- result %>% dplyr::select(term, starts_with("report"))
+    colnames(result) <- c("term",
+                          paste0("model_", 1:(length(model_list) )))
+
+    return(result)
   }
-  # Loop through the remaining models and join their summaries
-  for (i in 2:length(model_list)) {
-    result <- full_join(result,
-                        summary_pois(model_list[[i]]), by = "term")
-    #
-  }
-
-  result <- dplyr::arrange(result,
-                           dplyr::select(result, ncol(result)-2))
-  #            dplyr::select(term, starts_with("report"))
-
-  # # Set column names based on model names
-  result<- result %>% dplyr::select(term, starts_with("report"))
-  colnames(result) <- c("term",
-                        paste0("model_", 1:(length(model_list) )))
-
-  return(result)
-
 }
-
 
 
 

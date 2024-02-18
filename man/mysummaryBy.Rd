@@ -10,6 +10,7 @@ mysummaryBy(
   add_var = NULL,
   stat = FALSE,
   agg = FALSE,
+  gm = FALSE,
   digits = 2
 )
 }
@@ -23,6 +24,8 @@ mysummaryBy(
 \item{stat}{TRUE t.test and aov(), thes stat ="t.test", or 'aov'}
 
 \item{agg}{TRUE, mnay to many variable is showed. This functuion tha makes aggregate() work full}
+
+\item{gm}{default FALSE, TRUE Use group data obtained from group descriptive statistics to obtain group-level descriptive statistics (means, standard deviations, etc.) and to analyze a mixed model}
 
 \item{digits}{Troundings}
 }

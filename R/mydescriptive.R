@@ -171,7 +171,7 @@ Describe <- function(myobject, ...){
 #   myresult <- dplyr::bind_rows(myresult) # Use the bind_rows function to group summary results of each variable into rows.
 #   myresult
 # }
-
+#
 
 
 

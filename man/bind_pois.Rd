@@ -4,7 +4,7 @@
 \alias{bind_pois}
 \title{bind_pois_df multiple model}
 \usage{
-bind_pois(..., term_name = NULL, n = NULL)
+bind_pois(...)
 }
 \arguments{
 \item{...}{model name}

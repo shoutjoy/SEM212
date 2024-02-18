@@ -5,6 +5,7 @@
 #' @param add_var one sample name, Used to obtain statistics for one variable
 #' @param stat TRUE t.test and aov(), thes stat ="t.test", or 'aov'
 #' @param agg TRUE, mnay to many variable is showed. This functuion tha makes aggregate() work full
+#' @param gm default FALSE, TRUE Use group data obtained from group descriptive statistics to obtain group-level descriptive statistics (means, standard deviations, etc.) and to analyze a mixed model
 #' @param digits Troundings
 #' @return Mea, SD, N, min, max, skew, kurt
 #' @export
@@ -31,13 +32,12 @@
 #'
 #'
 #'
-mysummaryBy <- function(formula,
-                        data,
+mysummaryBy <- function(formula,data,
                         add_var = NULL,
                         stat = FALSE,
                         agg = FALSE,
-                        digits = 2
-) {
+                        gm = FALSE,
+                        digits = 2) {
   # Make sure the data object is provided
   if (missing(data)) stop("Please provide the data object as an argument.")
   # Import dplyr if needed
@@ -45,7 +45,7 @@ mysummaryBy <- function(formula,
   # Aggregate with summary statistics
   func = formula(formula) #formula extraction
 
-  #analysis
+  # analysis
   result <- aggregate(formula(formula), data,
                       FUN = function(x) {
                         c(
@@ -68,6 +68,8 @@ mysummaryBy <- function(formula,
     stat_res=NULL
   }
 
+
+  # Use when there are too many independent and dependent variables
   if(agg){
     res = result |>
       # t() |>
@@ -100,9 +102,25 @@ mysummaryBy <- function(formula,
       }else{
         res = list(descriptive=res, statistic= stat_res)
         res
-      }
-    }
-  }
+            }
+          }
+        }
+
+
+  # Measure the average of each group - Measure the average of group level with the average of each group
+  Res = res
+
+  if(gm){
+    Res = Res |> mysummary("Mean")
+    Res = bind_cols(
+      grp = as.character(func[3]),
+      dv = as.character(func[2]),
+      Res[,-1])
+    Res
+  }else{
+    Res
+        }
+
 }
 
 # mysummaryBy <- function(formula,
