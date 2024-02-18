@@ -244,15 +244,23 @@ bind_pois <- function(..., term_name = NULL, n = NULL) {
   # Loop through the remaining models and join their summaries
   for (i in 2:length(model_list)) {
     result <- full_join(result,
-                        summary_pois(model_list[[i]]), by = "term")%>%
-      select(term, starts_with("report"))
+                        summary_pois(model_list[[i]]), by = "term")
+    #
   }
 
-  # Set column names based on model names
-  colnames(result) <- c("term", paste0("model_", 1:(length(model_list) )))
+  result <- dplyr::arrange(result,
+                           dplyr::select(result, ncol(result)-2))
+  #            dplyr::select(term, starts_with("report"))
+
+  # # Set column names based on model names
+  result<- result %>% dplyr::select(term, starts_with("report"))
+  colnames(result) <- c("term",
+                        paste0("model_", 1:(length(model_list) )))
 
   return(result)
+
 }
+
 
 
 
