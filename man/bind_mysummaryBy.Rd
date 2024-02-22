@@ -4,7 +4,7 @@
 \alias{bind_mysummaryBy}
 \title{bind_mysummaryBy is group mean of mean}
 \usage{
-bind_mysummaryBy(data, ...)
+bind_mysummaryBy(data, ..., unite = FALSE)
 }
 \arguments{
 \item{data}{data.frame}

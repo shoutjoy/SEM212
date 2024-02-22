@@ -2,6 +2,7 @@
 #'
 #' @param data data.frame
 #' @param ... fomula data ...
+#' @unite ... bind persional data and group data  TRUE
 #'
 #' @return Use group data obtained from group descriptive statistics to obtain group-level descriptive statistics (means, standard deviations, etc.) and to analyze a mixed model
 #' @export
@@ -39,7 +40,7 @@
 #'
 #'
 #' }
-bind_mysummaryBy <- function(data, ...) {
+bind_mysummaryBy <- function(data, ..., unite=FALSE) {
 
   form = list(...)
 
@@ -54,5 +55,10 @@ bind_mysummaryBy <- function(data, ...) {
                       mysummaryBy(form[[i]], data,   gm = TRUE )     )
     }
   } #if문
+  if(unite){
+    result = result |> tidyr::unite(var, grp:dv)
+  }else{
+    result
+  }
   return(result)
 }
