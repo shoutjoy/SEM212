@@ -6,11 +6,11 @@
 \usage{
 lme_report(
   lmedata,
-  type = "all",
+  type = "basic",
+  form = "lmer",
   apa = FALSE,
   fit_more = FALSE,
   ranef_sig = FALSE,
-  form = "lmer",
   show.effect = FALSE,
   show.ci = FALSE
 )
@@ -20,13 +20,13 @@ lme_report(
 
 \item{type}{= 'all' is res, 'Fixed_effect','Random_effect','ICC', 'ConfidenceInterval_95','Satterthwaite_method','FIT','APA'}
 
+\item{form}{'lmer','glmer' = 'logit'='dich', 'poisson' ='pois'}
+
 \item{apa}{= default FALSE, if you  REML is FALSE}
 
 \item{fit_more}{= default FALSE, TRUE detailed report}
 
 \item{ranef_sig}{ranef_sig =TRUE  random effect test}
-
-\item{form}{'lmer','glmer' = 'logit'='dich', 'poisson' ='pois'}
 
 \item{show.effect}{if you show.effect = TRUE -> show ranef, fixef, coef}
 

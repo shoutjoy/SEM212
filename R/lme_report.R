@@ -40,11 +40,12 @@
 #'
 #' }
 #'
-lme_report <- function(lmedata,type= "all",
+lme_report <- function(lmedata,
+                       type = "basic",
+                       form = "lmer",
                        apa=FALSE,
                        fit_more=FALSE,
                        ranef_sig = FALSE,
-                       form = "lmer",
                        show.effect=FALSE,
                        show.ci=FALSE){
 
@@ -176,6 +177,15 @@ if(show.ci){
   }
 
   # result
+  basic = list(formula = formula,
+             Fixed_effect = fixed_effect,
+             Random_effect = random_effect,
+             ICC = icc,
+             APA = apa
+             )
+
+
+
   res = list(formula = formula,
              Fixed_effect = fixed_effect,
              Random_effect = random_effect,
@@ -207,6 +217,7 @@ if(show.ci){
              APA = apa  )
 #select result
   switch(type,
+        basic = basic,
         all = res,
         full = full, #full data
         summary = lmedata_summary, #lmer summary

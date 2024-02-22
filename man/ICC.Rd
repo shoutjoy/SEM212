@@ -4,10 +4,14 @@
 \alias{ICC}
 \title{ICC}
 \usage{
-ICC(lmedata)
+ICC(lmedata, type = "mixed", digits = 4)
 }
 \arguments{
 \item{lmedata}{lmer result}
+
+\item{type}{'mixed', 'logit', 'pois'}
+
+\item{digits}{digits = 3 default}
 }
 \description{
 ICC

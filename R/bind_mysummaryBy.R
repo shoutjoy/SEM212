@@ -2,7 +2,7 @@
 #'
 #' @param data data.frame
 #' @param ... fomula data ...
-#' @unite ... bind persional data and group data  TRUE
+#' @param unite ... bind persional data and group data  TRUE
 #'
 #' @return Use group data obtained from group descriptive statistics to obtain group-level descriptive statistics (means, standard deviations, etc.) and to analyze a mixed model
 #' @export

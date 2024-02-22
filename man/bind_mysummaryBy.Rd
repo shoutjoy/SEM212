@@ -10,6 +10,8 @@ bind_mysummaryBy(data, ..., unite = FALSE)
 \item{data}{data.frame}
 
 \item{...}{fomula data ...}
+
+\item{unite}{... bind persional data and group data  TRUE}
 }
 \value{
 Use group data obtained from group descriptive statistics to obtain group-level descriptive statistics (means, standard deviations, etc.) and to analyze a mixed model
