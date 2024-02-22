@@ -1,4 +1,4 @@
-#' bind_mysummaryBy
+#' bind_mysummaryBy is group mean of mean
 #'
 #' @param data data.frame
 #' @param ... fomula data ...

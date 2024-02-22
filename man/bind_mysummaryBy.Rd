@@ -2,7 +2,7 @@
 % Please edit documentation in R/bind_mysummaryBy.R
 \name{bind_mysummaryBy}
 \alias{bind_mysummaryBy}
-\title{bind_mysummaryBy}
+\title{bind_mysummaryBy is group mean of mean}
 \usage{
 bind_mysummaryBy(data, ...)
 }
@@ -15,7 +15,7 @@ bind_mysummaryBy(data, ...)
 Use group data obtained from group descriptive statistics to obtain group-level descriptive statistics (means, standard deviations, etc.) and to analyze a mixed model
 }
 \description{
-bind_mysummaryBy
+bind_mysummaryBy is group mean of mean
 }
 \examples{
 \dontrun{
