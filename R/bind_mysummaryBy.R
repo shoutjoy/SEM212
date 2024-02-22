@@ -54,7 +54,7 @@ bind_mysummaryBy <- function(data, ..., unite=FALSE) {
       result <- rbind(result,
                       mysummaryBy(form[[i]], data,   gm = TRUE )     )
     }
-  } #if문
+  } #if
   if(unite){
     result = result |> tidyr::unite(var, grp:dv)
   }else{
