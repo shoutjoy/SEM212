@@ -76,7 +76,7 @@ data(PoliticalDemocracy)
    y6 ~~ y8"
 
 
-#' fit1 <- sem(model1, data = PoliticalDemocracy)
+#' fit1 <- lavaan::sem(model1, data = PoliticalDemocracy)
 ## summary(fit2, standardized = TRUE)
 
 ## model 2 generate

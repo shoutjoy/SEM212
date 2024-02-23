@@ -7,9 +7,9 @@
 datapaste(type = "data.frame", x = "clipboard")
 }
 \arguments{
-\item{x}{"clipboard"}
+\item{type}{"clipboard" to table data. dataframe, tibble}
 
-\item{tpye}{"clipboard" to table data. dataframe, tibble}
+\item{x}{"clipboard"}
 }
 \value{
 paste data.frame

@@ -23,7 +23,6 @@
 #' @param lightable_options Options to customize lightable. Similar with bootstrap_options in kable_styling. Choices include basic, striped and hover.
 #' @param html_font  A string for HTML css font. For example, html_font = '"Arial Narrow", arial, helvetica, sans-serif'.Everything else you need to specify in kable_styling.
 #' @param general_title Section header for general footnotes. Default is "Note: ".
-#' @param general ext for general footnote comments. Footnotes in this section won't be labeled with any notations
 #' @param number A vector of footnote texts. Footnotes here will be numbered. There is no upper cap for the number of footnotes here
 #' @param alphabet A vector of footnote texts, Footnotes here will be labeled with abc. The vector here should not have more than 26 elements.
 #' @description
@@ -66,7 +65,6 @@ markdown_table <- function(data,
                            lightable_options= "basic",
                            html_font = '"Arial Narrow", arial, helvetica, sans-serif',
                            general_title="Note: ",
-                           # general = NULL,
                            number = NULL,
                            alphabet = NULL
 ){

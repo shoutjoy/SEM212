@@ -33,6 +33,8 @@ LavaanPlot(
 
 \item{covs}{TRUE}
 
+\item{stars}{stars = c("covs", "latent","regress"),}
+
 \item{overlap}{default FALSE}
 
 \item{layout}{'dot', 'neato', 'fdp', 'sfdp', 'circo', 'twopi', 'nop','nop2', 'osage', 'patchwork'}
@@ -67,7 +69,7 @@ model <- '
     y6 ~~ y8
 '
 
-fit <- sem(model, data = PoliticalDemocracy)
+fit <- lavaan::sem(model, data = PoliticalDemocracy)
  ## summary
 summary(fit, fit.measures = TRUE, stand=T)
 ##

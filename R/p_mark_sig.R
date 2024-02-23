@@ -25,7 +25,7 @@
 #'
 #'
 p_mark_sig <-function(data, col="p.value"){
-  #변수 선택
+  #
   library(tidyverse)
 
   p.value <- data %>% as.data.frame() %>%

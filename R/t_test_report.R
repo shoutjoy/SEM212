@@ -15,16 +15,9 @@
 #' \dontrun{
 #' ##default analysis
 #' t_test_report(mtcars, iv="vs",dv="mpg")
-#'
-#' ## $var_test_result_tibble
-#' ### A tibble: 2 × 4
-#' ##Var    df f_value p_value
-#' ##<dbl> <int>   <dbl>   <dbl>
-#' ##  1     0    17   0.515   0.200
-#' ##2     1    13   0.515   0.200
-#' ##
+
 #' ##$var_test_report
-#' ##[1] "The test of equality of variances between independent variable ' vs ' and dependent variable ' mpg ' was not statistically significant, F( 17 , 13 ) =  0.52 ,  p =  0.2 , This suggests that the variances of the two groups are equal."
+#'
 #' ##
 #' ##$t_test_result_tibble
 #' ## A tibble: 1 × 7
@@ -33,13 +26,6 @@
 #' ##  1 vs    mpg      30   -4.86 0.0000342 ***   student t.test
 #' ##
 #' ##$t_test_report
-#' ##[1] "The t-test between independent variable ' vs ' and dependent variable ' mpg ' was  statistically significant, t( 30 ) = -4.86 , p =  0 ."
-#' ##
-#' ##$boxplot
-#' ## draw image
-#'
-#'
-#'
 #' ## New namaing xlab and ylab
 #' t_test_report(mtcars, iv="vs",dv="mpg",xlab="transmission", ylab= "males per galon")
 #' }

@@ -1,11 +1,11 @@
 #' exceldata to dataframe
 #'
-#' @param tpye "clipboard" to table data. dataframe, tibble
+#' @param type "clipboard" to table data. dataframe, tibble
 #' @param x "clipboard"
 #'
 #' @return paste data.frame
 #' @export
-#'
+#
 #' @examples
 #' #first you must copy data (Ctrl+C)
 #' ## then excute below ctrl+Enter

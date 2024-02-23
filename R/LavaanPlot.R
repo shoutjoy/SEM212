@@ -6,6 +6,7 @@
 #' @param coefs TRUE
 #' @param col default 'gray60'
 #' @param covs  TRUE
+#' @param stars  stars = c("covs", "latent","regress"),
 #' @param stand  std coeff
 #' @param label  input name labels=c(f1_1="exp", f1_2="want",f1_3="problem") etc
 #' @param overlap  default FALSE
@@ -35,7 +36,7 @@
 #'     y6 ~~ y8
 #' '
 #'
-#' fit <- sem(model, data = PoliticalDemocracy)
+#' fit <- lavaan::sem(model, data = PoliticalDemocracy)
 #'  ## summary
 #' summary(fit, fit.measures = TRUE, stand=T)
 #' ##

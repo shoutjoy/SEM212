@@ -181,6 +181,7 @@ if(show.ci){
              Fixed_effect = fixed_effect,
              Random_effect = random_effect,
              ICC = icc,
+             FIT = fit,
              APA = apa
              )
 

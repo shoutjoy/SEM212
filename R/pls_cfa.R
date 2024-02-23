@@ -16,8 +16,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' ## Research model : Park (2023) constructs a model by selecting variables that fit the theoretical background.
-#' ## JH, Park(2023) Exploring the Influence of  Feature Recognition and Usage Satisfaction in Online Learning Applications on Learning Satisfaction and Continued Learning Intentions: using Multivariate analysis and PLS-SEM
+#' ## Research model : Park (2023)
+#'  constructs a model by selecting variables that fit the theoretical background.
+#' ## JH, Park(2023) Exploring the Influence of  Feature Recognition and
+#' Usage Satisfaction in Online Learning Applications
+#' on Learning Satisfaction and Continued Learning Intentions:
+#' using Multivariate analysis and PLS-SEM
 #' data(stat_onl)
 #' str(stat_onl)
 #'
@@ -96,7 +100,9 @@
 #'
 #' pls_cfa(srlapp_pls, rename = T, var_name = varName)
 #'
-#' ## item validigy : Below is a function that extracts each index. Includes structural model analysis and observed variable analysis corresponding to confirmatory factor analysis.
+#' ## item validigy : Below is a function that extracts each index.
+#'  Includes structural model analysis and observed variable analysis
+#'  corresponding to confirmatory factor analysis.
 #' srlapp_pls %>% pls_cfa(rename = T, var_name = varName,
 #'                       res="loadings_rename") %>% arrange(variable)
 #' ## CR, convergent
