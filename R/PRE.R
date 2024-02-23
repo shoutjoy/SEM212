@@ -37,6 +37,8 @@ PRE <- function(model1, model2){
                               var_cov_model1$vcov[2]-var_cov_model2$vcov[2])
   )
 
-  Res  = cbind(data0, res)|>tibble()
-  Res
+
+  Res  = cbind(RPE=c("PRE_Intercept","PRE_Slope"),data0, res)
+
+  Res|>tibble()
 }
