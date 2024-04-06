@@ -26,17 +26,18 @@ missCheck <- function(data, plot=FALSE){
 
   library(Hmisc)
   #impute
-  datacount_total <- colSums(!is.na(data))
-  datacount <- colSums(!is.na(data))
+  # datacount_total <- colSums(!is.na(data))
+  # datacount <- colSums(!is.na(data))
 
 
-  table_data<-cbind.data.frame(aggr(data, prop=FALSE, numbers= TRUE,
+  table_data <- cbind.data.frame(aggr(data, prop=FALSE, numbers= TRUE,
                                     plot = plot)$missings[1],
                                V_count=colSums(!is.na(data)) %>% as.data.frame(),
                                aggr(data, prop=FALSE, numbers= TRUE,plot = plot)$missings[2]
   )
 
   table_data_miss <- table_data %>% dplyr::filter(Count != 0)
+
   res <- table_data_miss
   # res<- list(    # aggr_data,
   #            # datacount,

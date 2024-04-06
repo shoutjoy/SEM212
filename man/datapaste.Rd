@@ -4,7 +4,7 @@
 \alias{datapaste}
 \title{exceldata to dataframe}
 \usage{
-datapaste(type = "data.frame", x = "clipboard")
+datapaste(type = "matrix", x = "clipboard")
 }
 \arguments{
 \item{type}{"clipboard" to table data. dataframe, tibble}

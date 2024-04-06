@@ -4,7 +4,7 @@
 \alias{mysummary}
 \title{my summary descriptive statistics}
 \usage{
-mysummary(myobject, ...)
+mysummary(myobject, ..., all = T, digits = 4)
 }
 \arguments{
 \item{myobject}{data.frame, matrix}
@@ -25,6 +25,8 @@ mysummary(mtcars, "mpg","wt","hp")
 ## 2   32   3.21725  0.9784574  1.513   5.424
 ## 3   32 146.68750 68.5628685 52.000 335.000
 
+## all variable
+ jjstat::mysummary(mtcars, colnames(mtcars))
 
 }
 }

@@ -2,18 +2,24 @@
 % Please edit documentation in R/all_na_zero.R
 \name{all_na_zero}
 \alias{all_na_zero}
-\title{NA to zero}
+\title{all_na_zero}
 \usage{
-all_na_zero(data, fun = "extend")
+all_na_zero(df, imp = 0)
 }
 \arguments{
-\item{data}{data.frame}
+\item{df}{data.frame}
 
-\item{fun}{'extend', 'base' are equal method}
+\item{imp}{implement default = 0}
 }
 \value{
-Na data are changed zero
+NA to 0
 }
 \description{
-NA to zero
+all_na_zero
+}
+\examples{
+\dontrun{
+
+
+}
 }

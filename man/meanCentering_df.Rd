@@ -20,8 +20,7 @@ meancentering mixed model
 }
 \examples{
 \dontrun{
-meanCentering_df(data = mtcars[,c("cyl","mpg","wt","hp")],
-                 gv="cyl","mpg","wt","hp")|> data.frame()
+meanCentering_df(mtcars[,c("cyl","mpg","wt","hp")],"cyl","mpg","wt","hp")|> data.frame()
 }
 
 

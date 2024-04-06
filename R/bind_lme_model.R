@@ -1,19 +1,24 @@
 #' Tbind_lme_model
 #'
-#' @param ... model name list
-#' @param model_name auto name, model
-#' @param title title input
+#' @param ... input
+#' @param model_name  model name
+#' @param title model title
 #'
-#' @return table data of comparison model
+#' @return  table
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' bind_lme_model(gmlm.pois.m1,  gmlm.pois.m2a,  gmlm.pois.m2b)
+#' data(birthwt)
+#' str(birthwt)
+#' fitm <- lm(bwt ~ age+lwt+factor(race)+smoke+ptl+ht+ui, data=birthwt)
+#' fitm2 <- lm(bwt ~ lwt+factor(race)+smoke+ht+ui, data=birthwt)
+#' bind_lme_model(fitm, fitm2)
+#'
 #' }
 bind_lme_model = function(...,
-                          model_name = paste("model_", 1:length(model) ) ,
-                          title = "Comparison of model"){
+                          model_name = paste("모형", 1:length(model) ) ,
+                          title = "모형의 비교"){
 
   model = list(...)
   # Comparison model
@@ -27,5 +32,4 @@ bind_lme_model = function(...,
     dv.labels = model_name,
     title = title
   )
-
 }

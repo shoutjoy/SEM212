@@ -61,7 +61,7 @@ effect1 <-function(x,format="markdown",op1="~",op2=":=",
   library(semPlot)
   library(semptools)
 
-  res0 <- lvaan::parameterEstimates(x, standardized = T, rsquare = T,ci=T) %>%
+  res0 <- lavaan::parameterEstimates(x, standardized = T, rsquare = T,ci=T) %>%
     dplyr::filter(op==op1|op==op2) %>%
     dplyr::mutate(stars=ifelse(pvalue<0.001,"***",
                                ifelse(pvalue<0.01,"**",

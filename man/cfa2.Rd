@@ -18,7 +18,7 @@ cfa2(
   rename = F,
   var_name = NA,
   digits = 3,
-  res = "all"
+  type = "all"
 )
 }
 \arguments{

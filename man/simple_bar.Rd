@@ -43,7 +43,7 @@ Tsimple_bar
 }
 \examples{
 \dontrun{
-table(mtcars$cyl) |> simple_bar(cex=1.5)
+table(mtcars$cyl) \%>\% simple_bar(cex=1.5)
 
 data(bioChemists, package = "pscl")
 bioChemists <- bioChemists \%>\%
@@ -55,7 +55,7 @@ rename(
    PhD_Quality = phd, #prestige of PhD program
    Num_MentArticle = ment #articles by mentor in last 3 years
    )
-  table(bioChemists$Num_Article) |>
+  table(bioChemists$Num_Article) \%>\%
       simple_bar(cex=1.5, add_y= 30, vjust=10)
 
 }

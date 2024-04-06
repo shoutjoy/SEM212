@@ -18,7 +18,7 @@ random slope, inetcept
 PRE(proportional reduction in error)
 }
 \examples{
-\duntrun{
+\dontrun{
  PRE(gmlm.dich.m1b, gmlm.dich.m2c)
 }
 }

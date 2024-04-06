@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' \duntrun{
+#' \dontrun{
 #'  PRE(gmlm.dich.m1b, gmlm.dich.m2c)
 #' }
 PRE <- function(model1, model2){

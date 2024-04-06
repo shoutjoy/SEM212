@@ -121,7 +121,7 @@ cfa2 <- function(x, format="markdown",
                  rename=F,
                  var_name=NA,
                  digits=3,
-                 res="all"){
+                 type = "all"){
 
   library(dplyr)
   library(knitr)
@@ -609,7 +609,7 @@ cfa2 <- function(x, format="markdown",
 
 
   ##06 cor significant----
-  lv.cor.sig <- lavaan::parameterEstimates(x, standardized = T) %>%
+  lv.cor.sig0 <- lavaan::parameterEstimates(x, standardized = T) %>%
     dplyr::filter(op=="~"|op=="~~"&lhs != rhs) %>%
     dplyr::select(lhs,op,rhs, std.lv, pvalue) %>%
     mutate(sig=ifelse(pvalue < 0.001, "***",
@@ -617,25 +617,27 @@ cfa2 <- function(x, format="markdown",
                              ifelse(pvalue < 0.05, "*", "Not Sig")))) %>%
     mutate(op=ifelse(op=="~","<--",
                      ifelse(op=="~~","cor",""))) %>%
-    dplyr::select(lhs,op,rhs, std.lv, pvalue,sig) %>%
+    dplyr::select(lhs,op,rhs, std.lv, pvalue,sig)
+
+  lv.cor.sig = lv.cor.sig0 %>%
     knitr::kable(digits=3, format=format,
           caption="05 latent correlation Significant Check")
 
 
 
   ## final result  --------------
-  all.reuslt <-list(model= model,
-                    fit_criterian=fit,
-                    model_fit=fitMeasures_s1,
-                    factorloadings=factorloading,
-                    Internal_Consistency=FL,
-                    Convegent=alpha_AVE_CR,
-                    Discriminant=validity,
+  all.reuslt <-list(model = model,
+                    fit_criterian = fit,
+                    model_fit = fitMeasures_s1,
+                    factorloadings = factorloading,
+                    Internal_Consistency = FL,
+                    Convegent = alpha_AVE_CR,
+                    Discriminant = validity,
                     Discriminant_HTMT = htmt,
                     # Latent_Cor=lv.cor,
-                    betaMat_sig=lv.cor.sig,
-                    loadings_Bar=gg,
-                    variable_order= varnames_check
+                    betaMat_sig = lv.cor.sig,
+                    loadings_Bar = gg,
+                    variable_order = varnames_check
   )
   # all.reuslt
   ## cfa2() output option ---------------
@@ -655,22 +657,28 @@ cfa2 <- function(x, format="markdown",
   #        # Latent_Cor=lv.cor,
   #        str_cor = lv.cor.sig,
   #        loadings_Bar = gg )
-  switch(res,
+  switch(type,
          all = all.reuslt,
          model = model,
          modelfit = modelfitdata,
          modelfit2 = fitMeasures_s1,
          loadings = factorloading_0,
+         item = factorloading_0,
+         indicator = factorloading_0,
+         loadings_bar = gg,
+
          alpha = FL.1,
          CR_AVE = alpha_AVE_CR_0,
-         Convegent = alpha_AVE_CR_0,
+
+         Convergent = alpha_AVE_CR_0,
+
          fl_criteria = FornellNacker,
          Discriminant = FornellNacker,
          htmt = htmt2,
          HTMT = htmt2,
          # Latent_Cor=lv.cor,
-         str_cor = lv.cor.sig,
-         loadings_Bar = gg )
+         str_cor = lv.cor.sig0
+         )
 
 }
 
@@ -712,7 +720,7 @@ cfa2 <- function(x, format="markdown",
 
 
 #cfa3 using data treament =============
-cfa3 <- function(x, graph=F){
+cfa3 <- function(x, graph=F, type="all"){
 
   library(dplyr)
   library(knitr)
@@ -1027,5 +1035,18 @@ cfa3 <- function(x, graph=F){
     # Latent_Cor=lv.cor,
     betaMat_sig=lv.cor.sig
   )
-  all.reuslt
+
+  switch(type,
+         all= all.reuslt,
+         fit_criterian=fit,
+         model_fit=fitMeasures_s1,
+         factorloadings=factorloading,
+         reliability = FL,
+         Convegent = alpha_AVE_CR,
+         Discriminant=validity,
+         Latent_Cor=lv.cor,
+         betaMat_sig=lv.cor.sig
+         )
+  #
+  # all.reuslt
 }

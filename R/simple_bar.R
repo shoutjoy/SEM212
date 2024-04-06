@@ -16,7 +16,7 @@
 #'
 #'@examples
 #'\dontrun{
-#'table(mtcars$cyl) |> simple_bar(cex=1.5)
+#'table(mtcars$cyl) %>% simple_bar(cex=1.5)
 #'
 #' data(bioChemists, package = "pscl")
 #' bioChemists <- bioChemists %>%
@@ -28,7 +28,7 @@
 #'    PhD_Quality = phd, #prestige of PhD program
 #'    Num_MentArticle = ment #articles by mentor in last 3 years
 #'    )
-#'   table(bioChemists$Num_Article) |>
+#'   table(bioChemists$Num_Article) %>%
 #'       simple_bar(cex=1.5, add_y= 30, vjust=10)
 #'
 #'}
@@ -44,9 +44,9 @@ simple_bar <-function(data,
                       xlab = "x",
                       ylab = "y"
 ){
-  data |>
+  data %>%
     barplot(ylim=c(0, max(data)+ add_y), col= color,
-            main= main, xlab=xlab, ylab=ylab)|>
+            main= main, xlab=xlab, ylab=ylab)%>%
     text(y= data+vjust, label=data, cex=cex)
   if(line){
     par(new=TRUE)

@@ -226,7 +226,7 @@ summary_pois = function(my_model_estimation,
 bind_pois <- function(...) {
   # Combine multiple models by joining their summary results
   # Usage: bind_pois(model1, model2, model3, ...)
-
+  options(knitr.kable.NA = '')
   # Convert arguments to a list of models
   model_list <- list(...)
 

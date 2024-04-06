@@ -4,12 +4,16 @@
 \alias{p_mark_sig}
 \title{p_mark_sig is Function that displays significance in data}
 \usage{
-p_mark_sig(data, col = "p.value")
+p_mark_sig(data, col = "p.value", unite = FALSE, digits = 3)
 }
 \arguments{
 \item{data}{input data.frame or matrix}
 
 \item{col}{'col' specifies the name of the column representing the p value in the data. By default, it is set to p.value. For example, if it is written as p, pvalue, p_value, etc., you can change the name.}
+
+\item{unite}{TRUE combine pvalue and sig}
+
+\item{digits}{default 3}
 }
 \description{
 p_mark_sig is Function that displays significance in data
@@ -21,14 +25,26 @@ p_mark_sig is Function that displays significance in data
 library(dplyr)
 library(rstatix)
 
-# ToothGrowth \%>\%
+##method 1
+ ToothGrowth \%>\%
   group_by(dose) \%>\%
   t_test(data =., len ~ supp) \%>\%
   p_mark_sig("p")
 
-ToothGrowth \%>\%
-  group_by(dose) \%>\%
-  p_mark_sig()
+##method 2
+ ToothGrowth \%>\%
+ group_by(dose) \%>\%
+ rstatix::t_test(data =., len ~ supp) \%>\%
+  p_mark_sig("p", unite=TRUE)
+
+
+  ### NEW
+  TukeyHSD(aov(weight ~ feed, chickwts))$feed \%>\% as.data.frame() \%>\%
+  mutate(sig = add_sig(`p adj`))
+
+  TukeyHSD(aov(weight ~ feed, chickwts))$feed \%>\% p_mark_sig("p adj")
+
+
 }
 
 

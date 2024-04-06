@@ -4,7 +4,7 @@
 \alias{Describe}
 \title{Describedescriptive statistics cusum}
 \usage{
-Describe(myobject, ...)
+Describe(myobject, ..., digits = 6)
 }
 \arguments{
 \item{myobject}{data.frame, matrix}

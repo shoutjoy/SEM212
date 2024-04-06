@@ -5,8 +5,8 @@
 \title{statistics by group}
 \usage{
 mysummaryBy(
-  formula,
   data,
+  formula,
   add_var = NULL,
   stat = FALSE,
   agg = FALSE,
@@ -15,9 +15,9 @@ mysummaryBy(
 )
 }
 \arguments{
-\item{formula}{general formula}
-
 \item{data}{data.frame}
+
+\item{formula}{general formula}
 
 \item{add_var}{one sample name, Used to obtain statistics for one variable}
 
@@ -52,6 +52,37 @@ mysummaryBy(mpg ~ 1, data = mtcars, "mpg", stat="t.test")
 mysummaryBy(mpg ~ vs, data = mtcars, stat="t.test")
 mysummaryBy(mpg ~ vs+am, data = mtcars, stat="aov")
 mysummaryBy(mpg ~ vs*cyl, data = mtcars, stat="aov")
+
+##new group mean by group
+#' group_by(mtcars, am) \%>\%
+ summarise(mpg = mean(mpg)) \%>\%
+  summarise(mean(mpg),sd(mpg),length(mpg), min(mpg),max(mpg))
+
+### A tibble: 1 × 5
+###`mean(mpg)` `sd(mpg)` `length(mpg)` `min(mpg)` `max(mpg)`
+###<dbl>     <dbl>         <int>      <dbl>      <dbl>
+###  1        20.8      5.12             2       17.1       24.4
+
+mysummaryBy(mpg ~ am , data= mtcars) \%>\%
+    rename(mpg = Mean) \%>\%   #change name
+      mysummaryBy(formula = mpg ~ 1)  # mean of mpg
+
+#multi group transpose table
+mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE)
+
+##twoway
+mysummaryBy(mpg ~ vs+am, data = mtcars, agg=TRUE)
+
+
+## twoway interaction
+mysummaryBy(mpg ~ vs*am, data = mtcars, agg=TRUE, stat="aov")
+
+#add variable
+mysummaryBy(mpg ~ vs, data = mtcars, gm=T)
+# A tibble: 1 × 9
+# grp   dv        N  MEAN    SD   MIN   MAX  Skew  Kurt
+# <chr> <chr> <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#  vs    mpg       2  20.6  5.61  16.6  24.6     0 -2.75
 
 }
 

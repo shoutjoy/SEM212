@@ -14,16 +14,18 @@
 #' df = datapaste("table")
 #' df = datapaste("data.frame")
 #'
-datapaste <- function(type="data.frame", x="clipboard"){
+datapaste <- function(type="matrix", x="clipboard"){
 
 table = read.table(file = x, sep = "\t", header = TRUE)
-data.frame = read.table(file = x, sep = "\t", header = TRUE)|>data.frame()
-tibble = read.table(file = x, sep = "\t", header = TRUE)|> tibble::tibble()
+data.frame = read.table(file = x, sep = "\t", header = TRUE) %>% data.frame()
+tibble = read.table(file = x, sep = "\t", header = TRUE) %>%  tibble::tibble()
+matrix = read.table(file = x, sep = "\t", header = TRUE) %>%  as.matrix()
 
 switch(type,
        table= table,
        data.frame = data.frame,
-       tibble =  tibble
+       tibble =  tibble,
+       matrix = matrix
        )
 
 }

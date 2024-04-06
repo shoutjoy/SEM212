@@ -11,17 +11,22 @@
 #'
 #' @examples
 #' \dontrun{
-#' bind_rows(
-#' stat_onl %>% select(메타인지1:메타인지4) %>%
-#'   alpha_table(show="data", variable = "A" ),
-#' stat_onl %>% select(도움요청1:도움요청3) %>%
-#'   alpha_table(show="data", variable = "B"),
-#' stat_onl %>% select(환경관리1:환경관리4) %>%
-#'   alpha_table(show="data", variable = "C"),
-#' #' stat_onl %>% select(노력지속1:노력지속4) %>%
-#'  alpha_table(show="data", variable = "D")
-#' )  %>% markdown_table(digits=3, font_size = 20,
-#'                      caption= "total")
+#'
+#' stat_onl %>% select(S_Review, S_Add_learn, S_Feedback) %>%
+#'    jjstat::alpha_table(show="data", variable = "A" )
+#'
+#'
+#'bind_rows(
+#'  stat_onl %>% select(S_Review, S_Add_learn, S_Feedback) %>%
+#'    jjstat::alpha_table(show="data", variable = "A" ),
+#'  stat_onl %>% select(SE_Place, SE_Time) %>%
+#'    jjstat::alpha_table(show="data", variable = "B"),
+#'  stat_onl %>% select(On_Satisfy, On_Joy, On_Easy, On_Engage) %>%
+#'    jjstat::alpha_table(show="data", variable = "C"),
+#'  stat_onl %>% select(upgrade,satisfy,fatigue_inverse) %>%
+#'    jjstat::alpha_table(show="data", variable = "D")
+#') |> markdown_table(digits=3, font_size = 12,
+#'                    caption= "total Cronbach alpha")
 #' }
 #'
 #'
