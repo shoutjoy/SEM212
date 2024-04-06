@@ -19,6 +19,7 @@
 #' @param asize arrow size
 #' @param name_change When set to default, the variable name of the data is used, and when set to TRUE, a new variable name can be entered. Just enter them all in label_list using the c() function.
 #' @param label_list label list
+#' @param type type output
 
 #' @export
 #'
@@ -55,7 +56,8 @@ effect1 <-function(x,format="markdown",op1="~",op2=":=",
                    label.cex = 1.5,
                    asize=1.4,
                    name_change=FALSE,
-                   label_list=NULL){
+                   label_list=NULL,
+                   type="res"){
   library(dplyr)
   library(knitr)
   library(semPlot)
@@ -77,7 +79,8 @@ effect1 <-function(x,format="markdown",op1="~",op2=":=",
                   "std"= std.all,
                   ci.lower, ci.upper,
                   "p"=pvalue
-    ) %>%
+    )
+    res1 = res0 %>%
     knitr::kable(format=format, digits = 3,
                  caption ="Path coefficient & Total Effect(label)")
   # what="std",
@@ -98,9 +101,10 @@ effect1 <-function(x,format="markdown",op1="~",op2=":=",
                                style = "lisrel", residScale = residScale,intercepts = F,
                                nDigits = digits,
                                label.cex = label.cex, asize=asize,
-                               mar = mar) %>% semptools::mark_sig(x) %>%
+                               mar = mar) %>%
+      semptools::mark_sig(x) %>%
       semptools::mark_se(x,"\n") %>%
-      semptools::plot()
+      plot()
 
     res <- list(res0, diagram)
     res
@@ -116,14 +120,18 @@ effect1 <-function(x,format="markdown",op1="~",op2=":=",
                                  style = "lisrel", residScale = 15,intercepts = F,
                                  nDigits = digits, border.width=2,
                                  label.cex = label.cex, asize=asize,
-                                 mar = mar) %>% sempltools::mark_sig(x) %>%
+                                 mar = mar) %>%
+      sempltools::mark_sig(x) %>%
       semptools::mark_se(x,"\n") %>%
       semptools::change_node_label(
         label_list=label_list
-      ) %>%  semptools::plot()
+      ) %>% plot()
 
-    res <- list(res0, diagram)
-    res
+    res <- list(res1, diagram)
+    switch(type,
+           res = res,
+           data = res0,
+           plot = diagram)
 
   }
 

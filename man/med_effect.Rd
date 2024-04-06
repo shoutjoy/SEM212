@@ -9,7 +9,7 @@ med_effect(x, effect1 = "", caption = "", effect2 = ".", option = 1)
 \arguments{
 \item{x}{lavaan result}
 
-\item{effect1}{first option IE, DE, TE}
+\item{effect1}{first, you must select effect1 = IE, DE, TE}
 
 \item{caption}{title}
 

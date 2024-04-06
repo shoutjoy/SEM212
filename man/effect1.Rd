@@ -23,7 +23,8 @@ effect1(
   label.cex = 1.5,
   asize = 1.4,
   name_change = FALSE,
-  label_list = NULL
+  label_list = NULL,
+  type = "res"
 )
 }
 \arguments{
@@ -64,6 +65,8 @@ effect1(
 \item{name_change}{When set to default, the variable name of the data is used, and when set to TRUE, a new variable name can be entered. Just enter them all in label_list using the c() function.}
 
 \item{label_list}{label list}
+
+\item{type}{type output}
 }
 \description{
 effec1 is the path coefficient of the structural equation.
